@@ -94,6 +94,7 @@
     <link href="/media/farmerbook/css/farmer_page_responsive.css" rel="stylesheet"/>
 
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript"   src="http://geoxml3.googlecode.com/svn/branches/polys/geoxml3.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/media/farmerbook/js/markerclusterer.js"></script>
 	<script type="text/javascript" src="/media/farmerbook/js/bootstrap-transition.js"></script>
@@ -288,6 +289,9 @@
 
 			var map = new google.maps.Map(document.getElementById("map_canvas"), options);
 			var markers = [];
+			
+			var geoXml=new geoXML3.parser({map:map,singleInfoWindow: true});
+			geoXml.parse('/media/farmerbook/farmerbook_blocks.kml');
 			
 			function MakeInfoWindowEvent(map, marker, i) {  
 				return function() {
