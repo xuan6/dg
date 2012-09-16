@@ -1,0 +1,173 @@
+
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-width : 320px) 
+and (max-width : 480px) {
+/* Styles */
+
+    #map_left_panel {
+        display:none;
+     }
+     
+     #map_right_panel {
+        display:none;
+     }
+
+        #lbCarousel,#myCarousel{
+        width:140px;
+    }
+
+    #related_farmer{
+        display:none;
+    }
+    
+    #myModal{
+        width:100%;
+        left:0px;
+        top:0px;
+        right:0px;
+        bottom:0px;
+        left:0px;
+        margin:0 0 0 0;
+        
+        
+        
+    }
+
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px)
+and (max-width : 767px) {
+/* Styles */
+    #map_left_panel {
+        display:none;
+     }
+
+    #map_right_panel {
+        display:none;
+    }
+    
+    #lbCarousel,#myCarousel{
+        width:300px;
+    }
+
+    #myModal{
+        width:100%;
+        left:0px;
+        top:0px;
+        right:0px;
+        bottom:0px;
+        left:0px;
+        margin:0 0 0 0;
+        
+        
+        
+    }
+    
+    #related_farmer{
+        display:none;
+    }
+    
+    #content_top{
+        margin-left:0px;
+        margin-top:555px;
+    }
+    #content{
+        float:left;    
+    }
+
+
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+/* Styles */
+    #map_left_panel {
+        display:none;
+     }
+
+    #map_right_panel {
+        display:none; }
+        
+           #myModal{
+        width:100%;
+    }
+
+
+    #related_farmer{
+        display:none;
+    }
+
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-width : 768px) 
+and (max-width : 1024px) {
+/* Styles */
+    #map_left_panel {
+        display:block;
+     }
+
+    #map_right_panel {
+        display:block ;
+    }
+    
+
+    
+    #lbCarousel,#myCarousel{
+        width:500px;
+    }
+
+    #myModal{
+        width:100%;
+        left:0px;
+        top:0px;
+        right:0px;
+        bottom:0px;
+        left:0px;
+        margin:0 0 0 0;
+        margin-top:0px;
+        margin-left:0px;
+
+    }
+
+
+
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1024px) 
+and (max-width : 1223px){
+/* Styles */
+    #map_left_panel {
+        display:block
+     }
+
+    #map_right_panel {
+        display:block }
+        
+        
+
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1224px) {
+/* Styles */
+    #map_left_panel {
+        display:block
+     }
+
+    #map_right_panel {
+        display:block }
+        
+        
+
+}
+

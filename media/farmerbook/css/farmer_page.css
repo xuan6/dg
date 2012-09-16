@@ -16,7 +16,7 @@
 }
 .vil_tabcontent {
 	border: 1px solid #009E0F;
-	width: 740px;
+	#width: 740px;
 	height:313px;
 }
 
@@ -38,7 +38,7 @@
 	background-color: #FFFFFF;
     height: 800px;
     margin-left: 415px;
-    width: 740px;
+    #width: 740px;
     height:554px;	
 }
 
@@ -339,4 +339,17 @@ margin-left:50px;
 }
 .sp_details {
 	width:100px;	
+}
+
+#myCarousel{
+width:610px; margin-bottom:0px;
+}
+#lbCarousel{
+width: 610px;
+}
+#myModal
+{width:1023px; min-height:570px;margin-left:-512px;margin-top:-285px;}
+
+#content_top{
+margin-left:255px;
 }

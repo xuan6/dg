@@ -12,12 +12,17 @@
 	<link href="/media/farmerbook/css/bootstrap.min.css" rel="stylesheet">
     <link href="/media/farmerbook/css/bootstrap-responsive.min.css" rel="stylesheet">
 	<link href="/media/farmerbook/css/farmer_page.css" rel="stylesheet"/>
+        
     <style type="text/css">
+        
+       
+  
       html { height: 100% }
       body { height: 100%; margin: 0; padding: 0 }
       #map_canvas { height: 100%;}
 	  #map_canvas img{max-width:none}
 	  .vidsWatchedItem { width:120px; margin-left:5px !important;}
+        
 	  #map_left_panel{
 	  width:180px;
 	  background-color: #D5D5D5;
@@ -26,7 +31,7 @@
 	  top:40px;  /* adjust value accordingly */
 	  margin-left: 10px;  /* adjust value accordingly */
 	  }
-	  
+
 	  #map_right_panel{
 	  width:228px;
 	  background-color: #D5D5D5;
@@ -85,11 +90,12 @@
 	.normalSlide {background-image:url(/media/farmerbook/images/bg_control_nav.png);color:#333;cursor:pointer;display:inline-block;position:relative;font-size:1.7em;height:13px;margin:0px 0 0 4px;outline:none;text-align:left;text-decoration:none;text-indent:-999em;width:13px;}
 
     </style>
-	
+        
+    <link href="/media/farmerbook/css/farmer_page_responsive.css" rel="stylesheet"/>
+
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/media/farmerbook/js/markerclusterer.js"></script>
-	<script type="text/javascript" src="/media/farmerbook/js/bootstrap-carousal.js"></script>
 	<script type="text/javascript" src="/media/farmerbook/js/bootstrap-transition.js"></script>
 	<script type="text/javascript" src="/media/farmerbook/js/bootstrap-modal.js"></script>
 	<script type="text/javascript" src="/media/farmerbook/js/bootstrap-tooltip.js"></script>
@@ -119,8 +125,6 @@
 	
 		$(document).ready(function() {
 		     $('#myModal').hide();
-			//$('.carousel').carousel({ interval: 200000	});
-			$('.carousel').carousel({ pause: true, interval: false});
 			{% if type == "village" %}
 				villageClick('{{type_id}}')
 			{% endif %}
@@ -142,8 +146,8 @@
 			$("div#myModal").html("<div class='modal-body' ><div id='loading_image' style='position:absolute; top:50%;left:45%;'>"+
 							"<img src='/media/farmerbook//images/loading.gif' /></div></div>");
 			$('#myModal').show();
-			$('#myModal').css('margin-top', ($('#myModal').outerHeight() / 2) * -1)
-							 .css('margin-left', ($('#myModal').outerWidth() / 2) * -1);			
+//            $('#myModal').css('margin-top', ($('#myModal').outerHeight() / 2) * -1)
+//							 .css('margin-left', ($('#myModal').outerWidth() / 2) * -1);			
 		}
 		
 		function removeLoading() {
@@ -466,7 +470,7 @@ mixpanel.init("aff3746cb82389a0d95f2a660a906858");</script><!-- end Mixpanel -->
 	{% load humanize %}
 	{% load customtags%}
 	<div id="map_right_panel">
-			<div class='related_farmer'>
+			<div class='related_farmer' id='related_farmer'>
 			<div class="section_title"> <span style="font-size:80%; margin-left:-5px;color:#6D9D30">Service Providers</span> </div>
 			<div style="border: 2px solid #6D9D30;margin-top:2px;">
 			{% for csp in csp_leader_stats %}
@@ -476,7 +480,7 @@ mixpanel.init("aff3746cb82389a0d95f2a660a906858");</script><!-- end Mixpanel -->
 					</a>			
 					
 					
-					<div class="sp_details"> 
+					<div class="sp_details">
 					<a href="javascript:void(0);" onclick="cspClick({{csp.id}})" style="color: #524D4D;font-weight: bold;">
 					{{csp.name|truncchar:18}}</a> <span>facilitated {{csp.screenings|intcomma}} screenings and {{csp.adoptions|intcomma}} adoptions.</span>
 					</div>
@@ -506,7 +510,8 @@ mixpanel.init("aff3746cb82389a0d95f2a660a906858");</script><!-- end Mixpanel -->
 				{% endfor %}
 						
 		</div>
-	<div id="myModal" class="modal" style="width:1023px; min-height:570px;"></div>
+                        </div>
+	<div id="myModal" class="modal"></div>
 	
 	 <!-- /container -->
 
@@ -524,7 +529,6 @@ mixpanel.init("aff3746cb82389a0d95f2a660a906858");</script><!-- end Mixpanel -->
     <script src="/media/farmerbook/js/bootstrap-popover.js"></script>
     <script src="/media/farmerbook/js/bootstrap-button.js"></script>
     <script src="/media/farmerbook/js/bootstrap-collapse.js"></script>
-    <script src="/media/farmerbook/js/bootstrap-carousel.js"></script>
     <script src="/media/farmerbook/js/bootstrap-typeahead.js"></script>-->
 <script type="text/javascript">
     mixpanel.track("Landing Page Loaded");
