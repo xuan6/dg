@@ -28,6 +28,7 @@ require([
 ) {
     domReady(function() {
         new Bootstrap();
+        $('#wheel').modal();
     });
 });
 
