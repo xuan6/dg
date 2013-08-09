@@ -81,19 +81,42 @@
 
     <div id="wheel" class="modal-wheel hide" >
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-		<script src="http://wheeldecide.com/functions.js" type="text/javascript"></script>
-        <script type='text/javascript' src='../media/social_website/scripts/wheel.js'></script>
-		<canvas onclick="spin();" id="wheelcanvas" onmousedown="wheelMouseDown(event);" onmousemove="wheelMouseMove(event);" onmouseup="wheelMouseUp(event); spin();" onmouseout="wheelMouseUp(event);" width="300" height="300">
-<br/><br/><div style="background:white; padding:15px;"><h2>Partner Page</h2><br/><a href="http://wheeldecide.com/index.php?c1=Partner+Page&c2=Discover+Page&c3=About+Us&c4=Home+Page&col=&t=DG&remove=&time=5">Spin Again</a></div><br/><br/>You'll have to take our word for it that the wheel landed on <span style="color:#CCFFCC; font-weight:bold;">Partner Page</span>. Your browser cannot display the wheel of choices. Please upgrade to a newer browser that supports HTML5 (most new ones do). Wheel Decide would normally show a wheel right here with choices that you can set (lunch, games, dinner, anything!). You can spin it to get a random decision. Make your own wheel of dinner, wheel of fortune, wheel of lunch, wheel of whatever you want now!<br/><br/>
-</canvas>
-
-<audio id="wheelAudio" >
-  <source src="http://wheeldecide.com/WheelDecideFX.ogg" type="audio/ogg">
-  <source src="http://wheeldecide.com/WheelDecideFX.mp3" type="audio/mpeg">
-</audio>
-    </div>
-        <br/>
-<div id="wheelbuttons" style="margin-left:190px; margin-top:-50px;">
-<img src="images/unmute-button.png" id="mutebutton" onclick="toggleMute(this);" value="Mute" />  <a target="_new" title="Wheel Decide | Make Your Own Wheel!" href="http://wheeldecide.com/?c1=Partner+Page&c2=Discover+Page&c3=About+Us&c4=Home+Page&col=&t=DG&remove=&time=5"><img width="50" src="http://wheeldecide.com/wp-content/uploads/2013/03/wheel-decide-logo-edit.png" /></a><br/><br/>
+		<div align="center">
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td>
+						<div class="power_controls">
+							<table class="power" cellpadding="10" cellspacing="0">
+								<tr>
+									<th align="center">Power</th>
+								</tr>
+								<tr>
+									<td width="78" align="center" id="pw3" onClick="powerSelected(3);">High</td>
+								</tr>
+								<tr>
+									<td align="center" id="pw2" onClick="powerSelected(2);">Med</td>
+								</tr>
+								<tr>
+									<td align="center" id="pw1" onClick="powerSelected(1);">Low</td>
+								</tr>
+							</table>
+							<br />
+							<img id="spin_button" src="../media/assets/images/spin_off.png" alt="Spin" onClick="startSpin();" />
+						</div>
+					</td>
+					<td width="438" height="582" class="the_wheel" align="center" valign="center">
+						<canvas class="the_canvas" id="myDrawingCanvas" width="434" height="434">
+							<p class="noCanvasMsg" align="center">Sorry, your browser doesn't support canvas.<br />Please try another.</p>
+						</canvas>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<script>
+			
+			// Call function to draw the wheel face at it's initial position.
+			begin();
+			
+		</script>
 </div>
 {% include "includes/footer.html"%}
