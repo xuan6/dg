@@ -3006,6 +3006,28 @@ body {
 .hide {
     display: none;
 }
+
+.modal-wheel {
+    background-color: #f3f2eb;
+    padding: 30px 40px;
+    position: fixed;
+    top: 10%;
+    left: 15%;
+    right: 15%;
+    z-index: 1050;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    outline: none;
+}
+
+.modal-wheel .close {
+    float:right;
+}
 /********************************/
 /* Copied from bootstrap modals */
 .hide-text {
