@@ -796,6 +796,24 @@ a {
     display: block;
 }
 
+.modal-list > li a {
+    font-weight: bold;
+    background: url(../images/list-bg.png) no-repeat 0 2px;
+    padding-left: 10px;
+    margin-left: 20px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.modal-sublist > li a {
+    font-weight: bold;
+    background: url(../images/list-bg.png) no-repeat 0 2px;
+    padding-left: 10px;
+    margin-left: 45px;
+    margin-bottom: 8px;
+    display: block;
+}
+
 /* ---------------------------------------------------------------------
  Bullet points - Lists
 ------------------------------------------------------------------------ */

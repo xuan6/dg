@@ -316,7 +316,7 @@ var numcolors = colors.length;
 		 };
 		 imageObj.src = 'http://wheeldecide.com/images/wheel-decision-gradient.png';
 	 }
-	 window.setTimeout(function(){window.location = urls[index]}, 3000);
+	 window.setTimeout(function(){window.location = urls[index]}, 2000);
 	 
   }
   
