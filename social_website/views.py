@@ -10,7 +10,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from elastic_search import get_related_collections
-from social_website.models import  Collection, Partner, FeaturedCollection
+from social_website.models import  Collection, Partner, FeaturedCollection, Video
 
 def social_home(request):
     language = Collection.objects.exclude(language = None).values_list('language',flat=True) # only using those languages that have collections 
@@ -185,3 +185,26 @@ def logout_view(request):
     next_url = request.GET.get('next', None)
     logout(request)
     return HttpResponseRedirect(next_url)
+
+def video_view(request, partner, state, language, title):
+    try:
+        video = Video.objects.get(partner__name__iexact = partner, state__iexact = state, language__iexact = language, title__iexact = title)
+    except Video.DoesNotExist:
+        return HttpResponseRedirect(reverse('discover'))
+    
+    tags = [x for x in [video.category,video.subcategory,video.topic,video.subtopic,video.subject] if x is not u'']
+    #related_collection_dict = get_related_collections(collection)
+    context= {
+              'header': {
+                         'jsController':'ViewCollections',
+                         'currentPage':'Discover',
+                         'loggedIn':False
+                         },
+              
+              
+              'video' : video,
+              
+              'tags' : tags,
+#               'related_collections' : related_collection_dict[:4], # restricting to 4 related collections for now
+              }
+    return render_to_response('video_view.html' , context, context_instance = RequestContext(request))

@@ -3,7 +3,7 @@ from django.views.generic.simple import direct_to_template
 
 from communications.views import media_view
 from human_resources.views import job_view, member_view
-from views import social_home, collection_view, logout_view, partner_view, search_view
+from views import social_home, collection_view, logout_view, partner_view, search_view, video_view
 
 urlpatterns = patterns('',
     url(r'^$', social_home, name="home"),    
@@ -37,5 +37,5 @@ urlpatterns = patterns('',
     url(r'^tools/$', direct_to_template, {'template': 'tools.html', 'extra_context': {'header': {'currentPage':'Tools'}}}, name='tools'),
     url(r'^collection_add/$', direct_to_template, {'template': 'collection_add.html'}, name='create_collection'),
     url(r'^video_add/$', direct_to_template, {'template': 'video_add.html'}, name='add_video'),
-    url(r'^video_view/$', direct_to_template, {'template': 'video_view.html'}, name='video_view'),
+    url(r'^video_view/(?P<partner>.+)/(?P<state>.+)/(?P<language>.+)/(?P<title>.+)/$', video_view, name="video_page"),
 )
