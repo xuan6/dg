@@ -35,4 +35,7 @@ urlpatterns = patterns('',
     url(r'^team/$', member_view, name='team'),
     url(r'^resources/$', direct_to_template, {'template': 'resources.html'}, name='resources'),
     url(r'^tools/$', direct_to_template, {'template': 'tools.html', 'extra_context': {'header': {'currentPage':'Tools'}}}, name='tools'),
+    url(r'^collection_add/$', direct_to_template, {'template': 'collection_add.html'}, name='create_collection'),
+    url(r'^video_add/$', direct_to_template, {'template': 'video_add.html'}, name='add_video'),
+    url(r'^video_view/$', direct_to_template, {'template': 'video_view.html'}, name='video_view'),
 )
