@@ -193,7 +193,7 @@ def video_view(request, partner, state, language, title):
         return HttpResponseRedirect(reverse('discover'))
     
     tags = [x for x in [video.category,video.subcategory,video.topic,video.subtopic,video.subject] if x is not u'']
-    #related_collection_dict = get_related_collections(collection)
+    related_collection_dict = Collection.objects.filter(partner=video.partner)
     context= {
               'header': {
                          'jsController':'ViewCollections',
@@ -205,6 +205,7 @@ def video_view(request, partner, state, language, title):
               'video' : video,
               
               'tags' : tags,
-#               'related_collections' : related_collection_dict[:4], # restricting to 4 related collections for now
+               'related_collections' : related_collection_dict[:4], # restricting to 4 related collections for now
+              'collection' : video.collection_set.all()[0],
               }
     return render_to_response('video_view.html' , context, context_instance = RequestContext(request))
