@@ -224,7 +224,7 @@
                             <h2 class="hdg-a hdg-source-lt layout-vr-sm">Related Collections</h2>
                             <div class="boxPlain">
                                 <ul class="v-list-lg">
-                                {% for related in related_collections %}
+                                {% for related, duration in related_collections %}
                                     <li>
                                         <div class="vid-cat-selected">
                                             <div class="vid-cat">
@@ -233,7 +233,8 @@
                                               </a>
                                                 <div class="vid-flag">
                                                     <ul class="copy-sm copy-white h-list h-list-sm h-list-divided">
-                                                        <li>{{related.videos|length}} Videos</li>
+                                                        <li>{{related.videos.all|length}} Videos</li>
+                                                        <li>{{duration|seconds_to_duration}}</li>
                                                     </ul>
                                                 </div>
                                                 <div class="vid-cat-inner">
