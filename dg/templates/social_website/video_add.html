@@ -1,0 +1,83 @@
+{% include "includes/header.html" %}
+{% include "includes/partials/search.html" %}
+{% load app_tags %}
+        
+    <section>
+        <form>
+            <div id="main" role="main" class="wrapper">
+                <div class="inner-wrapper" id="collection-view">
+                    <div class="grid layout-vr-sm">
+                        <div class="grid-col grid-size2of3">
+                            <h1 class="hdg-bold hdg-a" style="display:inline;">Video Title</h1><span><input type="text" name="title" class="coltitle"></span>
+                        </div>
+                    </div>
+                    <div class="media layout-vr-md">
+                        <div class="video-wrapper" data-videoid="{{video_index}}">
+                            <!-- Implementation Note: include the youtube video id and video uid in the data tag below -->
+                            <div id="video-target" data-video-id="{{video.youtubeID}}" data-video-uid="{{video.uid}}">
+                                <img src="{{STATIC_URL}}social_website/content/yo.png" alt="" />
+                            </div>
+                        </div>
+                        <div class="bd">
+                            <div class="media dropdowns">
+                                <label>Partner</label>
+                                    <select id = "partnerlist">
+                                      <option value = "path">PATH</option>
+                                      <option value = "pradan">Pradan</option>
+                                      <option value = "serp">SERP</option>
+                                      <option value = "asa">ASA</option>
+                                    </select><br><br>
+                                <label>State</label>
+                                    <select id = "statelist">
+                                      <option value = "mp">MP</option>
+                                      <option value = "ap">AP</option>
+                                      <option value = "bihar">Bihar</option>
+                                    </select><br><br>
+                                <label>Language</label>
+                                    <select id = "langlist">
+                                      <option value = "english">English</option>
+                                      <option value = "hindi">Hindi</option>
+                                    </select><br><br>
+                                Date : <input type="date" name="date">
+                            </div> <!-- End .media -->
+                        </div> <!-- End .bd -->
+                    </div> <!-- End .media -->
+                    <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm">Video Description</h2>
+                        <input type="text" name="description" class="desc">
+                    <div class="layout-vr-lg">
+                        <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm">Practice Mapping</h2>
+                            <label>Category</label>
+                                <select id = "partnerlist">
+                                    <option value = "path">Agriculture</option>
+                                    <option value = "pradan">Health</option>
+                                </select>
+                            <label>Subcategory</label>
+                                <select id = "statelist">
+                                    <option value = "mp">Land Management</option>
+                                    <option value = "ap">AP</option>
+                                </select>
+                            <label>Topic</label>
+                                <select id = "langlist">
+                                    <option value = "english">Sowing</option>
+                                    <option value = "hindi">Hindi</option>
+                                </select>
+                            <label>Subtopic</label>
+                                <select id = "addvideo">
+                                    <option value = "1">Line sowing</option>
+                                    <option value = "2">Dibbling</option>
+                                </select>
+                            <label>Subsubtopic</label>
+                                <select id = "addvideo">
+                                    <option value = "1">Papaya</option>
+                                    <option value = "2">Wheat</option>
+                                </select>
+                    </div>
+                    <button type="button" class="btn"> + Add more videos </button><br><br>
+                    <button type="submit" class="comment-btn"> Upload </button>
+                </div> <!-- End .inner-wrapper -->
+            </div> <!-- End .wrapper -->
+        </form>
+    </section>
+        
+{% include "includes/footer.html" %}
+

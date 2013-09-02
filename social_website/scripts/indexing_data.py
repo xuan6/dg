@@ -96,3 +96,32 @@ def enter_data_into_completion_search(conn, index_name):
         conn.index(data, index_name, index_name, i+1)
         i+= 1
     print "%s objects of Videos, Collections and Partners added" % i
+    
+def enter_data_into_video_search(conn, index_name):
+    i = 0
+    for obj in Video.objects.all():
+        if len(obj.collection_set.all()):
+            collection = obj.collection_set.all()[0]  # choosing the first collection
+            for index, vid in enumerate(collection.videos.all()):
+                if vid.uid == obj.uid:
+                    vid_id = index+1 
+            url = collection.get_absolute_url_for_video(vid_id)
+        else:
+            url = OLD_VID_PAGE_URL + '?id=%s' % obj.coco_id
+        data = json.dumps({"title" : obj.title,
+                           "url" : url, 
+                           "language" : obj.language,
+                           "partner" : obj.partner.name,
+                           "state" : obj.state,
+                           "category" : obj.category,
+                           "subcategory" : obj.subcategory, 
+                           "topic": obj.topic, 
+                           "subject" : obj.subject, 
+                           "thumbnailURL" : obj.thumbnailURL16by9,
+                           "uid" : obj.uid,
+                           "duration" : obj.duration,
+                           "description" : obj.description
+                           })    
+        conn.index(data, index_name, index_name,i+1)
+        i+= 1
+    print "%s Videos added into video search" % i
