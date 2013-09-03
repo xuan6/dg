@@ -36,6 +36,6 @@ urlpatterns = patterns('',
     url(r'^resources/$', direct_to_template, {'template': 'resources.html'}, name='resources'),
     url(r'^tools/$', direct_to_template, {'template': 'tools.html', 'extra_context': {'header': {'currentPage':'Tools'}}}, name='tools'),
     url(r'^collection-add/$', direct_to_template, {'template': 'collection_add.html'}, name='create_collection'),
-    url(r'^video-add/$', direct_to_template, {'template': 'video_add.html'}, name='add_video'),
+    url(r'^video-add/$', direct_to_template, {'template': 'video_add.html', 'extra_context': {'header': {'jsController':'Video'}}}, name='add_video'),
     url(r'^video-view/(?P<partner>.+)/(?P<state>.+)/(?P<language>.+)/(?P<title>.+)/$', video_view, name="video_page"),
 )

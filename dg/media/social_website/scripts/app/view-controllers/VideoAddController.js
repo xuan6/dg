@@ -14,7 +14,7 @@ define(function(require) {
     var viewRenderer = require('framework/ViewRenderer');
     var jQuery = require('jquery');
     //var FeaturedCollectionDataFeed = require('app/libs/FeaturedCollectionDataFeed');
-    var featuredCollectionTemplate = require('text!app/views/video_add.html');
+    var videoFormTemplate = require('text!app/views/video-add-form.html');
 
     var VideoAddController = Controller.extend({
 
@@ -32,9 +32,11 @@ define(function(require) {
             
             var references = this._references;
             
-            references.dataFeed = new FeaturedCollectionDataFeed($language);
+//            references.dataFeed = new FeaturedCollectionDataFeed($language);
             
-            references.$featuredCollectionContainer = $referenceBase;
+            references.$videoAddWrapper = $referenceBase;
+            references.$videoAddContainer = $referenceBase.find('.js-video-add-container');
+            references.$videoAddMoreButton = $referenceBase.find('.js-add-more-videos-btn');
         },
 
         _initEvents: function() {
@@ -43,31 +45,36 @@ define(function(require) {
             var boundFunctions = this._boundFunctions;
             var references = this._references;
             
-            boundFunctions.onDataProcessed = this._onDataProcessed.bind(this);
-            references.dataFeed.on('dataProcessed', boundFunctions.onDataProcessed);
+            /*boundFunctions.onDataProcessed = this._onDataProcessed.bind(this);
+            references.dataFeed.on('dataProcessed', boundFunctions.onDataProcessed);*/
             
-            // input param changed alert from data feed
+            /*// input param changed alert from data feed
             boundFunctions.onInputParamChanged = this._onInputParamChanged.bind(this);
-            references.dataFeed.on('inputParamChanged', boundFunctions.onInputParamChanged)
+            references.dataFeed.on('inputParamChanged', boundFunctions.onInputParamChanged)*/
+            
+            //adding another video form
+            boundFunctions.onAddMoreVideoFormClick = this._onAddMoreVideoFormClick.bind(this);
+            references.$videoAddMoreButton.on("click", boundFunctions.onAddMoreVideoFormClick);
         },
 
-        getFeaturedCollection: function() {
-            var featuredcollectionData = this._references.dataFeed.getFeaturedCollection();
-            if (featuredcollectionData == false) {
-                return false;
-            }
-            this._renderFeaturedCollection(featuredcollectionData);
-        },
+        
 
         _onDataProcessed: function() {
-            this.getFeaturedCollection();
+            
         },
 
-        _renderFeaturedCollection: function(featuredcollectionData) {
-            var renderedFeaturedCollection = viewRenderer.render(featuredCollectionTemplate, featuredcollectionData);
-            this._references.$featuredCollectionContainer.html(renderedFeaturedCollection);
+        _renderVideoFormItems: function() {
+
+            viewRenderer.renderAppend(this._references.$videoAddContainer, videoFormTemplate);
+
         },
 
+        _onAddMoreVideoFormClick: function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            this._renderVideoFormItems()
+        },
+        
         setInputParam: function(key, value, disableCacheClearing) {
             this._references.dataFeed.setInputParam(key, value, disableCacheClearing);
         },
@@ -75,7 +82,6 @@ define(function(require) {
         _onInputParamChanged: function() {
             this.getFeaturedCollection();
         },
-        console.log("Nikita");
         /**
          * Controller destructor
          * @return {void}
