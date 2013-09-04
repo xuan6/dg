@@ -24,6 +24,7 @@ define(function(require) {
          */
         constructor: function($referenceBase) {
             this.base($referenceBase);
+            this._renderVideoFormItems()
             return this;
         },
 
