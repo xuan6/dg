@@ -15,6 +15,7 @@ define(function(require) {
     var jQuery = require('jquery');
     //var FeaturedCollectionDataFeed = require('app/libs/FeaturedCollectionDataFeed');
     var videoFormTemplate = require('text!app/views/video-add-form.html');
+    var Chosen = require('libs/external/chosen.jquery.min')
 
     var VideoAddController = Controller.extend({
 
@@ -24,7 +25,8 @@ define(function(require) {
          */
         constructor: function($referenceBase) {
             this.base($referenceBase);
-            this._renderVideoFormItems()
+            this._renderVideoFormItems();
+            this._dropdownChosen();
             return this;
         },
 
@@ -58,7 +60,9 @@ define(function(require) {
             references.$videoAddMoreButton.on("click", boundFunctions.onAddMoreVideoFormClick);
         },
 
-        
+        _dropdownChosen: function(){
+            $(".chosen-select").chosen({no_results_text: "No results match", width: "90%"});
+        },
 
         _onDataProcessed: function() {
             
