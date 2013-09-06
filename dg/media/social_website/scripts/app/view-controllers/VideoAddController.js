@@ -77,7 +77,8 @@ define(function(require) {
         _onAddMoreVideoFormClick: function(event){
             event.preventDefault();
             event.stopPropagation();
-            this._renderVideoFormItems()
+            this._renderVideoFormItems();
+            this._dropdownChosen();
         },
         
         setInputParam: function(key, value, disableCacheClearing) {
