@@ -15,8 +15,9 @@ define(function(require) {
     var jQuery = require('jquery');
     //var FeaturedCollectionDataFeed = require('app/libs/FeaturedCollectionDataFeed');
     var videoFormTemplate = require('text!app/views/video-add-form.html');
-    var Chosen = require('libs/external/chosen.jquery.min')
-
+    var Chosen = require('libs/external/chosen.jquery.min');
+    var Dropzone = require('libs/external/dropzone-amd-module');
+    
     var VideoAddController = Controller.extend({
 
         /**
