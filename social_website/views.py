@@ -1,6 +1,8 @@
 import ast
 import datetime
 import json
+import os
+import pickle
 import urllib2
 
 from django.contrib.auth import logout
@@ -11,6 +13,10 @@ from django.template import RequestContext
 
 from elastic_search import get_related_collections, get_related_videos
 from social_website.models import  Collection, Partner, FeaturedCollection, Video
+from django.views.decorators.csrf import csrf_exempt
+
+import dg.settings
+from social_website.scripts.combine_upload import combine
 
 def social_home(request):
     language = Collection.objects.exclude(language = None).values_list('language',flat=True) # only using those languages that have collections 
@@ -136,7 +142,6 @@ def searchFilters(request):
     return HttpResponse(data)
 
 
-    
 def featuredCollection(request):
     language_name = request.GET.get('language__name', None)
     try:
@@ -210,3 +215,46 @@ def video_view(request, partner, state, language, title):
               'related_collections': related_collection_list[:4], # restricting to 4 related collections for now
               }
     return render_to_response('video_view.html' , context, context_instance = RequestContext(request))
+
+
+# Check if Video Already Exist or Not in the DB If so return appropriate message
+# Check if Video Chunk exist or not
+@csrf_exempt
+def video_combine_view(request):
+    print request.method
+    if request.method == 'GET':
+        file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.GET.get('resumableChunkNumber') + request.GET.get('resumableFilename')
+        if os.path.exists(file_name):
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=201) # any number other than 200 to notify client chunk exist
+    elif request.method == 'POST':
+        print "in post method"
+        pickle_file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableFilename') + '_pickle.p'
+        file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
+        if os.path.exists(pickle_file_name):
+            dict = pickle.load(open(pickle_file_name, "rb" ))
+            if not os.path.exists(file_name):
+                dict['chunk_recieved'] += 1
+            pickle.dump(dict, open(pickle_file_name, "wb" ))
+        else:
+            print "here"
+            dict = {}
+            dict['chunk_recieved'] = 1
+            dict['total_chunks'] = int(request.POST.get('resumableTotalSize')) / int(request.POST.get('resumableChunkSize'))
+            print "added chunks"
+            pickle.dump(dict, open(pickle_file_name, "wb" ))
+            print dict
+            print "added pickle file"
+        print request.POST
+        f = request.FILES['file']
+        file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
+        destination = open(file_name, 'wb+')
+        for chunk in f.chunks():
+            destination.write(chunk)
+        destination.close()
+        if (dict['total_chunks'] == dict['chunk_recieved']):
+                print "sending to combine function"
+                return HttpResponse(combine(request.POST.get('resumableFilename')))
+        #print request.PUT
+        return HttpResponse(request.POST.get('resumableChunkNumber'))

@@ -15,9 +15,11 @@ define(function(require) {
     var jQuery = require('jquery');
     //var FeaturedCollectionDataFeed = require('app/libs/FeaturedCollectionDataFeed');
     var videoFormTemplate = require('text!app/views/video-add-form.html');
-    var Chosen = require('libs/external/chosen.jquery.min');
     var Dropzone = require('libs/external/dropzone-amd-module');
     
+    var Chosen = require('libs/external/chosen.jquery.min')
+    require('libs/external/resumable');
+
     var VideoAddController = Controller.extend({
 
         /**
@@ -28,6 +30,8 @@ define(function(require) {
             this.base($referenceBase);
             this._renderVideoFormItems();
             this._dropdownChosen();
+            
+            
             return this;
         },
 
@@ -72,6 +76,23 @@ define(function(require) {
         _renderVideoFormItems: function() {
 
             viewRenderer.renderAppend(this._references.$videoAddContainer, videoFormTemplate);
+            var r = new Resumable({
+            	  target:'/social/api/postvideo/',
+            	  //testChunks:false,
+            	  simultaneousUploads:1,
+            	  query:{
+            		  upload_token:'my_token'
+            		  
+            	  }
+            	});
+            r.assignBrowse(document.getElementById('browseButton'));
+            r.on('fileAdded', function(file){
+                r.upload();
+              });
+            
+            r.on('fileSuccess', function(file,message){
+                alert(message)
+              });
 
         },
 
