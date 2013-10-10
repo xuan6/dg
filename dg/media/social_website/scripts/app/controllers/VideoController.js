@@ -22,36 +22,25 @@ define(function(require) {
          */
         constructor: function(bootstrapConfig, globalHelpers) {
             this.base(bootstrapConfig, globalHelpers);
-
             var references = this._references;
             return this;
         },
 
         _initReferences: function() {
             this.base();
-
             var references = this._references;
-            
             var $videoWrapper = jQuery('.js-video-outer-wrapper');
-            //var $filtersWrapper = jQuery('.js-filters-wrapper');
 
             // helpers
             var $languageCookie = -1
             references.videoAddController = new VideoAddController($videoWrapper);
-            //references.collectionViewController = new CollectionViewController($collectionsContainer, $languageCookie);
-            //references.collectionMostFiltersViewController = new CollectionMostFiltersViewController($collectionsContainer);
         },
 
         _initEvents: function() {
             this.base();
-
             var references = this._references;
             var boundFunctions = this._boundFunctions;
-            
-         
         },
-
-        
 
         /**
          * Controller destructor
@@ -61,6 +50,5 @@ define(function(require) {
             this.base();
         }
     });
-
     return VideoController;
 });

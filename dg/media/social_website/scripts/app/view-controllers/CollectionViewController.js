@@ -21,7 +21,6 @@ define(function(require) {
     var collectionTemplate = require('text!app/views/collection.html');
     var collectionVideoDrawerTemplate = require('text!app/views/collection-video-drawer.html');
     var collectionPaginationTemplate = require('text!app/views/collection-pagination.html');
-
     var CollectionViewController = Controller.extend({
 
         /**
