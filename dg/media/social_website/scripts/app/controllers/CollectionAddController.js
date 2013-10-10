@@ -23,16 +23,13 @@ define(function(require) {
          */
         constructor: function(bootstrapConfig, globalHelpers) {
             this.base(bootstrapConfig, globalHelpers);
-
             var references = this._references;
             return this;
         },
 
         _initReferences: function() {
             this.base();
-
             var references = this._references;
-            
             var $collectionWrapper = jQuery('.js-collection-outer-wrapper');
             //var $filtersWrapper = jQuery('.js-filters-wrapper');
 
@@ -45,14 +42,11 @@ define(function(require) {
 
         _initEvents: function() {
             this.base();
-
             var references = this._references;
             var boundFunctions = this._boundFunctions;
-            
-         
+            $( "#sortable" ).sortable();
+            $( "#sortable" ).disableSelection();
         },
-
-        
 
         /**
          * Controller destructor

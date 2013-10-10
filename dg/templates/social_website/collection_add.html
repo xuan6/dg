@@ -29,21 +29,22 @@
                         <h3 class="copy hdg-bold layout-vr-tiny">Related Videos</h3>
                         <div id="collection-videos-carousel" class="collection-video-carousel carousel-wrapper">
                             <div class="carousel-container js-carousel-container">
-                                <ul class="carousel-list">
+                                <ul class="carousel-list" id = "sortable">
                                      <!-- Each carousel slide will be in a li here -->
                                     <li class="carousel-item carousel-item-1" style="width: 882px;">
                                         <ul class="h-list h-list-xlg clearfix">
-                                {% for video in related_videos %}
-                                    {% cycle 1 0 0 0 0 as new_slide silent %}
-                                    {% if forloop.counter > 5 and new_slide %}
-                                          </ul>
+                                            {% for video in related_videos %}
+                                            {% cycle 1 0 0 0 0 as new_slide silent %}
+                                            {% if forloop.counter > 5 and new_slide %}
+                                        </ul>
                                     </li>
                                     <li class="carousel-item carousel-item-1" style="width: 882px;">
                                         <ul class="h-list h-list-xlg clearfix">
                                      {% endif %}
                                             <!-- The "show-playing" and "show-progress" classes toggle display of the respective overlays -->
                                             <!-- <li class="vidDrawer-video show-playing show-progress js-vidDrawer-video"> -->                                            
-                                            <li class="vidDrawer-video show-playing js-vidDrawer-video">
+                                            <li class="vidDrawer-video show-playing js-vidDrawer-video ui-state-default">
+                                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
                                                 <div class="vidDrawer-image">
                                                     <a href="{{video.url}}" ><img src="{{ video.thumbnailURL }}" class="vidDrawer-image" alt="{{video.title}}" /> </a>
                                                       
@@ -68,35 +69,45 @@
                                 Next
                             </div>
                         </div>
-                    </div>
-	                    <div class="layout-vr-lg">
-	                    <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm">Practice Mapping</h2>
-	                        <label>Category</label>
-	                            <select id = "partnerlist">
-	                                <option value = "path">Agriculture</option>
-	                                <option value = "pradan">Health</option>
-	                            </select>
-	                        <label>Subcategory</label>
-	                            <select id = "statelist">
-	                                <option value = "mp">Land Management</option>
-	                                <option value = "ap">AP</option>
-	                            </select>
-	                        <label>Topic</label>
-	                            <select id = "langlist">
-	                                <option value = "english">Sowing</option>
-	                                <option value = "hindi">Hindi</option>
-	                            </select>
-	                        <label>Subtopic</label>
-	                            <select id = "addvideo">
-	                                <option value = "1">Line sowing</option>
-	                                <option value = "2">Dibbling</option>
-	                            </select>
-	                        <label>Subsubtopic</label>
-	                            <select id = "addvideo">
-	                                <option value = "1">Papaya</option>
-	                                <option value = "2">Wheat</option>
-	                            </select>
-	                    </div>
+                        </div>
+                        <div class="layout-vr-lg">
+                            <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm copy-margin">Practice Mapping</h2>
+                                <div class="grid-size1of5 grid-col">
+                                    <label class="copy layout-vr-tiny">Category</label>
+                                    <select id = "partnerlist" class="chosen-select">
+                                        <option value = "path">Agriculture</option>
+                                        <option value = "pradan">Health</option>
+                                    </select>
+                                </div>
+                                <div class="grid-size1of5 grid-col">
+                                    <label class="copy layout-vr-tiny">Subcategory</label>
+                                    <select id = "statelist" class="chosen-select">
+                                        <option value = "mp">Land Management</option>
+                                        <option value = "ap">Food Management</option>
+                                    </select>
+                                </div>
+                                <div class="grid-size1of5 grid-col">
+                                    <label class="copy layout-vr-tiny">Topic</label>
+                                    <select id = "langlist" class="chosen-select">
+                                        <option value = "english">Sowing</option>
+                                        <option value = "hindi">Hindi</option>
+                                    </select>
+                                </div>
+                                <div class="grid-size1of5 grid-col">
+                                    <label class="copy layout-vr-tiny">Subtopic</label>
+                                    <select id = "addvideo" class="chosen-select">
+                                        <option value = "1">Line sowing</option>
+                                        <option value = "2">Dibbling</option>
+                                    </select>
+                                </div>
+                                <div class="grid-size1of5 grid-col">
+                                    <label class="copy layout-vr-tiny">Subsubtopic</label>
+                                    <select id = "addvideo" class="chosen-select">
+                                        <option value = "1">Papaya</option>
+                                        <option value = "2">Wheat</option>
+                                    </select>
+                                </div>
+                        </div>
                     </div>
                 </div> <!-- End .inner-wrapper -->
             </div> <!-- End .wrapper -->
