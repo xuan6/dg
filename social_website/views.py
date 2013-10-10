@@ -283,3 +283,20 @@ def video_combine_view(request):
                 return HttpResponse(combine(request.POST.get('resumableFilename')))
         #print request.PUT
         return HttpResponse(request.POST.get('resumableChunkNumber'))
+
+
+def videoadddropdown(request):
+    video = Video.objects.all()
+    language = video.values_list('language',flat=True)
+    language = sorted(set(language))
+    partner = Partner.objects.all().values_list('name', flat=True)
+    partner = sorted(set(partner))
+    state = video.values_list('state',flat=True)
+    state = sorted(set(state))
+    video_dropdown_dict = {
+        'language': language,
+        'partner': partner,
+        'state': state,
+    }
+    resp = json.dumps({"video_dropdown": video_dropdown_dict})
+    return HttpResponse(resp)
