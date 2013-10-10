@@ -217,6 +217,31 @@ def video_view(request, partner, state, language, title):
     return render_to_response('video_view.html' , context, context_instance = RequestContext(request))
 
 
+def collection_add_view(request):
+    try:
+        video = Video.objects.get(uid=1)
+    except Video.DoesNotExist:
+        return HttpResponseRedirect(reverse('discover'))
+    print "here"
+    tags = [x for x in [video.category, video.subcategory, video.topic, video.subtopic, video.subject] if x is not u'']
+    related_collection = Collection.objects.filter(partner=video.partner)
+    related_collection_list = []
+    for collection in related_collection:
+        duration = sum([v.duration for v in collection.videos.all()])
+        related_collection_list.append([collection, duration])
+    related_videos_dict = get_related_videos(video)
+    print related_videos_dict
+    context = {
+              'header': {
+                         'jsController':'CollectionAdd',
+                         },
+              'video': video,
+              'related_videos': related_videos_dict,
+              'tags': tags,
+              'related_collections': related_collection_list[:4], # restricting to 4 related collections for now
+              }
+    return render_to_response('collection_add.html' , context, context_instance = RequestContext(request))
+
 # Check if Video Already Exist or Not in the DB If so return appropriate message
 # Check if Video Chunk exist or not
 @csrf_exempt

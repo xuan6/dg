@@ -1,5 +1,5 @@
 /**
- * VideoAddController Class File
+ * CollectionAddEditController Class File
  *
  * @author aadish
  * @version $Id$
@@ -13,17 +13,17 @@ define(function(require) {
     var Controller = require('framework/controllers/Controller');
     var viewRenderer = require('framework/ViewRenderer');
     var jQuery = require('jquery');
-    var videoFormTemplate = require('text!app/views/video-add-form.html');
+    var collectionDropDownTemplate = require('text!app/views/collection-add-dropdown.html');
     var Chosen = require('libs/external/chosen.jquery.min');
     
-    var CollectionAddController = Controller.extend({
+    var CollectionDropDownController = Controller.extend({
 
         /**
          * Controller constructor
          * @return {Controller} this
          */
         constructor: function($referenceBase) {
-            this.base(bootstrapConfig, globalHelpers);
+            //this.base(bootstrapConfig, globalHelpers); //what does this do ask from nikita
             this.base($referenceBase);
             this._renderVideoFormItems();
             this._dropdownChosen();
@@ -34,9 +34,9 @@ define(function(require) {
             this.base();
             var references = this._references;
           //references.dataFeed = new FeaturedCollectionDataFeed($language);
-            references.$videoAddWrapper = $referenceBase;
-            references.$videoAddContainer = $referenceBase.find('.js-video-add-container');
-            references.$videoAddMoreButton = $referenceBase.find('.js-add-more-videos-btn');
+            references.$collectionAddWrapper = $referenceBase;
+            references.$collectionDropDownContainer = $referenceBase.find('.js-collection-dropdown-container');
+          //references.$videoAddMoreButton = $referenceBase.find('.js-add-more-videos-btn');
         },
 
         _initEvents: function() {
@@ -53,8 +53,8 @@ define(function(require) {
             references.dataFeed.on('inputParamChanged', boundFunctions.onInputParamChanged)*/
             
             //adding another video form
-            boundFunctions.onAddMoreVideoFormClick = this._onAddMoreVideoFormClick.bind(this);
-            references.$videoAddMoreButton.on("click", boundFunctions.onAddMoreVideoFormClick);
+            //boundFunctions.onAddMoreVideoFormClick = this._onAddMoreVideoFormClick.bind(this);
+            //references.$videoAddMoreButton.on("click", boundFunctions.onAddMoreVideoFormClick);
         },
 
         _dropdownChosen: function(){
@@ -67,7 +67,7 @@ define(function(require) {
 
         _renderVideoFormItems: function() {
 
-            viewRenderer.renderAppend(this._references.$videoAddContainer, videoFormTemplate);
+            viewRenderer.renderAppend(this._references.$collectionDropDownContainer, collectionDropDownTemplate);
 
         },
 
@@ -96,5 +96,5 @@ define(function(require) {
         }
     });
 
-    return CollectionAddController;
+    return CollectionDropDownController;
 });
