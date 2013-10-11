@@ -44,8 +44,6 @@ define(function(require) {
             this.base();
             var references = this._references;
             var boundFunctions = this._boundFunctions;
-            $( "#sortable" ).sortable();
-            $( "#sortable" ).disableSelection();
         },
 
         /**
