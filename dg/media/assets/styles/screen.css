@@ -3176,3 +3176,20 @@ body {
     cursor:pointer;
 }
 
+/*------------------ Sortable ------------------*/
+
+#sortable { 
+list-style-type: none;
+margin: 5px;
+padding: 5px;
+width: 800px;
+}
+
+#sortable li {
+margin: 3px 3px 3px 3px;
+padding: 30px;
+float: left;
+width: 120px;
+height: 90px;
+font-size: 1em;
+text-align: center; }

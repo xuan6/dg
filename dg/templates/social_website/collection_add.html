@@ -35,8 +35,7 @@
                                             {% for video in related_videos %}
                                             <!-- The "show-playing" and "show-progress" classes toggle display of the respective overlays -->
                                             <!-- <li class="vidDrawer-video show-playing show-progress js-vidDrawer-video"> -->                                            
-                                            <li class="vidDrawer-video show-playing js-vidDrawer-video ui-state-default">
-                                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                            <li class="vidDrawer-video show-playing js-vidDrawer-video">
                                                 <div class="vidDrawer-image">
                                                     <a href="{{video.url}}" ><img src="{{ video.thumbnailURL }}" class="vidDrawer-image" alt="{{video.title}}" /> </a>
                                                       
