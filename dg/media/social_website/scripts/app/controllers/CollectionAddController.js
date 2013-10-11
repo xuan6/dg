@@ -13,7 +13,7 @@ define(function(require) {
     var DigitalGreenPageController = require('app/controllers/DigitalGreenPageController');
     var CollectionDropDownController = require('app/view-controllers/CollectionDropDownController')
     var jQuery = require('jquery');
-    var sortable = require('jquery');
+    var sortable = require('libs/external/jquery-ui');
 
     var CollectionAddController = DigitalGreenPageController.extend({
 
@@ -24,6 +24,7 @@ define(function(require) {
         constructor: function(bootstrapConfig, globalHelpers) {
             this.base(bootstrapConfig, globalHelpers);
             var references = this._references;
+            
             return this;
         },
 
@@ -31,6 +32,8 @@ define(function(require) {
             this.base();
             var references = this._references;
             var $collectionWrapper = jQuery('.js-collection-outer-wrapper');
+            $( "#sortable" ).sortable();
+            $( "#sortable" ).disableSelection();
             //var $filtersWrapper = jQuery('.js-filters-wrapper');
 
             // helpers

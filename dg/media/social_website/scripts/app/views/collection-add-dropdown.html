@@ -2,23 +2,27 @@
                             <div class="media va-dropdown">
                                 <label class="copy hdg-bold layout-vr-tiny">Partner</label>
                                     <select id = "partnerlist" class="chosen-select" >
+                                      <option value='' selected='selected'>---------</option>
                                       {{#partner}}
                                       <option value = {{.}}>{{.}}</option>
                                       {{/partner}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">State</label>
                                     <select id = "statelist" class="chosen-select">
+                                    <option value='' selected='selected'>---------</option>
                                     {{#state}}
                                       <option value = {{.}}>{{.}}</option>
                                     {{/state}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">Language</label>
                                     <select id = "langlist" class="chosen-select">
+                                    <option value='' selected='selected'>---------</option>
                                       {{#language}}
                                       <option value = {{.}}>{{.}}</option>
                                       {{/language}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">Add Video</label>
+                                    <option value='' selected='selected'>---------</option>
                                     <select id = "langlist" class="chosen-select">
                                       <option value = "english">SRI</option>
                                       <option value = "hindi">Seed treatment</option>

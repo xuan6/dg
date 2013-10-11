@@ -78,6 +78,10 @@ define(function(require) {
 
         _dropdownChosen: function(){
             $(".chosen-select").chosen({no_results_text: "No results match", width: "90%"});
+            $("#statelist").attr('disabled', true).trigger("chosen:updated")
+            $('#partnerlist').on('change', function(evt, params) {
+                $("#statelist").attr('disabled', false).trigger("chosen:updated")
+              });
         },
 
 
