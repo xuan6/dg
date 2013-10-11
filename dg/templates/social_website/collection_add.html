@@ -26,21 +26,13 @@
 	                    <div class="boxWhite carousel-pad-rt layout-vr-lg">
 
                         <!-- Begin video carousel -->
-                        <h3 class="copy hdg-bold layout-vr-tiny">Related Videos</h3>
                         <div id="collection-videos-carousel" class="collection-video-carousel carousel-wrapper">
-                            <div class="carousel-container js-carousel-container">
-                                <ul class="carousel-list">
+                            <div class="js-carousel-container">
+<!--                                 <ul class="carousel-list"> -->
                                      <!-- Each carousel slide will be in a li here -->
-                                    <li class="carousel-item carousel-item-1" style="width: 882px;">
+<!--                                     <li class="carousel-item carousel-item-1" style="width: 882px;"> -->
                                         <ul class="h-list h-list-xlg clearfix" id='sortable'>
                                             {% for video in related_videos %}
-                                            {% cycle 1 0 0 0 0 as new_slide silent %}
-                                            {% if forloop.counter > 5 and new_slide %}
-                                        </ul>
-                                    </li>
-                                    <li class="carousel-item carousel-item-1" style="width: 882px;">
-                                        <ul class="h-list h-list-xlg clearfix">
-                                     {% endif %}
                                             <!-- The "show-playing" and "show-progress" classes toggle display of the respective overlays -->
                                             <!-- <li class="vidDrawer-video show-playing show-progress js-vidDrawer-video"> -->                                            
                                             <li class="vidDrawer-video show-playing js-vidDrawer-video ui-state-default">
@@ -49,17 +41,15 @@
                                                     <a href="{{video.url}}" ><img src="{{ video.thumbnailURL }}" class="vidDrawer-image" alt="{{video.title}}" /> </a>
                                                       
                                                 </div>
-                                                <div class="vidDrawer-flag copy-white">
-                                                    {{ video.duration|seconds_to_duration }}
-                                                </div>
+                                                
                                                 <div class="vidDrawer-hd copy-dk">
-                                                    {{forloop.counter}}. <span class="copy-extra-lt">{{ video.title }}</span>
+                                                    <span class="copy-extra-lt">{{ video.title }}</span>
                                                 </div>
                                             </li>
                                     <!-- End carousel slides -->
                                 {% endfor %}
-                                        </ul>
-                                    </li>
+<!--                                         </ul> -->
+<!--                                     </li> -->
                                 </ul>
                             </div>
                             <div class="arrow-left carousel-previous-slide js-carousel-previous-slide">
