@@ -32,7 +32,7 @@
                                 <ul class="carousel-list">
                                      <!-- Each carousel slide will be in a li here -->
                                     <li class="carousel-item carousel-item-1" style="width: 882px;">
-                                        <ul class="h-list h-list-xlg clearfix">
+                                        <ul class="h-list h-list-xlg clearfix" id='sortable'>
                                             {% for video in related_videos %}
                                             {% cycle 1 0 0 0 0 as new_slide silent %}
                                             {% if forloop.counter > 5 and new_slide %}
