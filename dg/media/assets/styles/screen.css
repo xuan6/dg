@@ -3180,6 +3180,12 @@ body {
     margin-top: 20px;
 }
 
+.carousel-border {
+    border:2px solid #DEDEDE;
+    padding:20px 30px;
+    border-radius:25px;
+}
+
 /*------------------ Sortable ------------------*/
 
 #sortable { 
