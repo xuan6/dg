@@ -39,6 +39,7 @@ define(function(require) {
             // helpers
             var $languageCookie = -1
             references.CollectionDropDownController = new CollectionDropDownController($collectionWrapper);
+            references.$saveButton = jQuery('.collection-save-button');
             //references.collectionViewController = new CollectionViewController($collectionsContainer, $languageCookie);
             //references.collectionMostFiltersViewController = new CollectionMostFiltersViewController($collectionsContainer);
         },
