@@ -3181,9 +3181,10 @@ body {
 }
 
 .carousel-border {
-    border:2px solid #DEDEDE;
-    padding:20px 30px;
-    border-radius:25px;
+    border: 2px solid #DEDEDE;
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px #9f9f9f;
 }
 
 /*------------------ Sortable ------------------*/
