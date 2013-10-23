@@ -3196,19 +3196,28 @@ body {
     cursor:pointer;
 }
 
-.top-mar {
-    margin-top: 20px;
-}
-.dropzone-color{
-	background-color: #f0efed;
-	text-align:center;
-    border:2px dashed #ccc;
-}
 .carousel-border {
     border: 2px solid #DEDEDE;
     padding: 10px 10px 10px 10px;
     border-radius: 10px;
     box-shadow: 4px 4px 4px #9f9f9f;
+}
+
+.top-mar {
+    margin-top: 20px;
+}
+/*----------------- Drag and Drop -------------*/
+
+.dropzone-color{
+	background-color: #f0efed;
+	text-align:center;
+    border:2px dashed #ccc;
+}
+
+.dragText{
+    font-size: 24px;
+    font-family: source_sans_prosemibold, arial, helvetica, sans-serif;
+}
 
 /*------------------ Sortable ------------------*/
 
