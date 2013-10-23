@@ -50,7 +50,7 @@ define(function(require) {
             references.resumable = new Resumable({
           	  										target:'/social/api/postvideo/',
           	  										//testChunks:false,
-          	  										simultaneousUploads:1,
+          	  										simultaneousUploads:4,
           	  										query:{
           	  											upload_token:'my_token'
         		  
@@ -79,6 +79,9 @@ define(function(require) {
             
             boundFunctions.onFileAdded = this._onFileAdded.bind(this);
             references.resumable.on('fileAdded', boundFunctions.onFileAdded);
+            
+            boundFunctions.onFileSuccess = this._onFileSuccess.bind(this);
+            references.resumable.on('fileSuccess', boundFunctions.onFileSuccess);
         },
 
         _dropdownChosen: function(){
@@ -118,15 +121,37 @@ define(function(require) {
         
         _onFileAdded: function(file){
         	alert(file.fileName);
+        	var references = this._references
         	//sending the first post query to make an entry
         	$.post( '/social/api/postvideo/', { 
         		file: file.fileName,
         		num_chunks: file.chunks.length,
-        		make_entry: 1});
+        		make_entry: 1})
+        		
+        		.done(function( data ) {
+        		    if (data==1){
+        		    	alert("File with this name already uploaded")
+        		    }
+        		    else{
+        		    	references.resumable.upload();
+        		    }
+        		    
+        		  });
         		/*alert("posting")
         	  .done(function( data ) {
         	    alert( "Data Loaded: " + data );
         	  });*/
+        },
+        
+        _onFileSuccess: function(file, message){
+        	alert(message);
+        	/*$.post( '/social/api/postvideo/', { 
+        		file: file.fileName,
+        		combine: 1})
+        		
+        		.done(function( data ) {
+        		    alert(data);
+        		  });*/
         },
 
         _onAddMoreVideoFormClick: function(event){
