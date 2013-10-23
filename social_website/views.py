@@ -2,7 +2,6 @@ import ast
 import datetime
 import json
 import os
-import pickle
 import urllib2
 
 from django.contrib.auth import logout
@@ -12,7 +11,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from elastic_search import get_related_collections, get_related_videos
-from social_website.models import  Collection, Partner, FeaturedCollection, Video
+from social_website.models import  Collection, Partner, FeaturedCollection, Video, VideoAdd, VideoChunk
 from django.views.decorators.csrf import csrf_exempt
 
 import dg.settings
@@ -254,50 +253,51 @@ def collection_add_view(request):
 # Check if Video Chunk exist or not
 @csrf_exempt
 def video_combine_view(request):
-    print request.method
     if request.method == 'GET':
         file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.GET.get('resumableChunkNumber') + request.GET.get('resumableFilename')
         if os.path.exists(file_name):
             return HttpResponse(status=200)
         else:
+            print "here"
             return HttpResponse(status=201) # any number other than 200 to notify client chunk exist
     elif request.method == 'POST':
+        print "why here"
         make_entry = request.POST.get('make_entry', None)
+        combine = request.POST.get('combine', None)
         if make_entry:
+            file_name = request.POST.get('file', None)
+            total_chunks = request.POST.get('num_chunks', None)
             print "inside the entry"
             print make_entry 
-        
-        #print request
-        #print "in post method"
-        print request.POST.get('file')
-        pickle_file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableFilename') + '_pickle.p'
-        file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
-        if os.path.exists(pickle_file_name):
-            dict = pickle.load(open(pickle_file_name, "rb" ))
-            if not os.path.exists(file_name):
-                dict['chunk_recieved'] += 1
-            pickle.dump(dict, open(pickle_file_name, "wb" ))
+            try:
+                video = VideoAdd.objects.get(file_name=file_name)
+                if video.total_chunks != video.video_chunk.all().count():
+                    return HttpResponse(0)
+                else:
+                    return HttpResponse(1)
+            except VideoAdd.DoesNotExist:
+                video = VideoAdd(file_name=file_name, total_chunks=total_chunks)
+                video.save()
+                print ("catch")
+                return HttpResponse(0)
+        elif combine:
+            file_name = request.POST.get('file', None)
+            res = combine(request.POST.get('file'))
+            return HttpResponse(0)
         else:
-            print "here"
-            dict = {}
-            dict['chunk_recieved'] = 1
-            dict['total_chunks'] = int(request.POST.get('resumableTotalSize')) / int(request.POST.get('resumableChunkSize'))
-            print "added chunks"
-            pickle.dump(dict, open(pickle_file_name, "wb" ))
-            print dict
-            print "added pickle file"
-        print request.POST
-        f = request.FILES['file']
-        file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
-        destination = open(file_name, 'wb+')
-        for chunk in f.chunks():
-            destination.write(chunk)
-        destination.close()
-        if (dict['total_chunks'] == dict['chunk_recieved']):
-                print "sending to combine function"
-                return HttpResponse(combine(request.POST.get('resumableFilename')))
-        #print request.PUT
-        return HttpResponse(request.POST.get('resumableChunkNumber'))
+            file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
+            if not os.path.exists(file_name):
+                f = request.FILES['file']
+                destination = open(file_name, 'wb+')
+                for chunk in f.chunks():
+                    destination.write(chunk)
+                destination.close()
+                video_chunk = VideoChunk(file_name=request.POST.get('resumableFilename') ,chunk_number=request.POST.get('resumableChunkNumber'))
+                video_chunk.save()
+                video = VideoAdd.objects.get(file_name=request.POST.get('resumableFilename'))
+                video.video_chunk.add(video_chunk)
+                video.save()
+                return HttpResponse(request.POST.get('resumableChunkNumber'))
 
 
 def videoadddropdown(request):

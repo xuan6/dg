@@ -190,11 +190,17 @@ class VideoLike(models.Model):
     user = models.ForeignKey(UserProfile)
 post_save.connect(increase_online_video_like, sender = VideoLike)
 
+class VideoChunk(models.Model):
+    file_name = models.CharField(max_length=100)
+    chunk_number = models.IntegerField()
+
 class VideoAdd(models.Model):
     file_name = models.CharField(max_length=100)
     total_chunks = models.IntegerField()
-    recieved_chunks = models.IntegerField(default=0)
+    video_chunk = models.ManyToManyField(VideoChunk, null=True, blank=True)
     uploaded = models.BooleanField(default=False)
+    
+
 
 class CronTimestamp(models.Model):
     name = models.CharField(max_length=30)
