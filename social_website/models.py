@@ -180,3 +180,9 @@ class VideoLike(models.Model):
     video = models.ForeignKey(Video)
     user = models.ForeignKey(UserProfile)
 post_save.connect(increase_online_video_like, sender = VideoLike)
+
+class VideoAdd(models.Model):
+    file_name = models.CharField(max_length=100)
+    total_chunks = models.IntegerField()
+    recieved_chunks = models.IntegerField(default=0)
+    uploaded = models.BooleanField(default=False)

@@ -254,7 +254,14 @@ def video_combine_view(request):
         else:
             return HttpResponse(status=201) # any number other than 200 to notify client chunk exist
     elif request.method == 'POST':
-        print "in post method"
+        make_entry = request.POST.get('make_entry', None)
+        if make_entry:
+            print "inside the entry"
+            print make_entry 
+        
+        #print request
+        #print "in post method"
+        print request.POST.get('file')
         pickle_file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableFilename') + '_pickle.p'
         file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
         if os.path.exists(pickle_file_name):
