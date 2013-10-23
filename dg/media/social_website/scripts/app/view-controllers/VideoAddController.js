@@ -56,7 +56,7 @@ define(function(require) {
         		  
           	  										}
         										});
-            references.resumable.assignBrowse(document.getElementById('browseButton'));
+            references.resumable.assignBrowse(document.getElementById('addButton'));
             references.resumable.assignDrop(document.getElementById('video-dropzone'));
         },
 
@@ -116,19 +116,22 @@ define(function(require) {
 
         },
         
-        _onFileAdded: function(file){
-        	alert(file.fileName);
+        _onFileAdded: function(file){      
+            $('#video-innerwrapper').hide();
+            document.getElementById('fileInfo').innerHTML=file.fileName;
+            $('#progressbar').show();
+            
         	//sending the first post query to make an entry
         	$.post( '/social/api/postvideo/', { 
         		file: file.fileName,
         		num_chunks: file.chunks.length,
         		make_entry: 1});
-        		/*alert("posting")
-        	  .done(function( data ) {
-        	    alert( "Data Loaded: " + data );
-        	  });*/
         },
-
+        /*
+        _FileProgress: function(file){
+            var progress = Math.floor(file.progress() * 100);
+        }
+        */
         _onAddMoreVideoFormClick: function(event){
             event.preventDefault();
             event.stopPropagation();

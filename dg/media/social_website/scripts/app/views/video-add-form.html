@@ -7,8 +7,17 @@
                     <div class="media layout-vr-md">
                         <div id="video-dropzone" class="video-wrapper dropzone-color">
                             <!-- Implementation Note: include the youtube video id and video uid in the data tag below -->
-                            <p class="dragText">Drag &amp; Drop Here <br> Or </p>
-                            
+                            <div id="video-innerwrapper">
+                                <p class="dragText">Drag &amp; Drop Here <br><br> Or </p>
+                                <div class="browseButton-wrapper">    
+                                    <input id="addButton" type="file" class="browseButton"/>
+                                </div>
+                            </div>
+                            <div id="fileInfo" class="dragText">
+                            </div>
+                            <div id="progressbar">
+                                <div></div>
+                            </div>
                         </div>
                         <div class="bd">
                             <div class="media va-dropdown">

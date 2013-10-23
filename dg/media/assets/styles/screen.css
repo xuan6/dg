@@ -3219,6 +3219,48 @@ body {
     font-family: source_sans_prosemibold, arial, helvetica, sans-serif;
 }
 
+.browseButton-wrapper{
+    width: 100px;
+    height: 32px;
+    background: url(../images/addBtn.png) 0 0 no-repeat;
+    border:none;
+    overflow:hidden;
+    margin-left:300px;
+    margin-top:30px;
+    opacity: 0.7;
+}
+
+.browseButton-wrapper:hover{
+    opacity: 1;
+}
+
+.browseButton{
+    opacity:0;
+}
+
+#video-innerwrapper{
+    margin-top:100px;
+}
+
+#progressbar{
+    background-color: grey;
+    padding: 4px;
+    width : 300px;
+    margin-left: 200px;
+    height: 15px;
+    display: none;
+    margin-top: 50px;
+}
+
+#progressbar > div {
+   background-color: white;
+   width: 60%; /* Adjust with JavaScript */
+   height: 15px;
+}
+
+#fileInfo{
+    margin-top:150px;
+}
 /*------------------ Sortable ------------------*/
 
 #sortable { 
