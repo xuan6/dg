@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'social_auth',
     'communications',
     'human_resources',
+    'feeds',
 )
 
 #following line makes sessionid cookie accessible to in-browser javascript
@@ -131,3 +132,41 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleOAuthBackend',
     'social_auth.backends.google.GoogleOAuth2Backend',
 )
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] [%(name)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(PROJECT_PATH, 'media/social_website/uploads/log/logfile'),
+            'formatter': 'standard',
+        },
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+    },
+    'loggers': {
+        'social_website': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG',
+        },
+        'dashboard': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG',
+        },
+    }
+}

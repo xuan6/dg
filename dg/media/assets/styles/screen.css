@@ -428,6 +428,18 @@ a {
     margin-right: 5px;
 }
 
+.header-fixed{
+    position:fixed;
+    top:0px;
+    margin:auto;
+    z-index:100000;
+    background-color:white;
+}
+
+.header-margin{
+    margin-top: 67px;
+}
+
 /* ---------------------------------------------------------------------
  Follow Us Nav
 ------------------------------------------------------------------------ */
@@ -756,6 +768,10 @@ a {
 .copy-sm {
     font-size: 12px;
     line-height: 1.4;
+}
+
+.copy-italic {
+	font-style: italic;
 }
 
 /*
@@ -1183,14 +1199,18 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 .search input {
     width: 648px;
     padding: 11px 10px 11px 60px;
-
     font-size: 24px;
     font-family: source_sans_proregular, arial, helvetica, sans-serif;
     color: #4e4e4e;
     color: rgba(0, 0, 0, .8);
-
     background: #ffffff;
     border: 0;
+}
+
+.search input:focus{
+    box-shadow: 0 0 5px #bfc6e1;
+    border: 1px solid #bfc6e1;
+    border-radius: 5px;
 }
 
 .search-items-container {}
@@ -1970,7 +1990,6 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 
 .main-carousel-video-player {
     margin-top:-7px;
-    display:none;
 }
 
 .slide {
@@ -3137,6 +3156,7 @@ body {
     color:black;
 }
 
+
 /* ---------------------------------------------------------------------
  Video App
 ------------------------------------------------------------------------ */
@@ -3179,13 +3199,16 @@ body {
 .top-mar {
     margin-top: 20px;
 }
-
+.dropzone-color{
+	background-color: #f0efed;
+	text-align:center;
+    border:2px dashed #ccc;
+}
 .carousel-border {
     border: 2px solid #DEDEDE;
     padding: 10px 10px 10px 10px;
     border-radius: 10px;
     box-shadow: 4px 4px 4px #9f9f9f;
-}
 
 /*------------------ Sortable ------------------*/
 
@@ -3204,3 +3227,9 @@ width: 120px;
 height: 90px;
 font-size: 1em;
 text-align: center; }
+
+/* Hiding HTML Element */
+
+.ele-hide{
+	display: none;
+}
