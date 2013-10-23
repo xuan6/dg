@@ -3180,6 +3180,12 @@ body {
     margin-top: 20px;
 }
 
+.dropzone-color{
+	background-color: #f0efed;
+	text-align:center;
+    border:2px dashed #ccc;
+}
+
 /*------------------ Sortable ------------------*/
 
 #sortable { 
