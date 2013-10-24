@@ -258,32 +258,27 @@ def video_combine_view(request):
         if os.path.exists(file_name):
             return HttpResponse(status=200)
         else:
-            print "here"
             return HttpResponse(status=201) # any number other than 200 to notify client chunk exist
     elif request.method == 'POST':
-        print "why here"
         make_entry = request.POST.get('make_entry', None)
-        combine = request.POST.get('combine', None)
+        combine_flag = request.POST.get('combine', None)
         if make_entry:
             file_name = request.POST.get('file', None)
             total_chunks = request.POST.get('num_chunks', None)
-            print "inside the entry"
-            print make_entry 
             try:
                 video = VideoAdd.objects.get(file_name=file_name)
-                if video.total_chunks != video.video_chunk.all().count():
-                    return HttpResponse(0)
-                else:
+                if video.uploaded:
                     return HttpResponse(1)
+                else:
+                    return HttpResponse(0)
             except VideoAdd.DoesNotExist:
                 video = VideoAdd(file_name=file_name, total_chunks=total_chunks)
                 video.save()
-                print ("catch")
                 return HttpResponse(0)
-        elif combine:
+        elif combine_flag:
             file_name = request.POST.get('file', None)
             res = combine(request.POST.get('file'))
-            return HttpResponse(0)
+            return HttpResponse(res)
         else:
             file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
             if not os.path.exists(file_name):

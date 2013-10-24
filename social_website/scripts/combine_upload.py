@@ -42,19 +42,21 @@ def upload(file_name):
 
 
 def combine(file_name):
-    print file_name
     video = VideoAdd.objects.get(file_name=file_name)
-    for i in range(1, video.total_chunks + 1):
-        destination = open(dg.settings.MEDIA_ROOT + 'videos/' + file_name, 'ab')
-        source = open(dg.settings.MEDIA_ROOT + 'videos/' + str(i) + file_name, 'rb')
-        destination.write(source.read())
-        source.close()
-        destination.close()
-        os.remove(dg.settings.MEDIA_ROOT + 'videos/' + str(i) + file_name)
-        #return upload(file_name)
-    video.uploaded = True
-    video.save()
-    return "combined"
+    if video.total_chunks == video.video_chunk.all().count():
+        for i in range(1, video.total_chunks + 1):
+            destination = open(dg.settings.MEDIA_ROOT + 'videos/' + file_name, 'ab')
+            source = open(dg.settings.MEDIA_ROOT + 'videos/' + str(i) + file_name, 'rb')
+            destination.write(source.read())
+            source.close()
+            destination.close()
+            os.remove(dg.settings.MEDIA_ROOT + 'videos/' + str(i) + file_name)
+            #return upload(file_name)
+        video.uploaded = True
+        video.save()
+        return "combined"
+    else:
+        return "error in uploading file"
 
 
 

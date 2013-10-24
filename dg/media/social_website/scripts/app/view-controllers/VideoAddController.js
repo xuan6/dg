@@ -13,7 +13,7 @@ define(function(require) {
     var Controller = require('framework/controllers/Controller');
     var viewRenderer = require('framework/ViewRenderer');
     var jQuery = require('jquery');
-    //var FeaturedCollectionDataFeed = require('app/libs/FeaturedCollectionDataFeed');
+    var CollectionDropDownDataFeed = require('app/libs/CollectionDropDownDataFeed');
     var videoFormTemplate = require('text!app/views/video-add-form.html');
     
     var Chosen = require('libs/external/chosen.jquery.min')
@@ -28,8 +28,8 @@ define(function(require) {
          */
         constructor: function($referenceBase) {
             this.base($referenceBase);
+            this.getDropDown();
             
-            this._dropdownChosen();
             
             
             return this;
@@ -45,8 +45,10 @@ define(function(require) {
             references.$videoAddWrapper = $referenceBase;
             references.$videoAddContainer = $referenceBase.find('.js-video-add-container');
             references.$videoAddMoreButton = $referenceBase.find('.js-add-more-videos-btn');
+            references.dataFeed = new CollectionDropDownDataFeed();
             references.$dropZone = $referenceBase.find('#video-dropzone');
-            this._renderVideoFormItems()
+            
+            
             references.resumable = new Resumable({
           	  										target:'/social/api/postvideo/',
           	  										//testChunks:false,
@@ -56,8 +58,7 @@ define(function(require) {
         		  
           	  										}
         										});
-            references.resumable.assignBrowse(document.getElementById('addButton'));
-            references.resumable.assignDrop(document.getElementById('video-dropzone'));
+            
         },
 
         _initEvents: function() {
@@ -66,8 +67,8 @@ define(function(require) {
             var boundFunctions = this._boundFunctions;
             var references = this._references;
             
-            /*boundFunctions.onDataProcessed = this._onDataProcessed.bind(this);
-            references.dataFeed.on('dataProcessed', boundFunctions.onDataProcessed);*/
+            boundFunctions.onDataProcessed = this._onDataProcessed.bind(this);
+            references.dataFeed.on('dataProcessed', boundFunctions.onDataProcessed);
             
             /*// input param changed alert from data feed
             boundFunctions.onInputParamChanged = this._onInputParamChanged.bind(this);
@@ -76,6 +77,8 @@ define(function(require) {
             //adding another video form
             boundFunctions.onAddMoreVideoFormClick = this._onAddMoreVideoFormClick.bind(this);
             references.$videoAddMoreButton.on("click", boundFunctions.onAddMoreVideoFormClick);
+            
+            
             
             boundFunctions.onFileAdded = this._onFileAdded.bind(this);
             references.resumable.on('fileAdded', boundFunctions.onFileAdded);
@@ -87,14 +90,32 @@ define(function(require) {
         _dropdownChosen: function(){
             $(".chosen-select").chosen({no_results_text: "No results match", width: "90%"});
         },
-
-        _onDataProcessed: function() {
-            
+        
+        getDropDown: function() {
+            var dropdownData = this._references.dataFeed.getCollectionDropDown();
+            if (dropdownData == false) {
+                return false;
+            }
+            this._renderVideoFormItems(dropdownData);
+            this._dropdownChosen();
+            this._references.resumable.assignBrowse(document.getElementById('addButton'));
+            this._references.resumable.assignDrop(document.getElementById('video-dropzone'));
         },
 
-        _renderVideoFormItems: function() {
+        _onDataProcessed: function() {
+            this.getDropDown();
+        },
 
-            viewRenderer.renderAppend(this._references.$videoAddContainer, videoFormTemplate);
+        /*_renderCollectionDropDown: function(collectiondropdownData) {
+            var renderedCollectionDropDown = viewRenderer.render(collectionDropDownTemplate, collectiondropdownData);
+            this._references.$collectionDropDownContainer.html(renderedCollectionDropDown);
+            this._dropdownChosen();
+        },*/
+
+
+        _renderVideoFormItems: function(dropdownData) {
+
+            viewRenderer.renderAppend(this._references.$videoAddContainer, videoFormTemplate, dropdownData);
             /*var r = new Resumable({
             	  target:'/social/api/postvideo/',
             	  //testChunks:false,
@@ -147,13 +168,13 @@ define(function(require) {
         
         _onFileSuccess: function(file, message){
         	alert(message);
-        	/*$.post( '/social/api/postvideo/', { 
+        	$.post( '/social/api/postvideo/', { 
         		file: file.fileName,
         		combine: 1})
         		
         		.done(function( data ) {
         		    alert(data);
-        		  });*/
+        		  });
         },
 
         _onAddMoreVideoFormClick: function(event){

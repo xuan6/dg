@@ -23,26 +23,30 @@
                             <div class="media va-dropdown">
                                 <label class="copy hdg-bold layout-vr-tiny">Partner</label>
                                     <select id = "partnerlist" class="chosen-select" >
-                                      <option value = "path">PATH</option>
-                                      <option value = "pradan">Pradan</option>
-                                      <option value = "serp">SERP</option>
-                                      <option value = "asa">ASA</option>
+                                      <option value='' selected='selected'>---------</option>
+                                      {{#partner}}
+                                      <option value = {{.}}>{{.}}</option>
+                                      {{/partner}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">State</label>
                                     <select id = "statelist" class="chosen-select">
-                                      <option value = "mp">MP</option>
-                                      <option value = "ap">AP</option>
-                                      <option value = "bihar">Bihar</option>
+                                      <option value='' selected='selected'>---------</option>
+                                    {{#state}}
+                                      <option value = {{.}}>{{.}}</option>
+                                    {{/state}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">Language</label>
-                                    <select id = "langlist" class="chosen-select">
-                                      <option value = "english">English</option>
-                                      <option value = "hindi">Hindi</option>
+                                   <select id = "langlist" class="chosen-select">
+                                    <option value='' selected='selected'>---------</option>
+                                      {{#language}}
+                                      <option value = {{.}}>{{.}}</option>
+                                      {{/language}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">Date</label> 
                                     <input type="date" name="date">
                             </div> <!-- End .media -->
                         </div> <!-- End .bd -->
+                        
                     </div> <!-- End .media -->
                     <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm">Video Description</h2>
                         <textarea class="desc"></textarea>
