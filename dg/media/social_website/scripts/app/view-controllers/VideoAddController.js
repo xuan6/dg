@@ -78,11 +78,12 @@ define(function(require) {
             boundFunctions.onAddMoreVideoFormClick = this._onAddMoreVideoFormClick.bind(this);
             references.$videoAddMoreButton.on("click", boundFunctions.onAddMoreVideoFormClick);
             
-            
-            
             boundFunctions.onFileAdded = this._onFileAdded.bind(this);
             references.resumable.on('fileAdded', boundFunctions.onFileAdded);
             
+            boundFunctions.fileProgress = this._fileProgress.bind(this);
+            references.resumable.on('fileProgress', boundFunctions.fileProgress);
+        	
             boundFunctions.onFileSuccess = this._onFileSuccess.bind(this);
             references.resumable.on('fileSuccess', boundFunctions.onFileSuccess);
         },
@@ -145,7 +146,7 @@ define(function(require) {
             document.getElementById('fileInfo').innerHTML=file.fileName;
             $('#progressbar').show();
         	var references = this._references
-        	//sending the first post query to make an entry
+            //sending the first post query to make an entry
         	$.post( '/social/api/postvideo/', { 
         		file: file.fileName,
         		num_chunks: file.chunks.length,
@@ -164,6 +165,13 @@ define(function(require) {
         	  .done(function( data ) {
         	    alert( "Data Loaded: " + data );
         	  });*/
+        },
+        
+        _fileProgress: function(file){
+            var progress = Math.floor(file.progress() * 100);
+            $("#progressbar-inner").css({"width": "progress"});
+            alert('Progress :' + progress)
+            console.log(progress);
         },
         
         _onFileSuccess: function(file, message){
