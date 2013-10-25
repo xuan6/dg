@@ -46,8 +46,7 @@ define(function(require) {
             references.$videoAddContainer = $referenceBase.find('.js-video-add-container');
             references.$videoAddMoreButton = $referenceBase.find('.js-add-more-videos-btn');
             references.dataFeed = new CollectionDropDownDataFeed();
-            references.$dropZone = $referenceBase.find('#video-dropzone');
-            
+            references.$uploadButton = $referenceBase.find('.js-upload-video-btn');
             
             references.resumable = new Resumable({
           	  										target:'/social/api/postvideo/',
@@ -78,6 +77,9 @@ define(function(require) {
             boundFunctions.onAddMoreVideoFormClick = this._onAddMoreVideoFormClick.bind(this);
             references.$videoAddMoreButton.on("click", boundFunctions.onAddMoreVideoFormClick);
             
+            boundFunctions.onUploadVideoClick = this._onUploadVideoClick.bind(this);
+            references.$uploadButton.on("click", boundFunctions.onUploadVideoClick);
+            
             boundFunctions.onFileAdded = this._onFileAdded.bind(this);
             references.resumable.on('fileAdded', boundFunctions.onFileAdded);
             
@@ -86,6 +88,8 @@ define(function(require) {
         	
             boundFunctions.onFileSuccess = this._onFileSuccess.bind(this);
             references.resumable.on('fileSuccess', boundFunctions.onFileSuccess);
+            
+            
         },
 
         _dropdownChosen: function(){
@@ -169,8 +173,8 @@ define(function(require) {
         
         _fileProgress: function(file){
             var progress = Math.floor(file.progress() * 100);
-            $("#progressbar-inner").css({"width": "progress"});
-            alert('Progress :' + progress)
+            $("#progressbar-inner").css({"width": progress});
+            //alert('Progress :' + progress)
             console.log(progress);
         },
         
