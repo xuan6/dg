@@ -196,6 +196,13 @@ define(function(require) {
             this._dropdownChosen();
         },
         
+        _onUploadVideoClick: function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            this._renderVideoFormItems();
+            this._dropdownChosen();
+        },
+        
         setInputParam: function(key, value, disableCacheClearing) {
             this._references.dataFeed.setInputParam(key, value, disableCacheClearing);
         },
