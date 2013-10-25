@@ -265,6 +265,12 @@ def video_combine_view(request):
         if make_entry:
             file_name = request.POST.get('file', None)
             total_chunks = request.POST.get('num_chunks', None)
+            video_title = request.POST.get('video_title', None)
+            video_desc = request.POST.get('video_desc', None)
+            date = request.POST.get('date', None)
+            partner_id = request.POST.get('partner', None)
+            state = request.POST.get('state', None)
+            language = request.POST.get('language', None)
             try:
                 video = VideoAdd.objects.get(file_name=file_name)
                 if video.uploaded:
@@ -272,7 +278,7 @@ def video_combine_view(request):
                 else:
                     return HttpResponse(0)
             except VideoAdd.DoesNotExist:
-                video = VideoAdd(file_name=file_name, total_chunks=total_chunks)
+                video = VideoAdd(file_name=file_name, total_chunks=total_chunks, video_title=video_title, video_desc=video_desc, date=date, state=state, partner_id=partner_id, language=language)
                 video.save()
                 return HttpResponse(0)
         elif combine_flag:
@@ -299,8 +305,8 @@ def videoadddropdown(request):
     video = Video.objects.all()
     language = video.values_list('language',flat=True)
     language = sorted(set(language))
-    partner = Partner.objects.all().values_list('name', flat=True)
-    partner = sorted(set(partner))
+    partner = Partner.objects.values('name', 'uid')
+    partner = sorted(partner)
     state = video.values_list('state',flat=True)
     state = sorted(set(state))
     video_dropdown_dict = {

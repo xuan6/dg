@@ -1,7 +1,7 @@
                 <li class="js-news-feed-item">
                     <div class="grid layout-vr-sm">
                         <div class="grid-col grid-size2of3">
-                            <h1 class="hdg-bold hdg-a" style="display:inline;">Video Title</h1><span><input type="text" name="title" class="coltitle"></span>
+                            <h1 class="hdg-bold hdg-a" style="display:inline;">Video Title</h1><span><input type="text" name="title" id="video_title" class="coltitle"></span>
                         </div>
                     </div>
                     <div class="media layout-vr-md">
@@ -25,7 +25,7 @@
                                     <select id = "partnerlist" class="chosen-select" >
                                       <option value='' selected='selected'>---------</option>
                                       {{#partner}}
-                                      <option value = {{.}}>{{.}}</option>
+                                      <option value = {{uid}}>{{name}}</option>
                                       {{/partner}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">State</label>
@@ -43,13 +43,13 @@
                                       {{/language}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">Date</label> 
-                                    <input type="date" name="date">
+                                    <input type="date" name="date" id="date">
                             </div> <!-- End .media -->
                         </div> <!-- End .bd -->
                         
                     </div> <!-- End .media -->
                     <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm">Video Description</h2>
-                        <textarea class="desc"></textarea>
+                        <textarea class="desc" id="video_desc"></textarea>
                     <div class="layout-vr-lg">
                         <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm copy-margin">Practice Mapping</h2>
                             <div class="grid-size1of5 grid-col">
