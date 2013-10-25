@@ -150,12 +150,19 @@ define(function(require) {
             $('#video-innerwrapper').hide();
             document.getElementById('fileInfo').innerHTML=file.fileName;
             $('#progressbar').show();
+            $('#video-btns').show();
+        	var references = this._references
+            $( "#v-pause" ).click(function() {
+                if ($("#v-pause").html() == "Pause"){
+                    references.resumable.pause();
+                    $("#v-pause").html("Resume");
+                }
+                else if ($("#v-pause").html() == "Resume"){
+                    references.resumable.upload();
+                    $("#v-pause").html("Pause");
+                }
+            });
             this._references.file = file;
-        	
-        		/*alert("posting")
-        	  .done(function( data ) {
-        	    alert( "Data Loaded: " + data );
-        	  });*/
         },
         
         _fileProgress: function(file){
