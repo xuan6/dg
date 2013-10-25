@@ -3261,6 +3261,11 @@ body {
 #fileInfo{
     margin-top:150px;
 }
+
+#progress-percent{
+    font-size: 14px;
+    font-family: source_sans_prosemibold, arial, helvetica, sans-serif;
+}
 /*------------------ Sortable ------------------*/
 
 #sortable { 

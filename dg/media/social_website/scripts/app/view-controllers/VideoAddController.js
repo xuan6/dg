@@ -172,10 +172,9 @@ define(function(require) {
         },
         
         _fileProgress: function(file){
-            var progress = Math.floor(file.progress() * 100);
+            var progress = (Math.floor(file.progress() * 100))*3;
             $("#progressbar-inner").css({"width": progress});
-            //alert('Progress :' + progress)
-            console.log(progress);
+            $("#progress-percent").text(progress/3 + "%")
         },
         
         _onFileSuccess: function(file, message){
