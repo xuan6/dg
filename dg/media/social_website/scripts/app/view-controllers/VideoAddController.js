@@ -149,6 +149,7 @@ define(function(require) {
             $('#video-innerwrapper').hide();
             document.getElementById('fileInfo').innerHTML=file.fileName;
             $('#progressbar').show();
+            $('#video-btns').show();
         	var references = this._references
             //sending the first post query to make an entry
         	$.post( '/social/api/postvideo/', { 
@@ -165,10 +166,18 @@ define(function(require) {
         		    }
         		    
         		  });
-        		/*alert("posting")
-        	  .done(function( data ) {
-        	    alert( "Data Loaded: " + data );
-        	  });*/
+            
+            var pauseflag = 0;
+            $( "#v-pause" ).click(function() {
+                if ($("#v-pause").html() == "Pause"){
+                    references.resumable.pause();
+                    $("#v-pause").html("Resume");
+                }
+                else if ($("#v-pause").html() == "Resume"){
+                    references.resumable.upload();
+                    $("#v-pause").html("Pause");
+                }
+            });
         },
         
         _fileProgress: function(file){
