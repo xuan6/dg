@@ -162,6 +162,16 @@ define(function(require) {
                     $("#v-pause").html("Pause");
                 }
             });
+            
+            $( "#v-cancel" ).click(function() {
+                var conf = confirm("Are you sure you want to cancel upload?");
+                if (conf == true){
+                    references.resumable.removeFile(file);
+                    $("#progressbar-inner").css({"width": "0"});
+                    $("#progress-percent").text("Upload cancelled");
+                }
+            });
+            
             this._references.file = file;
         },
         
