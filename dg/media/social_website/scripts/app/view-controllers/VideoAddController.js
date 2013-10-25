@@ -45,8 +45,9 @@ define(function(require) {
             references.$videoAddWrapper = $referenceBase;
             references.$videoAddContainer = $referenceBase.find('.js-video-add-container');
             references.$videoAddMoreButton = $referenceBase.find('.js-add-more-videos-btn');
-            references.dataFeed = new CollectionDropDownDataFeed();
             references.$uploadButton = $referenceBase.find('.js-upload-video-btn');
+            references.dataFeed = new CollectionDropDownDataFeed();
+            
             
             references.resumable = new Resumable({
           	  										target:'/social/api/postvideo/',
@@ -151,23 +152,6 @@ define(function(require) {
             $('#progressbar').show();
             $('#video-btns').show();
         	var references = this._references
-            //sending the first post query to make an entry
-        	$.post( '/social/api/postvideo/', { 
-        		file: file.fileName,
-        		num_chunks: file.chunks.length,
-        		make_entry: 1})
-        		
-        		.done(function( data ) {
-        		    if (data==1){
-        		    	alert("File with this name already uploaded")
-        		    }
-        		    else{
-        		    	references.resumable.upload();
-        		    }
-        		    
-        		  });
-            
-            var pauseflag = 0;
             $( "#v-pause" ).click(function() {
                 if ($("#v-pause").html() == "Pause"){
                     references.resumable.pause();
@@ -178,6 +162,7 @@ define(function(require) {
                     $("#v-pause").html("Pause");
                 }
             });
+            this._references.file = file;
         },
         
         _fileProgress: function(file){
@@ -198,17 +183,44 @@ define(function(require) {
         },
 
         _onAddMoreVideoFormClick: function(event){
-            event.preventDefault();
-            event.stopPropagation();
-            this._renderVideoFormItems();
-            this._dropdownChosen();
+            //event.preventDefault();
+            //event.stopPropagation();
+            this.getDropDown();
         },
         
         _onUploadVideoClick: function(event){
-            event.preventDefault();
-            event.stopPropagation();
-            this._renderVideoFormItems();
-            this._dropdownChosen();
+        	var references = this._references
+        	var video_title = $('#video_title').val();
+        	var video_desc = $('#video_desc').val();
+        	var state = $('#statelist').val();
+        	var partner = $('#partnerlist').val();
+        	var language = $('#langlist').val();
+        	var date = $('#date').val();
+            if (video_title == "" || state == "" || partner == "" || language == "" || video_desc == "") {
+                throw new Error('ViewCollectionsController._onCommentButtonClick: Video Title is required parameter');
+            }
+
+            //sending the first post query to make an entry
+        	$.post( '/social/api/postvideo/', { 
+        		file: this._references.file.fileName,
+        		num_chunks: this._references.file.chunks.length,
+        		make_entry: 1,
+        		video_title: video_title,
+        		video_desc: video_desc,
+        		state: state,
+        		partner: partner,
+        		language: language,
+        		date: date})
+        		
+        		.done(function( data ) {
+        		    if (data==1){
+        		    	alert("File with this name already uploaded")
+        		    }
+        		    else{
+        		    	references.resumable.upload();
+        		    }
+        		    
+        		  });
         },
         
         setInputParam: function(key, value, disableCacheClearing) {

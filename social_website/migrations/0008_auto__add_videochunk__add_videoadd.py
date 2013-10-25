@@ -16,8 +16,25 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('social_website', ['VideoChunk'])
 
-        # Deleting field 'VideoAdd.recieved_chunks'
-        db.delete_column('social_website_videoadd', 'recieved_chunks')
+        # Adding model 'VideoAdd'
+        db.create_table('social_website_videoadd', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('file_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('total_chunks', self.gf('django.db.models.fields.IntegerField')()),
+            ('uploaded', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('video_title', self.gf('django.db.models.fields.CharField')(max_length=500)),
+            ('video_desc', self.gf('django.db.models.fields.TextField')()),
+            ('date', self.gf('django.db.models.fields.DateField')()),
+            ('subcategory', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
+            ('topic', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
+            ('subtopic', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
+            ('subsubtopic', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
+            ('subject', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
+            ('partner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['social_website.Partner'])),
+            ('language', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('state', self.gf('django.db.models.fields.CharField')(max_length=100)),
+        ))
+        db.send_create_signal('social_website', ['VideoAdd'])
 
         # Adding M2M table for field video_chunk on 'VideoAdd'
         db.create_table('social_website_videoadd_video_chunk', (
@@ -32,10 +49,8 @@ class Migration(SchemaMigration):
         # Deleting model 'VideoChunk'
         db.delete_table('social_website_videochunk')
 
-        # Adding field 'VideoAdd.recieved_chunks'
-        db.add_column('social_website_videoadd', 'recieved_chunks',
-                      self.gf('django.db.models.fields.IntegerField')(default=0),
-                      keep_default=False)
+        # Deleting model 'VideoAdd'
+        db.delete_table('social_website_videoadd')
 
         # Removing M2M table for field video_chunk on 'VideoAdd'
         db.delete_table('social_website_videoadd_video_chunk')
@@ -79,7 +94,7 @@ class Migration(SchemaMigration):
         },
         'social_website.comment': {
             'Meta': {'object_name': 'Comment'},
-            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 10, 23, 0, 0)'}),
+            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 10, 25, 0, 0)'}),
             'isOnline': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'person': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['social_website.Person']", 'null': 'True', 'blank': 'True'}),
             'text': ('django.db.models.fields.TextField', [], {}),
@@ -90,7 +105,7 @@ class Migration(SchemaMigration):
         'social_website.crontimestamp': {
             'Meta': {'object_name': 'CronTimestamp'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 10, 23, 0, 0)'}),
+            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 10, 25, 0, 0)'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         },
         'social_website.featuredcollection': {
@@ -193,11 +208,22 @@ class Migration(SchemaMigration):
         },
         'social_website.videoadd': {
             'Meta': {'object_name': 'VideoAdd'},
+            'date': ('django.db.models.fields.DateField', [], {}),
             'file_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'language': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'partner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['social_website.Partner']"}),
+            'state': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'subcategory': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
+            'subject': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
+            'subsubtopic': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
+            'subtopic': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
+            'topic': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
             'total_chunks': ('django.db.models.fields.IntegerField', [], {}),
             'uploaded': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'video_chunk': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['social_website.VideoChunk']", 'null': 'True', 'blank': 'True'})
+            'video_chunk': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['social_website.VideoChunk']", 'null': 'True', 'blank': 'True'}),
+            'video_desc': ('django.db.models.fields.TextField', [], {}),
+            'video_title': ('django.db.models.fields.CharField', [], {'max_length': '500'})
         },
         'social_website.videochunk': {
             'Meta': {'object_name': 'VideoChunk'},
