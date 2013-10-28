@@ -158,7 +158,8 @@ define(function(require) {
                     $("#v-pause").html("Resume");
                 }
                 else if ($("#v-pause").html() == "Resume"){
-                    references.resumable.upload();
+                    //references.resumable.upload();
+                	file.retry()
                     $("#v-pause").html("Pause");
                 }
             });
