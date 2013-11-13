@@ -4,7 +4,7 @@
                                     <select id = "partnerlist" class="chosen-select" >
                                       <option value='' selected='selected'>---------</option>
                                       {{#partner}}
-                                      <option value = {{.}}>{{.}}</option>
+                                      <option value = {{uid}}>{{name}}</option>
                                       {{/partner}}
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">State</label>
@@ -23,7 +23,7 @@
                                     </select><br><br>
                                 <label class="copy hdg-bold layout-vr-tiny">Add Video</label>
                                     <option value='' selected='selected'>---------</option>
-                                    <select id = "langlist" class="chosen-select">
+                                    <select id = "vidlist" class="chosen-select">
                                       <option value = "english">SRI</option>
                                       <option value = "hindi">Seed treatment</option>
                                     </select><br><br>

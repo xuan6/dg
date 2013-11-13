@@ -10,8 +10,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+from dashboard.models import PracticeSector, PracticeSubSector, PracticeTopic, PracticeSubtopic, PracticeSubject
 from elastic_search import get_related_collections, get_related_videos
-from social_website.models import  Collection, Partner, FeaturedCollection, Video, VideoAdd, VideoChunk
+from social_website.models import  Collection, Partner, FeaturedCollection, Video, VideoChunk, VideoData, VideoFile
 from django.views.decorators.csrf import csrf_exempt
 
 import dg.settings
@@ -254,50 +255,72 @@ def collection_add_view(request):
 @csrf_exempt
 def video_combine_view(request):
     if request.method == 'GET':
-        file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.GET.get('resumableChunkNumber') + request.GET.get('resumableFilename')
-        if os.path.exists(file_name):
+        chunk_number = request.GET.get('resumableChunkNumber')
+        file_identifier = request.GET.get('resumableIdentifier')
+        try:
+            video_chunk = VideoChunk.objects.get(video_file__file_identifier=file_identifier, chunk_number=chunk_number)
             return HttpResponse(status=200)
-        else:
+        except VideoChunk.DoesNotExist:
             return HttpResponse(status=201) # any number other than 200 to notify client chunk exist
     elif request.method == 'POST':
         make_entry = request.POST.get('make_entry', None)
         combine_flag = request.POST.get('combine', None)
+        save_flag = request.POST.get('save', None)
         if make_entry:
-            file_name = request.POST.get('file', None)
+            file_identifier = request.POST.get('fileidentifier', None)
             total_chunks = request.POST.get('num_chunks', None)
+            file_name = request.POST.get('filename', None)
+            try:
+                video = VideoFile.objects.get(file_identifier=file_identifier)
+                if video.upload:
+                    return HttpResponse(1)
+                else:
+                    return HttpResponse(0)
+            except VideoFile.DoesNotExist:
+                video = VideoFile(file_identifier=file_identifier, total_chunks=total_chunks, file_name=file_name)
+                video.save()
+                return HttpResponse(0)
+        elif combine_flag:
+            file_identifier = request.POST.get('fileidentifier', None)
+            res = combine(request.POST.get('fileidentifier'))
+            return HttpResponse(res)
+        elif save_flag:
+            file_identifier = request.POST.get('fileidentifier', None)
             video_title = request.POST.get('video_title', None)
             video_desc = request.POST.get('video_desc', None)
             date = request.POST.get('date', None)
             partner_id = request.POST.get('partner', None)
             state = request.POST.get('state', None)
             language = request.POST.get('language', None)
+
             try:
-                video = VideoAdd.objects.get(file_name=file_name)
-                if video.uploaded:
-                    return HttpResponse(1)
-                else:
-                    return HttpResponse(0)
-            except VideoAdd.DoesNotExist:
-                video = VideoAdd(file_name=file_name, total_chunks=total_chunks, video_title=video_title, video_desc=video_desc, date=date, state=state, partner_id=partner_id, language=language)
-                video.save()
-                return HttpResponse(0)
-        elif combine_flag:
-            file_name = request.POST.get('file', None)
-            res = combine(request.POST.get('file'))
-            return HttpResponse(res)
+                video_data = VideoData.objects.get(video_file__file_identifier=file_identifier)
+                video_data.video_title = video_title
+                video_data.video_desc = video_desc
+                video_data.date = date
+                video_data.partner_id = partner_id
+                video_data.state = state
+                video_data.language = language
+                video_data.save()
+            except VideoData.DoesNotExist:
+                video_data = VideoData(video_file=VideoFile.objects.get(file_identifier=file_identifier), video_title=video_title, video_desc=video_desc, date=date, state=state, partner_id=partner_id, language=language)
+                video_data.save()
         else:
+            chunk_number = request.POST.get('resumableChunkNumber')
+            file_identifier = request.POST.get('resumableIdentifier')
             file_name = dg.settings.MEDIA_ROOT + 'videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
-            if not os.path.exists(file_name):
+            try:
+                video_chunk = VideoChunk.objects.get(video_file__file_identifier=file_identifier, chunk_number=chunk_number)
+                return HttpResponse(request.POST.get('resumableChunkNumber'))
+            except VideoChunk.DoesNotExist:
                 f = request.FILES['file']
                 destination = open(file_name, 'wb+')
                 for chunk in f.chunks():
                     destination.write(chunk)
                 destination.close()
-                video_chunk = VideoChunk(file_name=request.POST.get('resumableFilename') ,chunk_number=request.POST.get('resumableChunkNumber'))
+                video_chunk = VideoChunk(video_file=VideoFile.objects.get(file_identifier=file_identifier) ,chunk_number=chunk_number)
                 video_chunk.save()
-                video = VideoAdd.objects.get(file_name=request.POST.get('resumableFilename'))
-                video.video_chunk.add(video_chunk)
-                video.save()
+                print "chunk saved"
                 return HttpResponse(request.POST.get('resumableChunkNumber'))
 
 
@@ -309,10 +332,25 @@ def videoadddropdown(request):
     partner = sorted(partner)
     state = video.values_list('state',flat=True)
     state = sorted(set(state))
+    sector = PracticeSector.objects.values_list('name', flat=True)
+    sector = sorted(set(sector))
+    subsector = PracticeSubSector.objects.values_list('name', flat=True)
+    subsector = sorted(set(subsector))
+    subject = PracticeSubject.objects.values_list('name', flat=True)
+    subject = sorted(set(subject))
+    topic = PracticeTopic.objects.values_list('name', flat=True)
+    topic = sorted(set(topic))
+    subtopic = PracticeSubtopic.objects.values_list('name', flat=True)
+    subtopic = sorted(set(subtopic))
     video_dropdown_dict = {
         'language': language,
         'partner': partner,
         'state': state,
+        'sector': sector,
+        'subsector': subsector,
+        'topic': topic,
+        'subtopic': subtopic,
+        'subject': subject,
     }
     resp = json.dumps({"video_dropdown": video_dropdown_dict})
     return HttpResponse(resp)
