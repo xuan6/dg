@@ -32,8 +32,14 @@ define(function(require) {
             this.base();
             var references = this._references;
             var $collectionWrapper = jQuery('.js-collection-outer-wrapper');
-            $( "#sortable" ).sortable();
+            $( "#sortable" ).sortable({
+                delay: 100,
+                revert: 300
+            });
             $( "#sortable" ).disableSelection();
+            $('#sortable li .video-remove').click(function(){
+                $(this).parent().remove();
+            });
             //var $filtersWrapper = jQuery('.js-filters-wrapper');
 
             // helpers

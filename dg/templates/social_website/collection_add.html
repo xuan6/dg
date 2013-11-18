@@ -38,17 +38,17 @@
                                             <li class="vidDrawer-video show-playing js-vidDrawer-video" id="{{video.uid}}">
                                                 <div class="vidDrawer-image">
                                                     <img scr="STATIC_URL/media/assets/images/slideshow-x.png"/>
-                                                    <a href="{{video.url}}" ><img src="{{ video.thumbnailURL }}" class="vidDrawer-image" alt="{{video.title}}" /> </a>
-                                                      
+                                                    <a href="{{video.url}}" ><img src="{{ video.thumbnailURL }}" class="vidDrawer-image" alt="{{video.title}}" /> </a>     
                                                 </div>
+                                                <div class="video-remove"></div>
                                                 <br>
                                                 <div class="vidDrawer-hd copy-dk">
                                                     <span class="copy-extra-lt">{{ video.title }}</span>
                                                 </div>
                                             </li>
-                                    <!-- End carousel slides -->
-                                {% endfor %}
-<!--                                         </ul> -->
+                                            <!-- End carousel slides -->
+                                            {% endfor %}
+<!--                                    </ul> -->
 <!--                                     </li> -->
                                 </ul>
                             </div>
