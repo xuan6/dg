@@ -4,6 +4,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 import coco.urls
 import feeds.urls
+import dimagi.urls
 import social_website.api_urls
 import social_website.urls
 from dashboard.data_log import send_updated_log
@@ -11,6 +12,7 @@ from dashboard.views import feed_animators, get_person, redirect_url, search
 from farmerbook import farmer_book_views
 from output.views import video_analytics
 from website_admin import website_admin
+from mcoco_admin import mcoco_admin
 import website_archive_urls
 
 from social_auth.urls import *
@@ -31,8 +33,10 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
     (r'^adminwebsite/', include(website_admin.urls)),
+    (r'^mcocoadmin/', include(mcoco_admin.urls)),
     
     (r'^coco/', include(coco.urls)),
+    (r'^dimagi/', include(dimagi.urls)),
     (r'^path/', include('path.urls')),
     (r'^analytics/', include('output.urls')),
     (r'^video/?$',video_analytics.video),
