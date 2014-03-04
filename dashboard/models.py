@@ -127,9 +127,9 @@ class ServerLog(models.Model):
 #        return self.entry_table
 
 class CocoModel(models.Model):
-    user_created = models.ForeignKey(User, related_name ="%(class)s_created", editable = False, null=True, blank=True)
+    user_created = models.ForeignKey(User, related_name ="%(app_label)s_%(class)s_created", editable = False, null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    user_modified = models.ForeignKey(User, related_name ="%(class)s_related_modified",editable = False, null=True, blank=True)
+    user_modified = models.ForeignKey(User, related_name ="%(app_label)s_%(class)s_related_modified",editable = False, null=True, blank=True)
     time_modified = models.DateTimeField(auto_now=True, null=True, blank=True)
   
     class Meta:
