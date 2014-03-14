@@ -95,6 +95,7 @@ INSTALLED_APPS = (
     'partner',
     'geography',
     'people',
+    'practice_mapping',
     #'debug_toolbar',
     'output',
     'django.contrib.humanize',
