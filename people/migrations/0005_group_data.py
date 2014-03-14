@@ -7,16 +7,16 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        Animator = orm['people.Animator']
+        PersonGroup = orm['people.PersonGroup']
         Village = orm['geography.Village']
-        Animator.objects.bulk_create([Animator(old_coco_id=x.id, name=x.name, age=x.age, gender=x.gender, csp_flag=x.csp_flag, camera_operator_flag=x.camera_operator_flag, facilitator_flag=x.facilitator_flag, phone_no=x.phone_no, address=x.address, partner=orm['partner.Partner'].objects.get(old_coco_id=x.partner_id), village=None if x.village is None else Village.objects.get(old_coco_id=x.village_id), district=None if x.district_id is None else orm['geography.District'].objects.get(old_coco_id=x.district_id), total_adoptions=x.total_adoptions) for x in orm['dashboard.Animator'].objects.all()])
-        
-        print "Animators Added"
-        Assigned = Animator.assigned_villages.through
-        Assigned.objects.bulk_create([Assigned(animator_id=Animator.objects.get(old_coco_id=x.animator_id).id, village_id=Village.objects.get(old_coco_id=x.village_id).id, start_date=x.start_date) for x in orm['dashboard.Animator'].assigned_villages.through.objects.all()])
-    
+        Partner = orm['partner.Partner']
+
+        PersonGroup.objects.bulk_create([PersonGroup(old_coco_id=x.id, group_name=x.group_name, days=x.days, timings=x.timings, time_updated=x.time_updated, partner=Partner.objects.get(old_coco_id=x.partner_id), village= Village.objects.get(old_coco_id=x.village_id))for x in orm['dashboard.PersonGroups'].objects.all()])
+
+        print "person group created"
+
     def backwards(self, orm):
-        orm['people.Animator'].objects.all().delete()
+        "Write your backwards methods here."
 
     models = {
         u'auth.group': {
@@ -782,8 +782,44 @@ class Migration(DataMigration):
             'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_animatorassignedvillage_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_animatorassignedvillage_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'village': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geography.Village']"})
+        },
+        u'people.person': {
+            'Meta': {'unique_together': "(('person_name', 'father_name', 'village'),)", 'object_name': 'Person'},
+            'address': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
+            'age': ('django.db.models.fields.IntegerField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
+            'date_of_joining': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'father_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'gender': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            'group': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.PersonGroup']", 'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image_exists': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'land_holdings': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'old_coco_id': ('django.db.models.fields.BigIntegerField', [], {}),
+            'partner': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['partner.Partner']"}),
+            'person_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'phone_no': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_person_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_person_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'village': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geography.Village']"})
+        },
+        u'people.persongroup': {
+            'Meta': {'unique_together': "(('group_name', 'village'),)", 'object_name': 'PersonGroup'},
+            'days': ('django.db.models.fields.CharField', [], {'max_length': '9', 'blank': 'True'}),
+            'group_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'old_coco_id': ('django.db.models.fields.BigIntegerField', [], {}),
+            'partner': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['partner.Partner']"}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'timings': ('django.db.models.fields.TimeField', [], {'null': 'True', 'blank': 'True'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_persongroup_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_persongroup_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'village': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geography.Village']"})
         }
     }
 
-    complete_apps = ['dashboard', 'partner', 'geography', 'people']
+    complete_apps = ['dashboard', 'people']
     symmetrical = True
