@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     #'django.contrib.sites',
     'django.contrib.admindocs',
     'dashboard',
+    'adoptions',
     'partner',
     'geography',
     'people',
