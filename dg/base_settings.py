@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'geography',
     'people',
     'practice_mapping',
+    'screening',
     'video',
     #'debug_toolbar',
     'output',
