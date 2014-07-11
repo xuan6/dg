@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'human_resources',
     'feeds',
     'deoanalytics',
+    'exampleapp',
 )
 
 #following line makes sessionid cookie accessible to in-browser javascript

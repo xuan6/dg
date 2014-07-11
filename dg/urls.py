@@ -76,6 +76,7 @@ urlpatterns = patterns('',
     (r'^cocoframework/', TemplateView.as_view(template_name='coco-landing.html')),
     
     (r'^analytics/cocouser/',include('deoanalytics.urls')),
+    (r'^coco/exampleapp/', include('exampleapp.urls')),
 )
 
 # Static files serving locally
