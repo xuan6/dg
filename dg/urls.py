@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.generic import TemplateView
 
 import coco.urls
 import dimagi.urls
@@ -72,6 +73,7 @@ urlpatterns = patterns('',
     (r'^getvillages/?$', farmer_book_views.get_villages_with_images),
     (r'^getvideosproduced/?$', farmer_book_views.get_videos_produced),
     (r'^fbconnect/', include('fbconnect.urls')),
+    (r'^cocoframework/', TemplateView.as_view(template_name='coco-landing.html')),
     
     (r'^analytics/cocouser/',include('deoanalytics.urls')),
 )
