@@ -33,6 +33,7 @@ website_admin.login_template = 'social_website/login.html'
 website_admin.logout_template = 'social_website/home.html'
 
 urlpatterns = patterns('',
+    (r'^wiki/', include('mezzanine_wiki.urls')),
     (r'^', include(social_website.urls)),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'^login/$', 'social_website.views.login_view', {'template_name': 'social_website/login.html'}, name='signin'),
@@ -73,8 +74,8 @@ urlpatterns = patterns('',
     (r'^getvideosproduced/?$', farmer_book_views.get_videos_produced),
     (r'^fbconnect/', include('fbconnect.urls')),
     (r"^", include("mezzanine.urls")),
+    
     (r'^analytics/cocouser/',include('deoanalytics.urls')),
-
     (r'^coco/docs/', TemplateView.as_view(template_name='cocodoc.html')),
 
 )

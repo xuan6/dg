@@ -84,6 +84,8 @@ ROOT_URLCONF = 'dg.urls'
 # Google ID is required for fetching the user profile image
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = [ ('id', 'id'), ('picture', 'picture') ]
 
+SEARCH_MODEL_CHOICES = ('pages.Page', 'blog.BlogPost', 'mezzanine_wiki.WikiPage')
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
@@ -154,6 +156,7 @@ INSTALLED_APPS = (
     'mezzanine.twitter',
     'filebrowser_safe',
     'grappelli_safe',
+    'mezzanine_wiki',
 )
 
 # Store these package names here as they may change in the future since
