@@ -4,7 +4,7 @@ from dashboard.admin import AnimatorAdmin, AnimatorAssignedVillageAdmin, BlockAd
 
 from activities.models import PersonAdoptPractice, Screening
 from coco.models import CocoUser
-from geographies.models import Block, Country, District, Region, State, Village
+from geographies.models import Block, Country, District, State, Village
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
 from programs.models import Partner
 from videos.models import Language, Practice, PracticeSector, PracticeSubject, PracticeSubSector, PracticeSubtopic, PracticeTopic,  Video
@@ -22,7 +22,6 @@ coco_admin.register(Group, GroupAdmin)
 
 coco_admin.register(AnimatorAssignedVillage, AnimatorAssignedVillageAdmin)
 coco_admin.register(Video, VideoAdmin)
-coco_admin.register(Region)
 coco_admin.register(Country)
 coco_admin.register(State, StateAdmin)
 coco_admin.register(District, DistrictAdmin)
@@ -42,6 +41,4 @@ coco_admin.register(PracticeTopic, PracticeTopicAdmin)
 coco_admin.register(PracticeSubtopic, PracticeSubtopicAdmin)
 coco_admin.register(PracticeSubject, PracticeSubjectAdmin)
 coco_admin.register(CocoUser, CocoUserAdmin)
-#admin.register(Reviewer)
-#admin.register(Random)
-#admin.register(Message, MessageAdmin)
+
