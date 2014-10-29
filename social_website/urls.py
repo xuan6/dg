@@ -55,4 +55,5 @@ urlpatterns = patterns('',
     url(r'^tools/$', DirectTemplateView.as_view(template_name='tools.html', extra_context={'header': {'currentPage':'Tools'}}), name='tools'),
     url(r'^collection-add/(?P<collection>.+)/$', collection_edit_view, name='edit_collection'),
     url(r'^collection-add/$', collection_add_view, name='create_collection'),
+    url(r'^video-add/$', DirectTemplateView.as_view(template_name='video_add.html', extra_context={'header': {'jsController':'Video'}}), name='add_video'),
 )

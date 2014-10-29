@@ -3542,6 +3542,143 @@ div.social-wrap button.googleplus {
     margin-left: 325px;
 }
 
+.va-dropdown{
+    font-size: 14px;
+    height: 395px;
+}
+
+.desc{
+    width: 930px;
+    height: 60px;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.add-more-link{
+    margin-top: 30px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: #047d0a;
+    font-family: source_sans_prosemibold, arial, helvetica, sans-serif;
+    font-size: 14px;
+    padding: 10px 18px 9px 0px;
+    text-align: center;
+    background: #ffffff;
+    border-color: #ffffff;
+    border: 0px;
+    cursor:pointer;
+}
+
+.carousel-border {
+    border: 2px solid #DEDEDE;
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px #9f9f9f;
+}
+
+.top-mar {
+    margin-top: 20px;
+}
+/*----------------- Drag and Drop -------------*/
+
+.dropzone-color{
+   background-color: #f0efed;
+   text-align:center;
+    border:2px dashed #ccc;
+}
+
+.dragText{
+    font-size: 24px;
+    font-family: source_sans_prosemibold, arial, helvetica, sans-serif;
+}
+
+.browseButton-wrapper{
+    width: 100px;
+    height: 32px;
+    background: url(../images/addBtn.png) 0 0 no-repeat;
+    border:none;
+    overflow:hidden;
+    margin-left:300px;
+    margin-top:30px;
+    opacity: 0.7;
+}
+
+.browseButton-wrapper:hover{
+    opacity: 1;
+}
+
+.browseButton{
+    opacity:0;
+}
+
+#video-innerwrapper{
+    margin-top:100px;
+}
+
+#progressbar{
+    background-color: grey;
+    padding: 4px;
+    width : 300px;
+    margin-left: 200px;
+    height: 15px;
+    display: none;
+    margin-top: 50px;
+}
+
+#progressbar > div {
+   background-color: white;
+   width: 60%; /* Adjust with JavaScript */
+   height: 15px;
+}
+
+#fileInfo{
+    margin-top:100px;
+}
+
+#progress-percent{
+    font-size: 14px;
+    font-family: source_sans_prosemibold, arial, helvetica, sans-serif;
+}
+
+.video-button{
+    cursor: pointer;
+    background: #bdc3c7;
+    
+}
+
+#video-btns{
+    display:none;
+    margin-top: 50px;
+}
+
+.v-btn{
+    border: none;
+    cursor: pointer;
+    background: #bdc3c7;
+    color: #ffffff;
+    padding: 9px 12px 10px;
+    line-height:1.333;
+    text-decoration: none;
+    text-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: 0.25s;
+    -moz-transition: 0.25s;
+    -o-transition: 0.25s;
+    transition: 0.25s;
+    -webkit-backface-visibility: hidden;
+}
+
+.v-btn-pause{
+    background-color: #34495e;
+}
+
+.v-btn-cancel{
+    background-color: #e74c3c;
+    margin-left:20px;
+}
+
  /*------------------ Sortable ------------------*/
  
  .video-wrapper-sortable{

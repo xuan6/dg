@@ -17,11 +17,15 @@ from django.template import RequestContext
 from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from dg.settings import PERMISSION_DENIED_URL
+from dg.settings import PERMISSION_DENIED_URL, MEDIA_ROOT
 
 from elastic_search import get_related_collections, get_related_videos 
 from social_website.models import  Collection, Partner, FeaturedCollection, Video
 from videos.models import Practice, Video as Dashboard_Video
+from videos.models import PracticeSector, PracticeSubSector, PracticeTopic, PracticeSubtopic, PracticeSubject
+from social_website.models import VideoChunk, VideoData, VideoFile
+
+from social_website.utils.combine_upload import combine
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.EmailField(label=("Username"), help_text=("Enter Email Address"))
@@ -368,3 +372,109 @@ def signup_view(request, template_name='social_website/signup.html',
 
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
+
+
+# Check if Video Already Exist or Not in the DB If so return appropriate message
+# Check if Video Chunk exist or not
+@csrf_exempt
+def video_combine_view(request):
+    if request.method == 'GET':
+        chunk_number = request.GET.get('resumableChunkNumber')
+        file_identifier = request.GET.get('resumableIdentifier')
+        try:
+            video_chunk = VideoChunk.objects.get(video_file__file_identifier=file_identifier, chunk_number=chunk_number)
+            return HttpResponse(status=200)
+        except VideoChunk.DoesNotExist:
+            return HttpResponse(status=201) # any number other than 200 to notify client chunk exist
+    elif request.method == 'POST':
+        make_entry = request.POST.get('make_entry', None)
+        combine_flag = request.POST.get('combine', None)
+        save_flag = request.POST.get('save', None)
+        if make_entry:
+            file_identifier = request.POST.get('fileidentifier', None)
+            total_chunks = request.POST.get('num_chunks', None)
+            file_name = request.POST.get('filename', None)
+            try:
+                video = VideoFile.objects.get(file_identifier=file_identifier)
+                if video.upload:
+                    return HttpResponse(1)
+                else:
+                    return HttpResponse(0)
+            except VideoFile.DoesNotExist:
+                video = VideoFile(file_identifier=file_identifier, total_chunks=total_chunks, file_name=file_name)
+                video.save()
+                return HttpResponse(0)
+        elif combine_flag:
+            file_identifier = request.POST.get('fileidentifier', None)
+            res = combine(request.POST.get('fileidentifier'))
+            return HttpResponse(res)
+        elif save_flag:
+            file_identifier = request.POST.get('fileidentifier', None)
+            video_title = request.POST.get('video_title', None)
+            video_desc = request.POST.get('video_desc', None)
+            date = request.POST.get('date', None)
+            partner_id = request.POST.get('partner', None)
+            state = request.POST.get('state', None)
+            language = request.POST.get('language', None)
+
+            try:
+                video_data = VideoData.objects.get(video_file__file_identifier=file_identifier)
+                video_data.video_title = video_title
+                video_data.video_desc = video_desc
+                video_data.date = date
+                video_data.partner_id = partner_id
+                video_data.state = state
+                video_data.language = language
+                video_data.save()
+            except VideoData.DoesNotExist:
+                video_data = VideoData(video_file=VideoFile.objects.get(file_identifier=file_identifier), video_title=video_title, video_desc=video_desc, date=date, state=state, partner_id=partner_id, language=language)
+                video_data.save()
+        else:
+            chunk_number = request.POST.get('resumableChunkNumber')
+            file_identifier = request.POST.get('resumableIdentifier')
+            file_name = MEDIA_ROOT + '/videos/' + request.POST.get('resumableChunkNumber') + request.POST.get('resumableFilename')
+            try:
+                video_chunk = VideoChunk.objects.get(video_file__file_identifier=file_identifier, chunk_number=chunk_number)
+                return HttpResponse(request.POST.get('resumableChunkNumber'))
+            except VideoChunk.DoesNotExist:
+                f = request.FILES['file']
+                destination = open(file_name, 'wb+')
+                for chunk in f.chunks():
+                    destination.write(chunk)
+                destination.close()
+                video_chunk = VideoChunk(video_file=VideoFile.objects.get(file_identifier=file_identifier) ,chunk_number=chunk_number)
+                video_chunk.save()
+                print "chunk saved"
+                return HttpResponse(request.POST.get('resumableChunkNumber'))
+
+
+def videoadddropdown(request):
+    video = Video.objects.all()
+    language = video.values_list('language',flat=True)
+    language = sorted(set(language))
+    partner = Partner.objects.values('name', 'uid')
+    partner = sorted(partner)
+    state = video.values_list('state',flat=True)
+    state = sorted(set(state))
+    sector = PracticeSector.objects.values_list('name', flat=True)
+    sector = sorted(set(sector))
+    subsector = PracticeSubSector.objects.values_list('name', flat=True)
+    subsector = sorted(set(subsector))
+    subject = PracticeSubject.objects.values_list('name', flat=True)
+    subject = sorted(set(subject))
+    topic = PracticeTopic.objects.values_list('name', flat=True)
+    topic = sorted(set(topic))
+    subtopic = PracticeSubtopic.objects.values_list('name', flat=True)
+    subtopic = sorted(set(subtopic))
+    video_dropdown_dict = {
+        'language': language,
+        'partner': partner,
+        'state': state,
+        'sector': sector,
+        'subsector': subsector,
+        'topic': topic,
+        'subtopic': subtopic,
+        'subject': subject,
+    }
+    resp = json.dumps({"video_dropdown": video_dropdown_dict})
+    return HttpResponse(resp)

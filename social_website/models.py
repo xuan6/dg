@@ -183,6 +183,33 @@ class VideoLike(models.Model):
     user = models.ForeignKey(User)
 post_save.connect(increase_online_video_like, sender = VideoLike)
 
+
+class VideoFile(models.Model):
+    file_identifier = models.CharField(max_length=200, unique=True)
+    total_chunks = models.IntegerField()
+    upload = models.BooleanField(default=False)
+    file_name = models.CharField(max_length=100)
+
+class VideoChunk(models.Model):
+    video_file = models.ForeignKey(VideoFile)
+    chunk_number = models.IntegerField()
+
+
+class VideoData(models.Model):
+    video_title = models.CharField(max_length=500)
+    video_desc = models.TextField()
+    date = models.DateField()
+    subcategory = models.CharField(max_length=500, blank=True)
+    topic = models.CharField(max_length=500, blank=True)
+    subtopic = models.CharField(max_length=500, blank=True)
+    subsubtopic = models.CharField(max_length=500, blank=True)
+    subject = models.CharField(max_length=500, blank=True)
+    partner = models.ForeignKey(Partner)
+    language = models.CharField(max_length=20)
+    state = models.CharField(max_length=100)
+    video_file = models.ForeignKey(VideoFile)
+
+
 class CronTimestamp(models.Model):
     name = models.CharField(max_length=30)
     last_time = models.DateTimeField(default=lambda : datetime.datetime.utcnow())
