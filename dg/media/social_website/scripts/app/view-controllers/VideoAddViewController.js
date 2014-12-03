@@ -13,7 +13,6 @@ define(function(require) {
     var Controller = require('framework/controllers/Controller');
     var viewRenderer = require('framework/ViewRenderer');
     var jQuery = require('jquery');
-    var CollectionDropDownDataFeed = require('app/libs/CollectionDropDownDataFeed');
     var Select2 = require('libs/external/select2');
     
     var draggable = require('libs/external/jquery-ui');
