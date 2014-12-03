@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from communications.views import media_view
 from human_resources.views import job_view, member_view
 from events import event_registration
-from views import social_home, collection_view, partner_view, search_view, collection_add_view, collection_edit_view, video_view
+from views import social_home, collection_view, partner_view, search_view, collection_add_view, collection_edit_view, video_view, video_add_view
 
 class DirectTemplateView(TemplateView):
     extra_context = None
@@ -55,5 +55,5 @@ urlpatterns = patterns('',
     url(r'^tools/$', DirectTemplateView.as_view(template_name='tools.html', extra_context={'header': {'currentPage':'Tools'}}), name='tools'),
     url(r'^collection-add/(?P<collection>.+)/$', collection_edit_view, name='edit_collection'),
     url(r'^collection-add/$', collection_add_view, name='create_collection'),
-    url(r'^video-add/$', DirectTemplateView.as_view(template_name='video_add.html', extra_context={'header': {'jsController':'Video'}}), name='add_video'),
+    url(r'^video-add/$', video_add_view, name='add_video'),
 )

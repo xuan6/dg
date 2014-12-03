@@ -299,15 +299,15 @@ def collection_add_view(request):
     return render_to_response('collection_add.html' , context, context_instance = RequestContext(request))
 
 
-@login_required()
-@user_passes_test(lambda u: u.groups.filter(name='Collection Czars').count() > 0, login_url=PERMISSION_DENIED_URL)
+#@login_required()
+#@user_passes_test(lambda u: u.groups.filter(name='Collection Czars').count() > 0, login_url=PERMISSION_DENIED_URL)
 def video_add_view(request):
     video = Video.objects.all()
-    language = video.values_list('language',flat=True)
+    language = video.values_list('language', flat=True)
     language = sorted(set(language))
     partner = Partner.objects.values('name', 'uid')
     partner = sorted(partner)
-    state = video.values_list('state',flat=True)
+    state = video.values_list('state', flat=True)
     state = sorted(set(state))
     context= {
               'header': {
@@ -317,7 +317,7 @@ def video_add_view(request):
               'partner' : partner,
               'state' : state,
               }
-    return render_to_response('collection_add.html' , context, context_instance = RequestContext(request))
+    return render_to_response('video_add.html' , context, context_instance = RequestContext(request))
 
 
 def mapping(request):
