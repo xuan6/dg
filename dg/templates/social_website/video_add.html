@@ -1,0 +1,78 @@
+{% include "includes/header.html" %}
+{% include "includes/partials/search.html" %}
+{% load app_tags %}
+        
+    <section>
+        <form>
+            <div id="main" role="main" class="wrapper">
+                <div class="inner-wrapper" id="collection-view">
+                    <div class="js-video-outer-wrapper">
+                        <div class="grid layout-vr-sm">
+                            <div class="grid-col grid-size2of3">
+                                <h1 class="hdg-bold hdg-a display-inline">Video Title</h1><span><input type="text" name="title" class="collec-title js-video-title" value="{{collection.title}}"></span>
+                            </div>
+                        </div>
+                        <div class="media layout-vr-md">
+                        <div id="video-dropzone" class="video-wrapper dropzone-color">
+                            <!-- Implementation Note: include the youtube video id and video uid in the data tag below -->
+                            <div id="video-innerwrapper">
+                                <p class="dragText">Drag &amp; Drop Here <br><br> Or </p>
+                                <div class="browseButton-wrapper">    
+                                    <input id="addButton" type="file" class="browseButton"/>
+                                </div>
+                            </div>
+                            <div id="fileInfo" class="dragText">
+                            </div>
+                            <div id="progressbar">
+                                <div id="progressbar-inner"></div>
+                            </div>
+                            <div id="progress-percent"></div>
+                            <div id="video-btns">
+                                <span id="v-pause" class="v-btn v-btn-pause">Pause</span>
+                                <span id="v-cancel" class="v-btn v-btn-cancel">Cancel</span>
+                            </div>
+                        </div>
+                        <div class="bd">
+                            <div class="media va-dropdown">
+                                <label class="copy hdg-bold layout-vr-tiny js-partner-label">Partner</label>
+                                        <select id = "partnerlist" class="chosen-select js-video-criteria js-partnerlist">
+                                        <option value='' selected='selected'>---------</option>
+                                        {% for pa in partner%} 
+                                            <option value = "{{pa.uid}}">{{pa.name}}</option>
+                                        {% endfor %}                                    </select><br><br>
+                                    <label class="copy hdg-bold layout-vr-tiny">State</label>
+                                        <select id = "statelist" class="chosen-select js-video-criteria js-statelist">
+                                        <option value='' selected='selected'>---------</option>
+                                        {% for st in state%} 
+                                            <option value = "{{st}}">{{st}}</option>
+                                        {% endfor %}                                    </select><br><br>
+                                    <label class="copy hdg-bold layout-vr-tiny">Language</label>
+                                        <select id = "langlist" class="chosen-select js-video-criteria js-langlist">
+                                        <option value='' selected='selected'>---------</option>
+                                        {% for lang in language%} 
+                                            <option value = "{{lang}}">{{lang}}</option>
+                                        {% endfor %}
+                                        </select><br><br>
+                                    <label class="copy hdg-bold layout-vr-tiny">Add Video</label>
+                                    <div class='js-collection-video-dropdown-container' data-videos='[{{collection_videos|join:","}}]'>
+                                        <!-- Video Drop Down -->
+                                    </div>
+                                    </select><br><br>
+                            </div> <!-- End .media -->
+                        </div> <!-- End .bd -->
+                        
+                    </div> <!-- End .media -->
+                    <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm">Video Description</h2>
+                        <textarea class="desc" id="video_desc"></textarea>
+                    <div class="layout-vr-lg js-collection-mapping-container" data-category="{{collection.category}}" data-subcategory="{{collection.subcategory}} " data-topic="{{collection.topic}}" data-subtopic="{{collection.subtopic}}" data-subject="{{collection.subject}}">
+                                <!-- Practice Mapping DropDowns -->
+                    </div>
+                    <button type="button"  class="btn copy-margin top-mar js-save-video-btn"> Save </button>
+                </div>
+                </div> <!-- End .inner-wrapper -->
+            </div> <!-- End .wrapper -->
+        </form>
+    </section>
+        
+{% include "includes/footer.html" %}
+
