@@ -3,9 +3,7 @@ import os
 from boto.s3.key import Key
 
 
-ACCESS_KEY = 'AKIAIKTVJKVVHA7Y4HNA'
-SECRET_KEY = '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'
-BUCKET_NAME = 'video_thumbnail'
+
  
 con = S3Connection(ACCESS_KEY, SECRET_KEY)
  
