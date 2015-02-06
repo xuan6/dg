@@ -19,34 +19,34 @@ from django.views.decorators.csrf import csrf_exempt
 
 from dg.settings import PERMISSION_DENIED_URL, MEDIA_ROOT
 
-from elastic_search import get_related_collections, get_related_videos 
-from social_website.models import  Collection, Partner, FeaturedCollection, Video
-from videos.models import Practice, Video as Dashboard_Video
-from videos.models import PracticeSector, PracticeSubSector, PracticeTopic, PracticeSubtopic, PracticeSubject
-from social_website.models import VideoChunk, VideoData, VideoFile
-
+from elastic_search import get_related_collections, get_related_videos
+from programs.models import Partner as COCO_Partner
+from social_website.models import  Collection, Partner, FeaturedCollection, Video, VideoChunk, VideoData, VideoFile
 from social_website.utils.combine_upload import combine
+from videos.models import Practice, Language, Video as Dashboard_Video
+
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.EmailField(label=("Username"), help_text=("Enter Email Address"))
 
 
 def social_home(request):
-    language = Collection.objects.exclude(language = None).values_list('language',flat=True) # only using those languages that have collections 
+    language = Collection.objects.exclude(language=None).values_list('language', flat=True) # only using those languages that have collections 
     language = sorted(set(language))
-    context= {
+    context = {
         'header': {
-            'jsController':'Home',
-            'currentPage':'Home',
-            'loggedIn':False
+            'jsController': 'Home',
+            'currentPage': 'Home',
+            'loggedIn': False
              },
-        'language':language,
+        'language': language,
         }
-    return render_to_response('home.html', context, context_instance = RequestContext(request))
+    return render_to_response('home.html', context, context_instance=RequestContext(request))
+
 
 def collection_view(request, partner, state, language, title, video=1):
     try:
-        collection = Collection.objects.get(partner__name__iexact = partner, state__iexact = state, language__iexact = language, title__iexact = title)
+        collection = Collection.objects.get(partner__name__iexact=partner, state__iexact=state, language__iexact=language, title__iexact=title)
     except Collection.DoesNotExist:
         return HttpResponseRedirect(reverse('discover'))
     try:
@@ -55,26 +55,26 @@ def collection_view(request, partner, state, language, title, video=1):
         video_index = 1
     finally:
         video = collection.videoincollection_set.all()[video_index - 1].video
-    tags = [x for x in [video.category,video.subcategory,video.topic,video.subtopic,video.subject] if x is not u'']
+    tags = [x for x in [video.category, video.subcategory, video.topic, video.subtopic, video.subject] if x is not u'']
     duration = sum([v.duration for v in collection.videos.all()])
     related_collections = get_related_collections(collection)
     video_list = [i.video for i in collection.videoincollection_set.all()]
-    context= {
+    context = {
               'header': {
-                         'jsController':'ViewCollections',
-                         'currentPage':'Discover',
-                         'loggedIn':False
+                         'jsController': 'ViewCollections',
+                         'currentPage': 'Discover',
+                         'loggedIn': False
                          },
               'is_collection': True,
               'object': collection,
               'video_list': video_list,
-              'collection_duration' : duration,
-              'video' : video,
-              'video_index' : video_index,
-              'tags' : tags,
-              'related_collections' : related_collections[:4], # restricting to 4 related collections for now
+              'collection_duration': duration,
+              'video': video,
+              'video_index': video_index,
+              'tags': tags,
+              'related_collections': related_collections[:4], # restricting to 4 related collections for now
               }
-    return render_to_response('collections-view.html' , context, context_instance = RequestContext(request)) 
+    return render_to_response('collections-view.html', context, context_instance=RequestContext(request)) 
 
 
 def video_view(request, uid):
@@ -92,8 +92,8 @@ def video_view(request, uid):
     related_videos = get_related_videos(video)
     context = {
                'header': {
-                          'jsController':'ViewCollections',
-                          'currentPage':'Discover',
+                          'jsController': 'ViewCollections',
+                          'currentPage': 'Discover',
                           },
               'is_collection': False,
               'object': video,
@@ -303,19 +303,19 @@ def collection_add_view(request):
 #@user_passes_test(lambda u: u.groups.filter(name='Collection Czars').count() > 0, login_url=PERMISSION_DENIED_URL)
 def video_add_view(request):
     video = Video.objects.all()
-    language = video.values_list('language', flat=True)
-    language = sorted(set(language))
-    partner = Partner.objects.values('name', 'uid')
+    language = Language.objects.values('language_name', 'id')
+    language = sorted(language)
+    partner = COCO_Partner.objects.values('partner_name', 'id')
     partner = sorted(partner)
     state = video.values_list('state', flat=True)
     state = sorted(set(state))
-    context= {
+    context = {
               'header': {
                          'jsController':'VideoAdd',
                          },
               'language': language,
-              'partner' : partner,
-              'state' : state,
+              'partner': partner,
+              'state': state,
               }
     return render_to_response('video_add.html' , context, context_instance = RequestContext(request))
 
@@ -469,33 +469,5 @@ def video_combine_view(request):
                 return HttpResponse(request.POST.get('resumableChunkNumber'))
 
 
-def videoadddropdown(request):
-    video = Video.objects.all()
-    language = video.values_list('language',flat=True)
-    language = sorted(set(language))
-    partner = Partner.objects.values('name', 'uid')
-    partner = sorted(partner)
-    state = video.values_list('state',flat=True)
-    state = sorted(set(state))
-    sector = PracticeSector.objects.values_list('name', flat=True)
-    sector = sorted(set(sector))
-    subsector = PracticeSubSector.objects.values_list('name', flat=True)
-    subsector = sorted(set(subsector))
-    subject = PracticeSubject.objects.values_list('name', flat=True)
-    subject = sorted(set(subject))
-    topic = PracticeTopic.objects.values_list('name', flat=True)
-    topic = sorted(set(topic))
-    subtopic = PracticeSubtopic.objects.values_list('name', flat=True)
-    subtopic = sorted(set(subtopic))
-    video_dropdown_dict = {
-        'language': language,
-        'partner': partner,
-        'state': state,
-        'sector': sector,
-        'subsector': subsector,
-        'topic': topic,
-        'subtopic': subtopic,
-        'subject': subject,
-    }
-    resp = json.dumps({"video_dropdown": video_dropdown_dict})
-    return HttpResponse(resp)
+def videodropdown(request):
+    pass

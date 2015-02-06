@@ -16,8 +16,14 @@ define(function(require) {
 
     var CollectionVideoDropDownDataFeed = DigitalGreenDataFeed.extend({
 
-        constructor: function() {
-            this.base('api/video/');
+        constructor: function(url) {
+            if(typeof(url)==='undefined'){
+                this.base('api/video/');
+            }
+            else{
+                this.base(url);
+            }
+            
 
             // prepare data model
             var collectionVideoDropDownSubModel = this._dataModel.addSubModel('collectionVideoDropDown', true);

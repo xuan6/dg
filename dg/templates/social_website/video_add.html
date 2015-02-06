@@ -38,7 +38,7 @@
                                         <select id = "partnerlist" class="chosen-select js-video-criteria js-partnerlist">
                                         <option value='' selected='selected'>---------</option>
                                         {% for pa in partner%} 
-                                            <option value = "{{pa.uid}}">{{pa.name}}</option>
+                                            <option value = "{{pa.id}}">{{pa.partner_name}}</option>
                                         {% endfor %}                                    </select><br><br>
                                     <label class="copy hdg-bold layout-vr-tiny">State</label>
                                         <select id = "statelist" class="chosen-select js-video-criteria js-statelist">
@@ -50,7 +50,7 @@
                                         <select id = "langlist" class="chosen-select js-video-criteria js-langlist">
                                         <option value='' selected='selected'>---------</option>
                                         {% for lang in language%} 
-                                            <option value = "{{lang}}">{{lang}}</option>
+                                            <option value = "{{lang.id}}">{{lang.language_name}}</option>
                                         {% endfor %}
                                         </select><br><br>
                                     <label class="copy hdg-bold layout-vr-tiny">Add Video</label>

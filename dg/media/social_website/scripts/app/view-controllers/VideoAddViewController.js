@@ -19,7 +19,9 @@ define(function(require) {
     require('libs/external/resumable');
     
     var PracticeMappingDataFeed = require('app/libs/PracticeMappingDataFeed');
+    var CollectionVideoDropDownDataFeed = require('app/libs/CollectionVideoDropDownDataFeed');
     var practiceMappingTemplate = require('text!app/views/practice-mapping.html');
+    var collectionVideoDropDownTemplate = require('text!app/views/collection-add-video-dropdown.html');
 
     var VideoAddController = Controller.extend({
 
@@ -42,9 +44,15 @@ define(function(require) {
             references.$videoAddWrapper = $referenceBase;
             references.$videoAddContainer = $referenceBase.find('.js-video-add-container');
             references.$practiceMappingContainer = $referenceBase.find('.js-collection-mapping-container');
+            references.$videoDropDownContainer = $referenceBase.find('.js-collection-video-dropdown-container');
             references.$videoAddMoreButton = $referenceBase.find('.js-add-more-videos-btn');
             references.$uploadButton = $referenceBase.find('.js-upload-video-btn');
+            references.$dropDown = $referenceBase.find('.js-video-criteria');
+            references.$partnerList = $referenceBase.find('.js-partnerlist');
+            references.$stateList = $referenceBase.find('.js-statelist');
+            references.$langList = $referenceBase.find('.js-langlist');
             references.dataFeed = new PracticeMappingDataFeed();
+            references.videodataFeed = new CollectionVideoDropDownDataFeed('/jcndj/djcdn/');
             
             references.resumable = new Resumable({
           	  										target:'/social/api/postvideo/',
@@ -68,6 +76,9 @@ define(function(require) {
             
             boundFunctions.onDataProcessed = this._onDataProcessed.bind(this);
             references.dataFeed.on('dataProcessed', boundFunctions.onDataProcessed);
+            
+            boundFunctions.onVideoDataProcessed = this._onVideoDataProcessed.bind(this);
+            references.videodataFeed.on('dataProcessed', boundFunctions.onVideoDataProcessed);
 
             //adding another video form
             boundFunctions.onAddMoreVideoFormClick = this._onAddMoreVideoFormClick.bind(this);
@@ -87,6 +98,9 @@ define(function(require) {
         	
             boundFunctions.onFileSuccess = this._onFileSuccess.bind(this);
             references.resumable.on('fileSuccess', boundFunctions.onFileSuccess);
+            
+            this._boundFunctions.onDropDownChosen = this._onDropDownChosen.bind(this);
+            references.$dropDown.on('change', this._boundFunctions.onDropDownChosen);
             
             
         },
@@ -120,6 +134,10 @@ define(function(require) {
 
         _onDataProcessed: function() {
             this.getPracticeMapping();
+        },
+        
+        _onVideoDataProcessed: function() {
+            this.getCollectionVideoDropDown();
         },
 
         _renderVideoFormItems: function(dropdownData) {
@@ -156,6 +174,25 @@ define(function(require) {
             references.$topicList.on('change', this._boundFunctions.onTopicChosen);
         },
         
+        _renderVideoCollectionDropDown: function(collectionvideodropdownData) {
+            var references = this._references;
+            
+            var renderData = {
+                     video: collectionvideodropdownData
+            };
+            
+            var renderedCollectionVideoDropDown = viewRenderer.render(collectionVideoDropDownTemplate, renderData);
+            
+            references.$videoDropDownContainer.html(renderedCollectionVideoDropDown);
+            
+            references.$vidList = jQuery('.js-vidlist')
+            
+            //this._boundFunctions.onVideoChosen = this._onVideoChosen.bind(this);
+            //references.$vidList.on('change', this._boundFunctions.onVideoChosen);
+            
+            this.initSelect2();
+        },
+        
         initSelect2: function(){
             var references = this._references;
             try{
@@ -165,6 +202,25 @@ define(function(require) {
                 $("select.chosen-select").select2({no_results_text: "No results match", width: "90%"});
             }
             
+        },
+        
+        _onDropDownChosen: function(){
+            var references = this._references;
+            
+            if( references.$partnerList.val()!="" && references.$stateList.val()!="" && references.$langList.val()!=""){
+                references.videodataFeed.addInputParam('limit', false, 0);
+                references.videodataFeed.setInputParam('limit', 0, false);
+                references.videodataFeed.addInputParam('state', false, references.$stateList.val());
+                references.videodataFeed.setInputParam('state', references.$stateList.val(), false);
+                references.videodataFeed.addInputParam('partner', false, references.$partnerList.val());
+                references.videodataFeed.setInputParam('partner', references.$partnerList.val(), false);
+                references.videodataFeed.addInputParam('language', false, references.$langList.val());
+                references.videodataFeed.setInputParam('language', references.$langList.val(), false);
+                this.getCollectionVideoDropDown();
+            }
+            else{
+            //TODO: What happens if value becomes default again
+            }
         },
         
         _onCategoryChosen: function(){
@@ -336,6 +392,31 @@ define(function(require) {
         		    }
         		    
         		  });
+        },
+        
+        getCollectionVideoDropDown: function() {
+            var references = this._references
+            var collectionvideodropdownData = references.videodataFeed.getCollectionVideoDropDown();
+            if (collectionvideodropdownData == false) {
+                return false;
+            }
+            references.videoArray = collectionvideodropdownData;
+            this._renderVideoCollectionDropDown(collectionvideodropdownData);
+            
+            references.$partnerList.prop("disabled", true);
+            references.$stateList.prop("disabled", true);
+            references.$langList.prop("disabled", true);
+            
+            if (references.$collectionUid){
+            var videos_collection = references.$videoDropDownContainer.data('videos');
+            var a;
+            for (a in videos_collection){
+                console.log(videos_collection[a]);
+                references.$vidList.val(videos_collection[a]).change();
+            }
+            
+            }
+            
         },
         
         setInputParam: function(key, value, disableCacheClearing) {
