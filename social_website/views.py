@@ -20,6 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 from dg.settings import PERMISSION_DENIED_URL, MEDIA_ROOT
 
 from elastic_search import get_related_collections, get_related_videos
+from geographies.models import State
 from programs.models import Partner as COCO_Partner
 from social_website.models import  Collection, Partner, FeaturedCollection, Video, VideoChunk, VideoData, VideoFile
 from social_website.utils.combine_upload import combine
@@ -286,38 +287,36 @@ def collection_add_view(request):
     language = sorted(set(language))
     partner = Partner.objects.values('name', 'uid')
     partner = sorted(partner)
-    state = video.values_list('state',flat=True)
+    state = video.values_list('state', flat=True)
     state = sorted(set(state))
     context= {
               'header': {
-                         'jsController':'CollectionAdd',
-                         },
-              'language': language,
-              'partner' : partner,
-              'state' : state,
-              }
-    return render_to_response('collection_add.html' , context, context_instance = RequestContext(request))
-
-
-#@login_required()
-#@user_passes_test(lambda u: u.groups.filter(name='Collection Czars').count() > 0, login_url=PERMISSION_DENIED_URL)
-def video_add_view(request):
-    video = Video.objects.all()
-    language = Language.objects.values('language_name', 'id')
-    language = sorted(language)
-    partner = COCO_Partner.objects.values('partner_name', 'id')
-    partner = sorted(partner)
-    state = video.values_list('state', flat=True)
-    state = sorted(set(state))
-    context = {
-              'header': {
-                         'jsController':'VideoAdd',
+                         'jsController': 'CollectionAdd',
                          },
               'language': language,
               'partner': partner,
               'state': state,
               }
-    return render_to_response('video_add.html' , context, context_instance = RequestContext(request))
+    return render_to_response('collection_add.html', context, context_instance=RequestContext(request))
+
+
+#@login_required()
+#@user_passes_test(lambda u: u.groups.filter(name='Collection Czars').count() > 0, login_url=PERMISSION_DENIED_URL)
+def video_add_view(request):
+    language = Language.objects.values('language_name', 'id')
+    language = sorted(language, key=lambda k: k['language_name'])
+    partner = COCO_Partner.objects.values('partner_name', 'id')
+    partner = sorted(partner, key=lambda k: k['partner_name'])
+    state = State.objects.values('state_name', 'id')
+    context = {
+              'header': {
+                         'jsController': 'VideoAdd',
+                         },
+              'language': language,
+              'partner': partner,
+              'state': state,
+              }
+    return render_to_response('video_add.html', context, context_instance=RequestContext(request))
 
 
 def mapping(request):
@@ -470,4 +469,16 @@ def video_combine_view(request):
 
 
 def videodropdown(request):
-    pass
+    partner = request.GET.get('partner', None)
+    state = request.GET.get('state', None)
+    language = request.GET.get('language', None)
+    videos = Dashboard_Video.objects.filter(partner_id=partner, village__block__district__state_id=state, language_id=language)
+    videos_list = []
+    for v in videos:
+        obj = {'title': v.title,
+               'id': v.id,
+               }
+        videos_list.append(obj)
+    print videos_list
+    resp = json.dumps({"objects": videos_list})
+    return HttpResponse(resp)

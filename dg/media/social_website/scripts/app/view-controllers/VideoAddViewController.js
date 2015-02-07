@@ -52,7 +52,7 @@ define(function(require) {
             references.$stateList = $referenceBase.find('.js-statelist');
             references.$langList = $referenceBase.find('.js-langlist');
             references.dataFeed = new PracticeMappingDataFeed();
-            references.videodataFeed = new CollectionVideoDropDownDataFeed('/jcndj/djcdn/');
+            references.videodataFeed = new CollectionVideoDropDownDataFeed('api/videodropdown/');
             
             references.resumable = new Resumable({
           	  										target:'/social/api/postvideo/',
@@ -406,17 +406,6 @@ define(function(require) {
             references.$partnerList.prop("disabled", true);
             references.$stateList.prop("disabled", true);
             references.$langList.prop("disabled", true);
-            
-            if (references.$collectionUid){
-            var videos_collection = references.$videoDropDownContainer.data('videos');
-            var a;
-            for (a in videos_collection){
-                console.log(videos_collection[a]);
-                references.$vidList.val(videos_collection[a]).change();
-            }
-            
-            }
-            
         },
         
         setInputParam: function(key, value, disableCacheClearing) {

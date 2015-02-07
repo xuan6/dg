@@ -44,7 +44,7 @@
                                         <select id = "statelist" class="chosen-select js-video-criteria js-statelist">
                                         <option value='' selected='selected'>---------</option>
                                         {% for st in state%} 
-                                            <option value = "{{st}}">{{st}}</option>
+                                            <option value = "{{st.id}}">{{st.state_name}}</option>
                                         {% endfor %}                                    </select><br><br>
                                     <label class="copy hdg-bold layout-vr-tiny">Language</label>
                                         <select id = "langlist" class="chosen-select js-video-criteria js-langlist">
