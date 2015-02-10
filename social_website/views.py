@@ -73,7 +73,7 @@ def collection_view(request, partner, state, language, title, video=1):
               'video': video,
               'video_index': video_index,
               'tags': tags,
-              'related_collections': related_collections[:4], # restricting to 4 related collections for now
+              'related_collections': related_collections[:4],  # restricting to 4 related collections for now
               }
     return render_to_response('collections-view.html', context, context_instance=RequestContext(request)) 
 
@@ -99,47 +99,49 @@ def video_view(request, uid):
               'is_collection': False,
               'object': video,
               'video_list': related_videos,
-              'video' : video,
-              'video_index' : 1,
-              'tags' : tags,
-              'related_collections' : related_collections[:4], # restricting to 4 related collections for now
+              'video': video,
+              'video_index': 1,
+              'tags': tags,
+              'related_collections': related_collections[:4],   # restricting to 4 related collections for now
                }
-    return render_to_response('collections-view.html' , context, context_instance = RequestContext(request))
+    return render_to_response('collections-view.html', context, context_instance=RequestContext(request))
 
 
 def partner_view(request, partner):
     try:
-        partner = Partner.objects.get(name__iexact = partner)
+        partner = Partner.objects.get(name__iexact=partner)
     except Partner.DoesNotExist:
         return HttpResponseRedirect(reverse('connect'))
-    context= {
+    context = {
         'header': {
-            'jsController':'Profile',
-            'loggedIn':False,
-            'currentPage':'Connect',
+            'jsController': 'Profile',
+            'loggedIn': False,
+            'currentPage': 'Connect',
             },
         'partner': partner,
         }
-    return render_to_response('profile.html', context, context_instance = RequestContext(request))
+    return render_to_response('profile.html', context, context_instance=RequestContext(request))
+
 
 def search_view(request):
     searchString = request.GET.get('searchString', None)
     partner = request.GET.get('partner', None)
     title = request.GET.get('title', None)
     state = request.GET.get('state', None)
-    context= {
+    context = {
               'header': {
-                         'jsController':'Collections',
-                         'currentPage':'Discover',
-                         'loggedIn'    : False
+                         'jsController': 'Collections',
+                         'currentPage': 'Discover',
+                         'loggedIn': False
                          },
-              'searchString' : searchString,
-              'partner' : partner,
-              'title' : title,
-              'state' : state,
+              'searchString': searchString,
+              'partner': partner,
+              'title': title,
+              'state': state,
         }
     return render_to_response('collections.html', context, context_instance=RequestContext(request))
-    
+
+
 def make_sub_filter(filters, field, active_filter_list, facet_dict):
     kwargs = {}
     kwargs[field] = ''
@@ -149,8 +151,9 @@ def make_sub_filter(filters, field, active_filter_list, facet_dict):
     for obj in sorted(set(Collection.objects.exclude(**kwargs).values_list(field, flat=True))): #works same as .exclude(field = '')
         facet_count = facet_dict[obj] if facet_dict.has_key(obj) else 0
         if facet_count or facet_dict == {}:
-            filters[field]['options'].append({"title" : obj,"value" : obj, "filterActive" : obj in active_filter_list, "count" : facet_count})
+            filters[field]['options'].append({"title": obj, "value": obj, "filterActive": obj in active_filter_list, "count": facet_count})
     return filters
+
 
 @csrf_exempt
 def searchFilters(request):
@@ -166,8 +169,8 @@ def searchFilters(request):
         facet_dict = {}
         facets = ast.literal_eval(facets)
         for row in facets:
-            facet_dict[row['term']] = int(row['count']) 
-            
+            facet_dict[row['term']] = int(row['count'])
+
     language = params.getlist('filters[language][]', None)
     subcategory = params.getlist('filters[subcategory][]', None)
     category = params.getlist('filters[category][]', None)
@@ -175,7 +178,7 @@ def searchFilters(request):
     state = params.getlist('filters[state][]', None)
     topic = params.getlist('filters[topic][]', None)
     subject = params.getlist('filters[subject][]', None)
-    
+
     filters = {}
     filters['partner'] = {}
     filters['partner']['title'] = 'Partner'
@@ -183,8 +186,8 @@ def searchFilters(request):
     for obj in Partner.objects.all().order_by('name'):
         facet_count = facet_dict[obj.name] if facet_dict.has_key(obj.name) else 0
         if facet_count or facet_dict == {}:
-            filters['partner']['options'].append({"title" : obj.name,"value" : obj.name, "filterActive" : obj.name in partner, "count" : facet_count })
-        
+            filters['partner']['options'].append({"title": obj.name, "value": obj.name, "filterActive" : obj.name in partner, "count" : facet_count })
+
     filters = make_sub_filter(filters, 'category', category, facet_dict)
     filters = make_sub_filter(filters, 'subcategory', subcategory, facet_dict)
     filters = make_sub_filter(filters, 'topic', topic, facet_dict)
@@ -192,9 +195,8 @@ def searchFilters(request):
     filters = make_sub_filter(filters, 'subject', subject, facet_dict)
     filters = make_sub_filter(filters, 'language', language, facet_dict)
 
-    data = json.dumps({"categories" : filters})
+    data = json.dumps({"categories": filters})
     return HttpResponse(data)
-
 
 
 def featuredCollection(request):
@@ -211,7 +213,7 @@ def featuredCollection(request):
             if len(featured_collections) == 0:
                 featured_collections = FeaturedCollection.objects.all().order_by('-uid')
     featured_collection = featured_collections[0]
-    collection= featured_collection.collection
+    collection = featured_collection.collection
     collage_url = featured_collection.collageURL
     time = 0
     for video in collection.videos.all():
@@ -235,20 +237,19 @@ def featuredCollection(request):
     return HttpResponse(resp)
 
 
-
 def footer_view(request):
     response = urllib2.urlopen('https://graph.facebook.com/digitalgreenorg')
     data = data = json.loads(response.read())
-    footer_dict={
-        'likes':data['likes'],
+    footer_dict = {
+        'likes': data['likes'],
         }
-    context= {
+    context = {
         'header': {
-            'jsController':'Footer',
-            'loggedIn':False},
-        'footer_dict':footer_dict
+            'jsController': 'Footer',
+            'loggedIn': False},
+        'footer_dict': footer_dict
         }
-    return render_to_response('footer.html' , context,context_instance = RequestContext(request))
+    return render_to_response('footer.html', context, context_instance=RequestContext(request))
 
 
 @login_required()
@@ -264,17 +265,17 @@ def collection_edit_view(request, collection):
     language = sorted(set(language))
     partner = Partner.objects.values('name', 'uid')
     partner = sorted(partner)
-    state = video.values_list('state',flat=True)
+    state = video.values_list('state', flat=True)
     state = sorted(set(state))
     context= {
               'header': {
-                         'jsController':'CollectionAdd',
+                         'jsController': 'CollectionAdd',
                          },
               'collection': collection,
               'collection_videos': collection_videos,
               'language': language,
-              'partner' : partner,
-              'state' : state,
+              'partner': partner,
+              'state': state,
               }
     return render_to_response('collection_add.html' , context, context_instance = RequestContext(request))
 
@@ -289,7 +290,7 @@ def collection_add_view(request):
     partner = sorted(partner)
     state = video.values_list('state', flat=True)
     state = sorted(set(state))
-    context= {
+    context = {
               'header': {
                          'jsController': 'CollectionAdd',
                          },
@@ -375,10 +376,8 @@ def signup_view(request, template_name='social_website/signup.html',
             a = form.save()
             a.email = a.username
             a.save()
-            
             new_user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
             login(request, new_user)
-            
             return HttpResponseRedirect(redirect_to)
     else:
         form = signup_form(None)
@@ -405,7 +404,7 @@ def video_combine_view(request):
             video_chunk = VideoChunk.objects.get(video_file__file_identifier=file_identifier, chunk_number=chunk_number)
             return HttpResponse(status=200)
         except VideoChunk.DoesNotExist:
-            return HttpResponse(status=201) # any number other than 200 to notify client chunk exist
+            return HttpResponse(status=201)  # any number other than 200 to notify client chunk exist
     elif request.method == 'POST':
         make_entry = request.POST.get('make_entry', None)
         combine_flag = request.POST.get('combine', None)
