@@ -52,7 +52,7 @@ def combine(file_identifier):
             destination.close()
             os.remove(dg.settings.MEDIA_ROOT + '/videos/' + str(i) + video.file_name)
             #return upload(file_name)
-        video.uploaded = True
+        video.upload = True
         video.save()
         #return upload(file_identifier)
         return('abcd')

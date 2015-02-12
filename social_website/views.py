@@ -22,7 +22,7 @@ from dg.settings import PERMISSION_DENIED_URL, MEDIA_ROOT
 from elastic_search import get_related_collections, get_related_videos
 from geographies.models import State
 from programs.models import Partner as COCO_Partner
-from social_website.models import  Collection, Partner, FeaturedCollection, Video, VideoChunk, VideoData, VideoFile
+from social_website.models import  Collection, Partner, FeaturedCollection, Video, VideoChunk, VideoFile
 from social_website.utils.combine_upload import combine
 from videos.models import Practice, Language, Video as Dashboard_Video
 
@@ -429,25 +429,12 @@ def video_combine_view(request):
             return HttpResponse(res)
         elif save_flag:
             file_identifier = request.POST.get('fileidentifier', None)
-            video_title = request.POST.get('video_title', None)
-            video_desc = request.POST.get('video_desc', None)
-            date = request.POST.get('date', None)
-            partner_id = request.POST.get('partner', None)
-            state = request.POST.get('state', None)
-            language = request.POST.get('language', None)
+            video_id = request.POST.get('video_id', None)
 
-            try:
-                video_data = VideoData.objects.get(video_file__file_identifier=file_identifier)
-                video_data.video_title = video_title
-                video_data.video_desc = video_desc
-                video_data.date = date
-                video_data.partner_id = partner_id
-                video_data.state = state
-                video_data.language = language
-                video_data.save()
-            except VideoData.DoesNotExist:
-                video_data = VideoData(video_file=VideoFile.objects.get(file_identifier=file_identifier), video_title=video_title, video_desc=video_desc, date=date, state=state, partner_id=partner_id, language=language)
-                video_data.save()
+            videofile = VideoFile.objects.get(file_identifier=file_identifier)
+            videofile.coco_video_id = video_id
+            videofile.save()
+            return HttpResponse(1)
         else:
             chunk_number = request.POST.get('resumableChunkNumber')
             file_identifier = request.POST.get('resumableIdentifier')
@@ -475,7 +462,7 @@ def videodropdown(request):
     videos_list = []
     for v in videos:
         obj = {'title': v.title,
-               'id': v.id,
+               'uid': v.id,
                }
         videos_list.append(obj)
     print videos_list

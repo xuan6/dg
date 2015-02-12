@@ -16,24 +16,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'social_website', ['VideoChunk'])
 
-        # Adding model 'VideoData'
-        db.create_table(u'social_website_videodata', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('video_title', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('video_desc', self.gf('django.db.models.fields.TextField')()),
-            ('date', self.gf('django.db.models.fields.DateField')()),
-            ('subcategory', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
-            ('topic', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
-            ('subtopic', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
-            ('subsubtopic', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
-            ('subject', self.gf('django.db.models.fields.CharField')(max_length=500, blank=True)),
-            ('partner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['social_website.Partner'])),
-            ('language', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('state', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('video_file', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['social_website.VideoFile'])),
-        ))
-        db.send_create_signal(u'social_website', ['VideoData'])
-
         # Adding model 'VideoFile'
         db.create_table(u'social_website_videofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -41,6 +23,7 @@ class Migration(SchemaMigration):
             ('total_chunks', self.gf('django.db.models.fields.IntegerField')()),
             ('upload', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('file_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('coco_video', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['social_website.Video'], null=True, blank=True)),
         ))
         db.send_create_signal(u'social_website', ['VideoFile'])
 
@@ -48,9 +31,6 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
         # Deleting model 'VideoChunk'
         db.delete_table(u'social_website_videochunk')
-
-        # Deleting model 'VideoData'
-        db.delete_table(u'social_website_videodata')
 
         # Deleting model 'VideoFile'
         db.delete_table(u'social_website_videofile')
@@ -130,7 +110,7 @@ class Migration(SchemaMigration):
         },
         u'social_website.comment': {
             'Meta': {'object_name': 'Comment'},
-            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 10, 21, 0, 0)'}),
+            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 2, 11, 0, 0)'}),
             'isOnline': ('django.db.models.fields.BooleanField', [], {}),
             'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.Person']", 'null': 'True', 'blank': 'True'}),
             'text': ('django.db.models.fields.TextField', [], {}),
@@ -141,7 +121,7 @@ class Migration(SchemaMigration):
         u'social_website.crontimestamp': {
             'Meta': {'object_name': 'CronTimestamp'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 21, 0, 0)'}),
+            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 2, 11, 0, 0)'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         },
         u'social_website.featuredcollection': {
@@ -234,24 +214,9 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'video_file': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.VideoFile']"})
         },
-        u'social_website.videodata': {
-            'Meta': {'object_name': 'VideoData'},
-            'date': ('django.db.models.fields.DateField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'language': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'partner': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.Partner']"}),
-            'state': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'subcategory': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
-            'subject': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
-            'subsubtopic': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
-            'subtopic': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
-            'topic': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
-            'video_desc': ('django.db.models.fields.TextField', [], {}),
-            'video_file': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.VideoFile']"}),
-            'video_title': ('django.db.models.fields.CharField', [], {'max_length': '500'})
-        },
         u'social_website.videofile': {
             'Meta': {'object_name': 'VideoFile'},
+            'coco_video': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.Video']", 'null': 'True', 'blank': 'True'}),
             'file_identifier': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '200'}),
             'file_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),

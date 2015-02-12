@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 
+from videos.models import Video
 from post_save_funcs import increase_online_video_like, update_stats, video_add_activity, collection_add_activity, video_collection_activity
 
 
@@ -34,7 +35,8 @@ class Partner(models.Model):
     def increase_likes(self):
         self.likes += 1
         self.save()
-    
+
+
 class Video(models.Model):
     uid = models.AutoField(primary_key=True)
     coco_id = models.CharField(max_length=20)
@@ -67,6 +69,7 @@ class Video(models.Model):
                        args=[str(self.uid)])
 post_save.connect(video_add_activity, sender=Video)
 
+
 class Person(models.Model):
     uid = models.AutoField(primary_key=True)
     coco_id = models.CharField(max_length=20)
@@ -74,9 +77,10 @@ class Person(models.Model):
     thumbnailURL = models.URLField(max_length=100)
     partner = models.ForeignKey(Partner)
 
-#===============================================================================
+
+#==============================================================================
 # Updated from COCO
-#===============================================================================
+#==============================================================================
 class PersonVideoRecord(models.Model):
     uid = models.AutoField(primary_key=True)
     personID = models.CharField(max_length=20)
@@ -84,16 +88,17 @@ class PersonVideoRecord(models.Model):
     views = models.PositiveSmallIntegerField(default=0)
     like = models.BooleanField(default=False)
     adopted = models.PositiveSmallIntegerField(default=0)
-    
-#===============================================================================
+
+
+#==============================================================================
 # Website Models
-#===============================================================================
+#==============================================================================
 class Collection(models.Model):
-    uid = models.AutoField(primary_key = True)
+    uid = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     thumbnailURL = models.URLField(max_length=200)
     state = models.CharField(max_length=100)
-    partner = models.ForeignKey(Partner) #,related_name='partner_collections')
+    partner = models.ForeignKey(Partner)
     language = models.CharField(max_length=20)
     videos = models.ManyToManyField(Video, through='VideoinCollection')
     category = models.CharField(max_length=500, blank=True)
@@ -104,17 +109,22 @@ class Collection(models.Model):
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     adoptions = models.IntegerField(default=0)
+
     def __unicode__(self):
         return ("%s (%s, %s, %s)" % (self.title, str(self.partner.name), self.state, self.language))
+
     def get_absolute_url(self):
         return reverse('collection_page', 
                        args=[str(self.partner.name), str(self.state), str(self.language), str(self.title)])
+
     def get_absolute_url_for_video(self, video_index = 1):
         return reverse('collection_video_page', 
                        args=[str(self.partner.name), str(self.state), str(self.language), str(self.title), str(video_index)])
+
     def increase_likes(self):
         self.likes += 1
         self.save()
+
     class Meta:
         unique_together = ("title", "partner", 'state', 'language')
 post_save.connect(collection_add_activity, sender=Collection)
@@ -139,10 +149,12 @@ class FeaturedCollection(models.Model):
     show_on_homepage = models.BooleanField(default=True)
     show_on_language_selection = models.BooleanField(default=True)
 
+
 class ImageSpec(models.Model):
-    imageURL = models.URLField(max_length=400) 
+    imageURL = models.URLField(max_length=400)
     altString = models.CharField(max_length=200)
     imageLinkURL = models.URLField(max_length=400)
+
 
 class Activity(models.Model):
     uid = models.AutoField(primary_key=True)
@@ -159,6 +171,7 @@ class Activity(models.Model):
     newsFeed = models.BooleanField()
     type = models.PositiveSmallIntegerField()
     titleURL = models.URLField(max_length=400)
+
 
 class Milestone(models.Model):
     uid = models.AutoField(primary_key=True)
@@ -178,10 +191,11 @@ class Comment(models.Model):
     person = models.ForeignKey(Person, null=True, blank=True)
     user = models.ForeignKey(User, null=True, blank=True)
 
+
 class VideoLike(models.Model):
     video = models.ForeignKey(Video)
     user = models.ForeignKey(User)
-post_save.connect(increase_online_video_like, sender = VideoLike)
+post_save.connect(increase_online_video_like, sender=VideoLike)
 
 
 class VideoFile(models.Model):
@@ -189,27 +203,14 @@ class VideoFile(models.Model):
     total_chunks = models.IntegerField()
     upload = models.BooleanField(default=False)
     file_name = models.CharField(max_length=100)
+    coco_video = models.ForeignKey(Video, null=True, blank=True)
+
 
 class VideoChunk(models.Model):
     video_file = models.ForeignKey(VideoFile)
     chunk_number = models.IntegerField()
 
 
-class VideoData(models.Model):
-    video_title = models.CharField(max_length=500)
-    video_desc = models.TextField()
-    date = models.DateField()
-    subcategory = models.CharField(max_length=500, blank=True)
-    topic = models.CharField(max_length=500, blank=True)
-    subtopic = models.CharField(max_length=500, blank=True)
-    subsubtopic = models.CharField(max_length=500, blank=True)
-    subject = models.CharField(max_length=500, blank=True)
-    partner = models.ForeignKey(Partner)
-    language = models.CharField(max_length=20)
-    state = models.CharField(max_length=100)
-    video_file = models.ForeignKey(VideoFile)
-
-
 class CronTimestamp(models.Model):
     name = models.CharField(max_length=30)
-    last_time = models.DateTimeField(default=lambda : datetime.datetime.utcnow())
+    last_time = models.DateTimeField(default=lambda: datetime.datetime.utcnow())

@@ -22,6 +22,7 @@ define(function(require) {
     var CollectionVideoDropDownDataFeed = require('app/libs/CollectionVideoDropDownDataFeed');
     var practiceMappingTemplate = require('text!app/views/practice-mapping.html');
     var collectionVideoDropDownTemplate = require('text!app/views/collection-add-video-dropdown.html');
+    var postURL = '/social/api/postvideo/';
 
     var VideoAddController = Controller.extend({
 
@@ -55,7 +56,7 @@ define(function(require) {
             references.videodataFeed = new CollectionVideoDropDownDataFeed('api/videodropdown/');
             
             references.resumable = new Resumable({
-          	  										target:'/social/api/postvideo/',
+          	  										target: postURL,
           	  										//testChunks:false,
           	  										simultaneousUploads:4,
           	  										query:{
@@ -79,10 +80,6 @@ define(function(require) {
             
             boundFunctions.onVideoDataProcessed = this._onVideoDataProcessed.bind(this);
             references.videodataFeed.on('dataProcessed', boundFunctions.onVideoDataProcessed);
-
-            //adding another video form
-            boundFunctions.onAddMoreVideoFormClick = this._onAddMoreVideoFormClick.bind(this);
-            references.$videoAddMoreButton.on("click", boundFunctions.onAddMoreVideoFormClick);
             
             boundFunctions.onUploadVideoClick = this._onUploadVideoClick.bind(this);
             references.$uploadButton.on("click", boundFunctions.onUploadVideoClick);
@@ -330,7 +327,7 @@ define(function(require) {
         
         _onFileSuccess: function(file, message){
         	alert(message);
-        	$.post( '/social/api/postvideo/', { 
+        	$.post( postURL, { 
         		fileidentifier: file.uniqueIdentifier,
         		combine: 1})
         		
@@ -339,45 +336,44 @@ define(function(require) {
         		  });
         },
 
-        _onAddMoreVideoFormClick: function(event){
-            //event.preventDefault();
-            //event.stopPropagation();
-            this.getDropDown();
-        },
-        
         _onSaveVideoClick: function(event){
+            event.preventDefault();
         	var references = this._references
         	var video_title = $('#video_title').val();
         	var video_desc = $('#video_desc').val();
         	var state = $('#statelist').val();
         	var partner = $('#partnerlist').val();
         	var language = $('#langlist').val();
-        	var date = $('#date').val();
-            /*if (video_title == "" || state == "" || partner == "" || language == "" || video_desc == "") {
-                throw new Error('ViewCollectionsController._onCommentButtonClick: Video Title is required parameter');
-            }*/
+        	var video = references.$vidList.val();
         	
-        	$.post( '/social/api/postvideo/', { 
-        		fileidentifier: this._references.file.uniqueIdentifier,
-        		save: 1,
-        		video_title: video_title,
-        		video_desc: video_desc,
-        		state: state,
-        		partner: partner,
-        		language: language,
-        		date: date})
-        		
-        		.done(function( data ) {
-        		    alert("file associated data saved");
-        		    
-        		  });
+        	if(video!=""){
+        	    $.post( postURL, { 
+                    fileidentifier: references.file.uniqueIdentifier,
+                    save: 1,
+                    video_title: video_title,
+                    video_desc: video_desc,
+                    state: state,
+                    partner: partner,
+                    language: language,
+                    video_id: video})
+                    
+                    .done(function( data ) {
+                        alert("file associated data saved");
+                        
+                      });
+        	}
+        	else{
+        	    $(".js-partner-label").notify("No Video is Chosen", {position:"left"});
+        	}
+        	
+        	
         },
         _onUploadVideoClick: function(event){
         	var references = this._references
         	
 
             //sending the first post query to make an entry
-        	$.post( '/social/api/postvideo/', { 
+        	$.post( postURL, { 
         		fileidentifier: this._references.file.uniqueIdentifier,
         		filename: this._references.file.fileName,
         		num_chunks: this._references.file.chunks.length,
