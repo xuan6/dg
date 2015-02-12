@@ -430,10 +430,16 @@ def video_combine_view(request):
         elif save_flag:
             file_identifier = request.POST.get('fileidentifier', None)
             video_id = request.POST.get('video_id', None)
+            title = request.POST.get('title', None)
+            desc = request.POST.get('desc', None)
 
             videofile = VideoFile.objects.get(file_identifier=file_identifier)
             videofile.coco_video_id = video_id
             videofile.save()
+            coco_video = Dashboard_Video.objects.get(id=video_id)
+            coco_video.title = title
+            coco_video.summary = desc
+            coco_video.save()
             return HttpResponse(1)
         else:
             chunk_number = request.POST.get('resumableChunkNumber')
@@ -458,11 +464,26 @@ def videodropdown(request):
     partner = request.GET.get('partner', None)
     state = request.GET.get('state', None)
     language = request.GET.get('language', None)
-    videos = Dashboard_Video.objects.filter(partner_id=partner, village__block__district__state_id=state, language_id=language)
+    videos = Dashboard_Video.objects.filter(partner_id=partner, village__block__district__state_id=state, language_id=language).select_related('related_practice')
     videos_list = []
+
     for v in videos:
+
+        if v.related_practice:
+            mapping_dictionary = {
+                                  'category': v.related_practice.practice_sector.name if v.related_practice.practice_sector else 'Null',
+                                  'subcategory': v.related_practice.practice_subsector.name if v.related_practice.practice_subsector else 'Null',
+                                  'topic': v.related_practice.practice_topic.name if v.related_practice.practice_topic else 'Null',
+                                  'subtopic': v.related_practice.practice_subtopic.name if v.related_practice.practice_subtopic else 'Null',
+                                  'subject': v.related_practice.practice_subject.name if v.related_practice.practice_subject else 'Null',
+                              }
+        else:
+            mapping_dictionary = "Null"
+
         obj = {'title': v.title,
                'uid': v.id,
+               'desc': v.summary,
+               'practice': mapping_dictionary,
                }
         videos_list.append(obj)
     print videos_list

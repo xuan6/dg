@@ -46,12 +46,12 @@ define(function(require) {
             references.$videoAddContainer = $referenceBase.find('.js-video-add-container');
             references.$practiceMappingContainer = $referenceBase.find('.js-collection-mapping-container');
             references.$videoDropDownContainer = $referenceBase.find('.js-collection-video-dropdown-container');
-            references.$videoAddMoreButton = $referenceBase.find('.js-add-more-videos-btn');
-            references.$uploadButton = $referenceBase.find('.js-upload-video-btn');
             references.$dropDown = $referenceBase.find('.js-video-criteria');
             references.$partnerList = $referenceBase.find('.js-partnerlist');
             references.$stateList = $referenceBase.find('.js-statelist');
             references.$langList = $referenceBase.find('.js-langlist');
+            references.$titleField = $referenceBase.find('.js-video-title');
+            references.$descField = $referenceBase.find('.js-video-desc');
             references.dataFeed = new PracticeMappingDataFeed();
             references.videodataFeed = new CollectionVideoDropDownDataFeed('api/videodropdown/');
             
@@ -81,8 +81,8 @@ define(function(require) {
             boundFunctions.onVideoDataProcessed = this._onVideoDataProcessed.bind(this);
             references.videodataFeed.on('dataProcessed', boundFunctions.onVideoDataProcessed);
             
-            boundFunctions.onUploadVideoClick = this._onUploadVideoClick.bind(this);
-            references.$uploadButton.on("click", boundFunctions.onUploadVideoClick);
+            //boundFunctions.onUploadVideoClick = this._onUploadVideoClick.bind(this);
+            //references.$uploadButton.on("click", boundFunctions.onUploadVideoClick);
             
             boundFunctions.onSaveVideoClick = this._onSaveVideoClick.bind(this);
             references.$saveButton.on("click", boundFunctions.onSaveVideoClick);
@@ -184,8 +184,8 @@ define(function(require) {
             
             references.$vidList = jQuery('.js-vidlist')
             
-            //this._boundFunctions.onVideoChosen = this._onVideoChosen.bind(this);
-            //references.$vidList.on('change', this._boundFunctions.onVideoChosen);
+            this._boundFunctions.onVideoChosen = this._onVideoChosen.bind(this);
+            references.$vidList.on('change', this._boundFunctions.onVideoChosen);
             
             this.initSelect2();
         },
@@ -338,24 +338,32 @@ define(function(require) {
 
         _onSaveVideoClick: function(event){
             event.preventDefault();
-        	var references = this._references
-        	var video_title = $('#video_title').val();
-        	var video_desc = $('#video_desc').val();
-        	var state = $('#statelist').val();
-        	var partner = $('#partnerlist').val();
-        	var language = $('#langlist').val();
+        	var references = this._references;
+        	var video_title = references.$titleField.val();
+        	var video_desc = references.$descField.val();
+        	var state = references.$stateList.val();
+        	var partner = references.$partnerList.val();
+        	var language = references.$langList.val();
         	var video = references.$vidList.val();
+        	var category = references.$catList.val();
+        	var sub_category = references.$subCatList.val();
+        	var topic = references.$topicList.val();
+            var sub_topic = references.$subTopicList.val();
+            var subject = references.$subjectList.val();
         	
         	if(video!=""){
         	    $.post( postURL, { 
                     fileidentifier: references.file.uniqueIdentifier,
                     save: 1,
-                    video_title: video_title,
-                    video_desc: video_desc,
-                    state: state,
-                    partner: partner,
-                    language: language,
-                    video_id: video})
+                    title: video_title,
+                    desc: video_desc,
+                    video_id: video,
+                    category: category,
+                    sub_category: sub_category,
+                    topic: topic, 
+                    sub_topic: sub_topic, 
+                    subject: subject
+        	    })
                     
                     .done(function( data ) {
                         alert("file associated data saved");
@@ -402,6 +410,47 @@ define(function(require) {
             references.$partnerList.prop("disabled", true);
             references.$stateList.prop("disabled", true);
             references.$langList.prop("disabled", true);
+        },
+        
+        _onVideoChosen: function(){
+            var references = this._references;
+            var vid = references.$vidList.val();
+            var vidarray = this._references.videoArray;
+            var title;
+            var desc;
+            var practice;
+            for (var i=0; i<vidarray.length; i++)
+            {
+                if (vidarray[i].uid == vid){
+                    title = vidarray[i].title;
+                    desc = vidarray[i].desc;
+                    practice = vidarray[i].practice;
+                }
+            }
+            
+            references.$titleField.val(title);
+            references.$descField.val(desc);
+            
+            references.$titleField.prop("disabled", false);
+            references.$descField.prop("disabled", false);
+            
+            references.$catList.val("");
+            references.$subCatList.find('option:not(:first)').remove();
+            references.$topicList.find('option:not(:first)').remove();
+            references.$subTopicList.find('option:not(:first)').remove();
+            references.$subjectList.find('option:not(:first)').remove();
+            this.initSelect2();
+            
+            if (practice != "Null"){
+                references.$catList.val(practice.category).change();
+                references.$subCatList.val(practice.subcategory).change();
+                references.$topicList.val(practice.topic).change();
+                references.$subTopicList.val(practice.subtopic);
+                references.$subjectList.val(practice.subject);
+            }
+            
+            
+            
         },
         
         setInputParam: function(key, value, disableCacheClearing) {
