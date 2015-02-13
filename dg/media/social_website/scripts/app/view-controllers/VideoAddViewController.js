@@ -333,6 +333,8 @@ define(function(require) {
         		
         		.done(function( data ) {
         		    alert(data);
+        		    $('#progressbar').hide();
+                    $('#video-btns').hide();
         		  });
         },
 
@@ -390,6 +392,9 @@ define(function(require) {
         		.done(function( data ) {
         		    if (data==1){
         		    	alert("File with this name already uploaded")
+        		    	$("#progress-percent").text("100%")
+        		    	$('#progressbar').hide();
+                        $('#video-btns').hide();
         		    }
         		    else{
         		    	references.resumable.upload();
