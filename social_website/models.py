@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 
-from videos.models import Video
+from videos.models import Video as Dashboard_Video
 from post_save_funcs import increase_online_video_like, update_stats, video_add_activity, collection_add_activity, video_collection_activity
 
 
@@ -203,7 +203,7 @@ class VideoFile(models.Model):
     total_chunks = models.IntegerField()
     upload = models.BooleanField(default=False)
     file_name = models.CharField(max_length=100)
-    coco_video = models.ForeignKey(Video, null=True, blank=True)
+    coco_video = models.ForeignKey(Dashboard_Video, null=True, blank=True)
 
 
 class VideoChunk(models.Model):

@@ -358,11 +358,11 @@ define(function(require) {
                     title: video_title,
                     desc: video_desc,
                     video_id: video,
-                    category: category,
-                    sub_category: sub_category,
-                    topic: topic, 
-                    sub_topic: sub_topic, 
-                    subject: subject
+                    category: category.trim(),
+                    sub_category: sub_category.trim(),
+                    topic: topic.trim(), 
+                    sub_topic: sub_topic.trim(), 
+                    subject: subject.trim()
         	    })
                     
                     .done(function( data ) {

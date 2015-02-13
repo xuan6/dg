@@ -432,13 +432,25 @@ def video_combine_view(request):
             video_id = request.POST.get('video_id', None)
             title = request.POST.get('title', None)
             desc = request.POST.get('desc', None)
+            category = request.POST.get('category', None)
+            sub_category = request.POST.get('sub_category', None)
+            topic = request.POST.get('topic', None)
+            sub_topic = request.POST.get('sub_topic', None)
+            subject = request.POST.get('subject', None)
 
+            category = category if category != '' else None
+            sub_category = sub_category if sub_category != '' else None
+            topic = topic if topic != '' else None
+            sub_topic = sub_topic if sub_topic != '' else None
+            subject = subject if subject != '' else None
+            practice_object = Practice.objects.filter(practice_sector__name=category, practice_subsector__name=sub_category, practice_topic__name=topic, practice_subtopic__name=sub_topic, practice_subject__name=subject)[0]
             videofile = VideoFile.objects.get(file_identifier=file_identifier)
             videofile.coco_video_id = video_id
             videofile.save()
             coco_video = Dashboard_Video.objects.get(id=video_id)
             coco_video.title = title
             coco_video.summary = desc
+            coco_video.related_practice_id = practice_object.id
             coco_video.save()
             return HttpResponse(1)
         else:
@@ -464,7 +476,7 @@ def videodropdown(request):
     partner = request.GET.get('partner', None)
     state = request.GET.get('state', None)
     language = request.GET.get('language', None)
-    videos = Dashboard_Video.objects.filter(partner_id=partner, village__block__district__state_id=state, language_id=language).select_related('related_practice')
+    videos = Dashboard_Video.objects.filter(youtubeid='', partner_id=partner, village__block__district__state_id=state, language_id=language).select_related('related_practice')
     videos_list = []
 
     for v in videos:
@@ -486,6 +498,5 @@ def videodropdown(request):
                'practice': mapping_dictionary,
                }
         videos_list.append(obj)
-    print videos_list
     resp = json.dumps({"objects": videos_list})
     return HttpResponse(resp)
