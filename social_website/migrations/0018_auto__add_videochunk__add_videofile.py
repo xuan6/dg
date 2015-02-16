@@ -21,6 +21,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('file_identifier', self.gf('django.db.models.fields.CharField')(unique=True, max_length=200)),
             ('total_chunks', self.gf('django.db.models.fields.IntegerField')()),
+            ('combine', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('upload', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('file_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('coco_video', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['videos.Video'], null=True, blank=True)),
@@ -243,7 +244,7 @@ class Migration(SchemaMigration):
         },
         u'social_website.comment': {
             'Meta': {'object_name': 'Comment'},
-            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 2, 13, 0, 0)'}),
+            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 2, 16, 0, 0)'}),
             'isOnline': ('django.db.models.fields.BooleanField', [], {}),
             'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.Person']", 'null': 'True', 'blank': 'True'}),
             'text': ('django.db.models.fields.TextField', [], {}),
@@ -254,7 +255,7 @@ class Migration(SchemaMigration):
         u'social_website.crontimestamp': {
             'Meta': {'object_name': 'CronTimestamp'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 2, 13, 0, 0)'}),
+            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 2, 16, 0, 0)'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         },
         u'social_website.featuredcollection': {
@@ -350,6 +351,7 @@ class Migration(SchemaMigration):
         u'social_website.videofile': {
             'Meta': {'object_name': 'VideoFile'},
             'coco_video': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['videos.Video']", 'null': 'True', 'blank': 'True'}),
+            'combine': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'file_identifier': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '200'}),
             'file_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),

@@ -2,11 +2,13 @@ import os
 import logging
 from datetime import timedelta, date, datetime
 
+import gdata.media
 import gdata.youtube.service
 from boto.s3.connection import S3Connection
 
+
 from videos.models import Video
-from dg.settings import ACCESS_KEY, SECRET_KEY, MEDIA_ROOT, YOUTUBE_SIMPLE_ACCESS
+from dg.settings import ACCESS_KEY, SECRET_KEY, MEDIA_ROOT, YOUTUBE_SIMPLE_ACCESS, YOUTUBE_DEVELOPER_KEY, YOUTUBE_AUTH_EMAIL, YOUTUBE_AUTH_PASSWORD
 from libs.image_utils import ProcessedImage
 from libs.s3_utils import add_to_s3
 
@@ -117,6 +119,43 @@ def update_video_youtubeid_s3(vid):
         if vid.duration != str(duration):
             vid.duration = str(duration)
             vid.save()
+
+
+def upload(VideoFile):
+    yt_service = gdata.youtube.service.YouTubeService()
+    yt_service.email = YOUTUBE_AUTH_EMAIL
+    yt_service.password = YOUTUBE_AUTH_PASSWORD
+    yt_service.source = 'UPLOADING'
+    yt_service.developer_key = YOUTUBE_DEVELOPER_KEY
+    yt_service.ProgrammaticLogin()
+    yt_service.ssl = True
+    my_media_group = gdata.media.Group(
+            title=gdata.media.Title(text=str(VideoFile.coco_video.title)),
+            description=gdata.media.Description(description_type='plain', text=str(VideoFile.coco_video.summary)),
+            keywords=gdata.media.Keywords(text='subject, topic'),
+            category=[gdata.media.Category(
+                                           text='Autos',
+                                           scheme='http://gdata.youtube.com/schemas/2007/categories.cat',
+                                           label='Autos')],
+            player=None
+            )
+    # create the gdata.youtube.YouTubeVideoEntry to be uploaded
+    video_entry = gdata.youtube.YouTubeVideoEntry(media=my_media_group)
+    # set the path for the video file binary
+    video_file_location = "".join([MEDIA_ROOT, '/videos/', str(VideoFile.file_name)])
+    print "uploading videos"
+    new_entry = yt_service.InsertVideoEntry(video_entry, video_file_location)
+    link = new_entry.media.player.url
+    print link
+    import urlparse
+    parsed = urlparse.urlparse(link)
+    youtube_id = urlparse.parse_qs(parsed.query)['v'][0]
+    youtube_link = link
+    print youtube_id
+    VideoFile.coco_video.youtubeid = youtube_id
+    VideoFile.coco_video.save()
+    VideoFile.upload = True
+    VideoFile.save()
 
 
 def call_youtube_update(complete=False):

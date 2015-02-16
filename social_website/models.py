@@ -201,6 +201,7 @@ post_save.connect(increase_online_video_like, sender=VideoLike)
 class VideoFile(models.Model):
     file_identifier = models.CharField(max_length=200, unique=True)
     total_chunks = models.IntegerField()
+    combine = models.BooleanField(default=False)
     upload = models.BooleanField(default=False)
     file_name = models.CharField(max_length=100)
     coco_video = models.ForeignKey(Dashboard_Video, null=True, blank=True)
