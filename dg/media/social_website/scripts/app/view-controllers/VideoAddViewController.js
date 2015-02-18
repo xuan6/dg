@@ -340,42 +340,54 @@ define(function(require) {
 
         _onSaveVideoClick: function(event){
             event.preventDefault();
-        	var references = this._references;
-        	var video_title = references.$titleField.val();
-        	var video_desc = references.$descField.val();
-        	var state = references.$stateList.val();
-        	var partner = references.$partnerList.val();
-        	var language = references.$langList.val();
-        	var video = references.$vidList.val();
-        	var category = references.$catList.val();
-        	var sub_category = references.$subCatList.val();
-        	var topic = references.$topicList.val();
-            var sub_topic = references.$subTopicList.val();
-            var subject = references.$subjectList.val();
-        	
-        	if(video!=""){
-        	    $.post( postURL, { 
-                    fileidentifier: references.file.uniqueIdentifier,
-                    save: 1,
-                    title: video_title,
-                    desc: video_desc,
-                    video_id: video,
-                    category: category.trim(),
-                    sub_category: sub_category.trim(),
-                    topic: topic.trim(), 
-                    sub_topic: sub_topic.trim(), 
-                    subject: subject.trim()
-        	    })
-                    
-                    .done(function( data ) {
-                        alert("file associated data saved");
-                        
-                      });
-        	}
-        	else{
-        	    $(".js-partner-label").notify("No Video is Chosen", {position:"left"});
-        	}
-        	
+            try{
+            	var references = this._references;
+            	var video_title = references.$titleField.val();
+            	var video_desc = references.$descField.val();
+            	var state = references.$stateList.val();
+            	var partner = references.$partnerList.val();
+            	var language = references.$langList.val();
+            	var video = references.$vidList.val();
+            	var category = references.$catList.val();
+            	var sub_category = references.$subCatList.val();
+            	var topic = references.$topicList.val();
+                var sub_topic = references.$subTopicList.val();
+                var subject = references.$subjectList.val();
+            	
+                try{
+                	if(video!=""){
+                	    $.post( postURL, { 
+                            fileidentifier: references.file.uniqueIdentifier,
+                            save: 1,
+                            title: video_title,
+                            desc: video_desc,
+                            video_id: video,
+                            category: category.trim(),
+                            sub_category: sub_category.trim(),
+                            topic: topic.trim(), 
+                            sub_topic: sub_topic.trim(), 
+                            subject: subject.trim()
+                	    })
+                            
+                            .done(function( data ) {
+                                alert("file associated data saved");
+                                
+                              });
+                	}
+                	else{
+                	    jQuery(".js-partner-label").notify("No Video is Chosen", {position:"left"});
+                	}
+                }
+                catch(err){
+                    $('html, body').animate({scrollTop:0}, 'slow');
+                    jQuery('#video-innerwrapper').notify("No video file selected for upload", {position:"top-center"});
+                }
+            }
+            catch(err){
+                $('html, body').animate({scrollTop:0}, 'slow');
+                jQuery(".js-partner-label").notify("Combination of Partner, State and Language not choosen", {position:"left"});
+            }
+            
         	
         },
         _onUploadVideoClick: function(event){
