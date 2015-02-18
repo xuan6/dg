@@ -301,8 +301,8 @@ def collection_add_view(request):
     return render_to_response('collection_add.html', context, context_instance=RequestContext(request))
 
 
-#@login_required()
-#@user_passes_test(lambda u: u.groups.filter(name='Collection Czars').count() > 0, login_url=PERMISSION_DENIED_URL)
+@login_required()
+@user_passes_test(lambda u: u.groups.filter(name='Collection Czars').count() > 0, login_url=PERMISSION_DENIED_URL)
 def video_add_view(request):
     language = Language.objects.values('language_name', 'id')
     language = sorted(language, key=lambda k: k['language_name'])
