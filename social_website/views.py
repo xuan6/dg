@@ -1,6 +1,7 @@
 import ast
 import datetime
 import json
+import random
 import urllib2
 
 from django import forms
@@ -27,6 +28,8 @@ from social_website.utils.combine_upload import combine
 from videos.models import Practice, Language, Video as Dashboard_Video
 
 
+from mezzanine.blog.models import BlogPost
+
 class CustomUserCreationForm(UserCreationForm):
     username = forms.EmailField(label=("Username"), help_text=("Enter Email Address"))
 
@@ -34,16 +37,18 @@ class CustomUserCreationForm(UserCreationForm):
 def social_home(request):
     language = Collection.objects.exclude(language=None).values_list('language', flat=True) # only using those languages that have collections 
     language = sorted(set(language))
-    context = {
+    blog = BlogPost.objects.all()[:3]
+    context= {
         'header': {
-            'jsController': 'Home',
-            'currentPage': 'Home',
-            'loggedIn': False
+            'jsController':'Home',
+            'currentPage':'Home',
+            'loggedIn':False,
+            'random':random.randint(0, 1),
              },
-        'language': language,
-        }
-    return render_to_response('home.html', context, context_instance=RequestContext(request))
-
+        'language':language,
+        'blog_posts':blog,
+                }
+    return render_to_response('home.html', context, context_instance = RequestContext(request))
 
 def collection_view(request, partner, state, language, title, video=1):
     try:
@@ -128,16 +133,26 @@ def search_view(request):
     partner = request.GET.get('partner', None)
     title = request.GET.get('title', None)
     state = request.GET.get('state', None)
-    context = {
+    language = request.GET.get('language', None)
+    category = request.GET.get('category', None)
+    subcategory = request.GET.get('subcategory', None)
+    topic = request.GET.get('topic', None)
+    subject = request.GET.get('subject', None)
+    context= {
               'header': {
                          'jsController': 'Collections',
                          'currentPage': 'Discover',
                          'loggedIn': False
                          },
-              'searchString': searchString,
-              'partner': partner,
-              'title': title,
-              'state': state,
+              'searchString' : searchString,
+              'partner' : partner,
+              'title' : title,
+              'state' : state,
+              'language' : language,
+              'category' : category,
+              'subcategory' : subcategory,
+              'topic' : topic,
+              'subject': subject,
         }
     return render_to_response('collections.html', context, context_instance=RequestContext(request))
 
