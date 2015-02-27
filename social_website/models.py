@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 
+from coco.base_models import CocoModel
 from videos.models import Video as Dashboard_Video
 from post_save_funcs import increase_online_video_like, update_stats, video_add_activity, collection_add_activity, video_collection_activity
 
@@ -198,7 +199,7 @@ class VideoLike(models.Model):
 post_save.connect(increase_online_video_like, sender=VideoLike)
 
 
-class VideoFile(models.Model):
+class VideoFile(CocoModel):
     file_identifier = models.CharField(max_length=200, unique=True)
     total_chunks = models.IntegerField()
     combine = models.BooleanField(default=False)

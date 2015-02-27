@@ -19,6 +19,10 @@ class Migration(SchemaMigration):
         # Adding model 'VideoFile'
         db.create_table(u'social_website_videofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user_created', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'social_website_videofile_created', null=True, to=orm['auth.User'])),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('user_modified', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'social_website_videofile_related_modified', null=True, to=orm['auth.User'])),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
             ('file_identifier', self.gf('django.db.models.fields.CharField')(unique=True, max_length=200)),
             ('total_chunks', self.gf('django.db.models.fields.IntegerField')()),
             ('combine', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -244,7 +248,7 @@ class Migration(SchemaMigration):
         },
         u'social_website.comment': {
             'Meta': {'object_name': 'Comment'},
-            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 2, 16, 0, 0)'}),
+            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 2, 27, 0, 0)'}),
             'isOnline': ('django.db.models.fields.BooleanField', [], {}),
             'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.Person']", 'null': 'True', 'blank': 'True'}),
             'text': ('django.db.models.fields.TextField', [], {}),
@@ -255,7 +259,7 @@ class Migration(SchemaMigration):
         u'social_website.crontimestamp': {
             'Meta': {'object_name': 'CronTimestamp'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 2, 16, 0, 0)'}),
+            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 2, 27, 0, 0)'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         },
         u'social_website.featuredcollection': {
@@ -355,8 +359,12 @@ class Migration(SchemaMigration):
             'file_identifier': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '200'}),
             'file_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
             'total_chunks': ('django.db.models.fields.IntegerField', [], {}),
-            'upload': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
+            'upload': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'social_website_videofile_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'social_website_videofile_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"})
         },
         u'social_website.videoincollection': {
             'Meta': {'ordering': "['order']", 'object_name': 'VideoinCollection'},

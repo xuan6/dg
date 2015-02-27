@@ -435,7 +435,7 @@ def video_combine_view(request):
                 else:
                     return HttpResponse(0)
             except VideoFile.DoesNotExist:
-                video = VideoFile(file_identifier=file_identifier, total_chunks=total_chunks, file_name=file_name)
+                video = VideoFile(file_identifier=file_identifier, total_chunks=total_chunks, file_name=file_name, user_created=request.user)
                 video.save()
                 return HttpResponse(0)
         elif combine_flag:
@@ -458,6 +458,7 @@ def video_combine_view(request):
             topic = topic if topic != '' else None
             sub_topic = sub_topic if sub_topic != '' else None
             subject = subject if subject != '' else None
+            print category, sub_category, topic, sub_topic, subject
             practice_object = Practice.objects.filter(practice_sector__name=category, practice_subsector__name=sub_category, practice_topic__name=topic, practice_subtopic__name=sub_topic, practice_subject__name=subject)[0]
             videofile = VideoFile.objects.get(file_identifier=file_identifier)
             videofile.coco_video_id = video_id
@@ -506,7 +507,8 @@ def videodropdown(request):
                               }
         else:
             mapping_dictionary = "Null"
-
+            
+        print mapping_dictionary
         obj = {'title': v.title,
                'uid': v.id,
                'desc': v.summary,

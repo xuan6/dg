@@ -462,8 +462,8 @@ define(function(require) {
                 references.$catList.val(practice.category).change();
                 references.$subCatList.val(practice.subcategory).change();
                 references.$topicList.val(practice.topic).change();
-                references.$subTopicList.val(practice.subtopic);
-                references.$subjectList.val(practice.subject);
+                references.$subTopicList.val(practice.subtopic).change();
+                references.$subjectList.val(practice.subject).change();
             }
             
             
