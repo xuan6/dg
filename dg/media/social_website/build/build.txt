@@ -120,6 +120,19 @@ app/view-controllers/CollectionAddViewController.js
 libs/external/jquery-ui.js
 app/controllers/CollectionAddController.js
 
+app/controllers/VideoAddController.js
+----------------
+libs/external/select2.js
+libs/external/jquery-ui.js
+libs/external/resumable.js
+app/libs/PracticeMappingDataFeed.js
+libs/external/notify.min.js
+app/libs/CollectionVideoDropDownDataFeed.js
+text!app/views/practice-mapping.html
+text!app/views/collection-add-video-dropdown.html
+app/view-controllers/VideoAddViewController.js
+app/controllers/VideoAddController.js
+
 app/controllers/DeoAnalyticsController.js
 ----------------
 libs/external/select2.js
