@@ -1,0 +1,97 @@
+                <li class="js-news-feed-item">
+                    <div class="grid layout-vr-sm">
+                        <div class="grid-col grid-size2of3">
+                            <h1 class="hdg-bold hdg-a" style="display:inline;">Video Title</h1><span><input type="text" name="title" id="video_title" class="coltitle"></span>
+                        </div>
+                    </div>
+                    <div class="media layout-vr-md">
+                        <div id="video-dropzone" class="video-wrapper dropzone-color">
+                            <!-- Implementation Note: include the youtube video id and video uid in the data tag below -->
+                            <div id="video-innerwrapper">
+                                <p class="dragText">Drag &amp; Drop Here <br><br> Or </p>
+                                <div class="browseButton-wrapper">    
+                                    <input id="addButton" type="file" class="browseButton"/>
+                                </div>
+                            </div>
+                            <div id="fileInfo" class="dragText">
+                            </div>
+                            <div id="progressbar">
+                                <div id="progressbar-inner"></div>
+                            </div>
+                            <div id="progress-percent"></div>
+                            <div id="video-btns">
+                                <span id="v-pause" class="v-btn v-btn-pause">Pause</span>
+                                <span id="v-cancel" class="v-btn v-btn-cancel">Cancel</span>
+                            </div>
+                        </div>
+                        <div class="bd">
+                            <div class="media va-dropdown">
+                                <label class="copy hdg-bold layout-vr-tiny">Partner</label>
+                                    <select id = "partnerlist" class="chosen-select" >
+                                      <option value='' selected='selected'>---------</option>
+                                      {{#partner}}
+                                      <option value = {{uid}}>{{name}}</option>
+                                      {{/partner}}
+                                    </select><br><br>
+                                <label class="copy hdg-bold layout-vr-tiny">State</label>
+                                    <select id = "statelist" class="chosen-select">
+                                      <option value='' selected='selected'>---------</option>
+                                    {{#state}}
+                                      <option value = {{.}}>{{.}}</option>
+                                    {{/state}}
+                                    </select><br><br>
+                                <label class="copy hdg-bold layout-vr-tiny">Language</label>
+                                   <select id = "langlist" class="chosen-select">
+                                    <option value='' selected='selected'>---------</option>
+                                      {{#language}}
+                                      <option value = {{.}}>{{.}}</option>
+                                      {{/language}}
+                                    </select><br><br>
+                                <label class="copy hdg-bold layout-vr-tiny">Date</label> 
+                                    <input type="date" name="date" id="date">
+                            </div> <!-- End .media -->
+                        </div> <!-- End .bd -->
+                        
+                    </div> <!-- End .media -->
+                    <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm">Video Description</h2>
+                        <textarea class="desc" id="video_desc"></textarea>
+                    <div class="layout-vr-lg">
+                        <h2 class="hdg-e hdg-black hdg-bold layout-vr-sm copy-margin">Practice Mapping</h2>
+                            <div class="grid-size1of5 grid-col">
+                                <label class="copy layout-vr-tiny">Category</label>
+                                <select id = "partnerlist" class="chosen-select">
+                                    <option value = "path">Agriculture</option>
+                                    <option value = "pradan">Health</option>
+                                </select>
+                            </div>
+                            <div class="grid-size1of5 grid-col">
+                                <label class="copy layout-vr-tiny">Subcategory</label>
+                                <select id = "statelist" class="chosen-select">
+                                    <option value = "mp">Land Management</option>
+                                    <option value = "ap">Food Management</option>
+                                </select>
+                            </div>
+                            <div class="grid-size1of5 grid-col">
+                                <label class="copy layout-vr-tiny">Topic</label>
+                                <select id = "langlist" class="chosen-select">
+                                    <option value = "english">Sowing</option>
+                                    <option value = "hindi">Hindi</option>
+                                </select>
+                            </div>
+                            <div class="grid-size1of5 grid-col">
+                                <label class="copy layout-vr-tiny">Subtopic</label>
+                                <select id = "addvideo" class="chosen-select">
+                                    <option value = "1">Line sowing</option>
+                                    <option value = "2">Dibbling</option>
+                                </select>
+                            </div>
+                            <div class="grid-size1of5 grid-col">
+                                <label class="copy layout-vr-tiny">Subsubtopic</label>
+                                <select id = "addvideo" class="chosen-select">
+                                    <option value = "1">Papaya</option>
+                                    <option value = "2">Wheat</option>
+                                </select>
+                            </div>
+                    </div>
+                    
+                </li>
