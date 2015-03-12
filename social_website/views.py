@@ -25,7 +25,7 @@ from geographies.models import State
 from programs.models import Partner as COCO_Partner
 from social_website.models import  Collection, Partner, FeaturedCollection, Video, VideoChunk, VideoFile
 from social_website.utils.combine_upload import combine
-from videos.models import Practice, Language, Video as Dashboard_Video
+from videos.models import Practice, PracticeSector, PracticeSubSector, PracticeTopic, PracticeSubtopic, PracticeSubject, Language, Video as Dashboard_Video
 
 
 from mezzanine.blog.models import BlogPost
@@ -430,7 +430,7 @@ def video_combine_view(request):
             file_name = request.POST.get('filename', None)
             try:
                 video = VideoFile.objects.get(file_identifier=file_identifier)
-                if video.upload:
+                if video.combine:
                     return HttpResponse(1)
                 else:
                     return HttpResponse(0)
@@ -458,8 +458,19 @@ def video_combine_view(request):
             topic = topic if topic != '' else None
             sub_topic = sub_topic if sub_topic != '' else None
             subject = subject if subject != '' else None
-            print category, sub_category, topic, sub_topic, subject
-            practice_object = Practice.objects.filter(practice_sector__name=category, practice_subsector__name=sub_category, practice_topic__name=topic, practice_subtopic__name=sub_topic, practice_subject__name=subject)[0]
+
+            category_obj = PracticeSector.objects.get(name=category) if category else None
+            sub_category_obj = PracticeSubSector.objects.get(name=sub_category) if sub_category else None
+            topic_obj = PracticeTopic.objects.get(name=topic) if topic else None
+            sub_topic_obj = PracticeSubtopic.objects.get(name=sub_topic) if sub_topic else None
+            subject_obj = PracticeSubject.objects.get(name=subject) if subject else None
+            practice_objects = Practice.objects.filter(practice_sector__name=category, practice_subsector__name=sub_category, practice_topic__name=topic, practice_subtopic__name=sub_topic, practice_subject__name=subject)
+            if category:
+                if practice_objects:
+                    practice_object = practice_objects[0]
+                else:
+                    practice_object = Practice(practice_sector=category_obj, practice_subsector=sub_category_obj, practice_topic=topic_obj, practice_subtopic=sub_topic_obj, practice_subject=subject_obj)
+                    practice_object.save()
             videofile = VideoFile.objects.get(file_identifier=file_identifier)
             videofile.coco_video_id = video_id
             videofile.save()
