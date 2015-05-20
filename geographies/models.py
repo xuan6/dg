@@ -29,6 +29,7 @@ class State(CocoModel):
     state_name = models.CharField(max_length=100, unique='True')
     country = models.ForeignKey(Country)
     start_date = models.DateField(null=True, blank=True)
+    census_code = models.CharField(max_length=10, null=True, blank=True)
 
     def __unicode__(self):
         return self.state_name
@@ -40,6 +41,7 @@ class District(CocoModel):
     district_name = models.CharField(max_length=100, unique='True')
     start_date = models.DateField(null=True, blank=True)
     state = models.ForeignKey(State)
+    census_code = models.CharField(max_length=10, null=True, blank=True)
     latitude = models.DecimalField(max_digits=31, decimal_places=28, null=True, blank=True,
                                    validators=[MaxValueValidator(90), MinValueValidator(-90)])
     longitude = models.DecimalField(max_digits=32, decimal_places=28, null=True, blank=True,
@@ -67,6 +69,7 @@ class Block(CocoModel):
     block_name = models.CharField(max_length=100, unique='True')
     start_date = models.DateField(null=True, blank=True)
     district = models.ForeignKey(District)
+    census_code = models.CharField(max_length=10, null=True, blank=True)
 
     def __unicode__(self):
         return self.block_name
@@ -82,6 +85,7 @@ class Village(CocoModel):
     grade = models.CharField(max_length=1, null=True, blank=True)
     objects = models.Manager() #The default manager
     farmerbook_village_objects = VillageFarmerbookManager() #The manager for farmerbook
+    census_code = models.CharField(max_length=20, null=True, blank=True)
 
     class Meta:
         unique_together = ("village_name","block")
