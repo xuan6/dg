@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     url(r'^about/tools/$', DirectTemplateView.as_view(template_name='tools.html', extra_context={'header': {'currentPage':'Tools'}}), name='tools'),
     url(r'^careers/$', job_view, name='career'),
     url(r'^career/$', job_view),
+	url(r'^subtitle/$', DirectTemplateView.as_view(template_name='subtitle.html'),name='subtitle'),
     # TODO: Connect needs to be fixed.
     url(r'^connect/(?P<partner>.+)/$', partner_view, name='partner'),
     url(r'^connect/$', DirectTemplateView.as_view(template_name='connect.html', extra_context={'header': {'currentPage':'Connect'}}), name='connect'),
