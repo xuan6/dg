@@ -11,8 +11,21 @@ from django.views.decorators.csrf import csrf_exempt
 def coco_v2(request):
     return render(request,'dashboard.html')
 
-@csrf_exempt
 def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            auth.login(request, user)
+        else:
+            return HttpResponse("0")
+    else:
+        return HttpResponse("0")
+    return HttpResponse("1")
+
+@csrf_exempt
+def mlogin(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
