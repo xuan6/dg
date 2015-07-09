@@ -5,10 +5,13 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, render
 from coco.models import FullDownloadStats
 from models import CocoUser
+from tastypie.models import ApiKey
+from django.views.decorators.csrf import csrf_exempt
 
 def coco_v2(request):
     return render(request,'dashboard.html')
-    
+
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -20,7 +23,7 @@ def login(request):
             return HttpResponse("0")
     else:
         return HttpResponse("0")
-    return HttpResponse("1")
+    return HttpResponse(ApiKey.objects.filter(user_id=user.id).values('key'))
     
 def logout(request):
     auth.logout(request)    
