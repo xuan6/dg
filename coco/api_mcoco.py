@@ -247,17 +247,7 @@ class BaseResource(ModelResource):
         bundle.obj.user_created_id = bundle.request.user.id
         return self.save(bundle)
 
-#class UserResource(ModelResource):
-#    class Meta:
-#        max_limit=None
-#        queryset = User.objects.all()
-#        allowed_methods = ['get', 'post']
-#        resource_name='user'
-#        excludes=['email','password']
-#        authentication = ApiKeyAuthentication()
-#        authorization = Authorization()
-
-class PartnerResource(ModelResource):    
+class PartnerResource(ModelResource):
     class Meta:
         max_limit = None
         queryset = Partner.objects.all()
@@ -268,8 +258,8 @@ class PartnerResource(ModelResource):
 class MediatorResource(BaseResource):
     mediator_label = fields.CharField()
     assigned_villages = fields.ListField()
-    partner = fields.ForeignKey('coco.mcocoapi.PartnerResource', 'partner')
-    district = fields.ForeignKey('coco.mcocoapi.DistrictResource', 'district', null=True)
+    partner = fields.ForeignKey('coco.api_mcoco.PartnerResource', 'partner')
+    district = fields.ForeignKey('coco.api_mcoco.DistrictResource', 'district', null=True)
     class Meta:
         max_limit = None
         authentication = ApiKeyAuthentication()
@@ -356,8 +346,8 @@ class VideoResource(BaseResource):
     village = fields.ForeignKey(VillageResource, 'village')
     cameraoperator = fields.ForeignKey(MediatorResource, 'cameraoperator')
     facilitator = fields.ForeignKey(MediatorResource, 'facilitator')
-    farmers_shown = fields.ToManyField('coco.mcocoapi.PersonResource', 'farmers_shown')
-    language = fields.ForeignKey('coco.mcocoapi.LanguageResource', 'language')
+    farmers_shown = fields.ToManyField('coco.api_mcoco.PersonResource', 'farmers_shown')
+    language = fields.ForeignKey('coco.api_mcoco.LanguageResource', 'language')
     partner = fields.ForeignKey(PartnerResource, 'partner')
     
     dehydrate_village = partial(foreign_key_to_id, field_name='village', sub_field_names=['id','village_name'])
@@ -438,8 +428,8 @@ class ScreeningResource(BaseResource):
     village = fields.ForeignKey(VillageResource, 'village')
     animator = fields.ForeignKey(MediatorResource, 'animator')
     partner = fields.ForeignKey(PartnerResource, 'partner')
-    videoes_screened = fields.ToManyField('coco.mcocoapi.VideoResource', 'videoes_screened', related_name='screening')
-    farmer_groups_targeted = fields.ToManyField('coco.mcocoapi.PersonGroupResource', 'farmer_groups_targeted', related_name='screening')
+    videoes_screened = fields.ToManyField('coco.api_mcoco.VideoResource', 'videoes_screened', related_name='screening')
+    farmer_groups_targeted = fields.ToManyField('coco.api_mcoco.PersonGroupResource', 'farmer_groups_targeted', related_name='screening')
     farmers_attendance = fields.ListField()
     dehydrate_village = partial(foreign_key_to_id, field_name='village',sub_field_names=['id','village_name'])
     dehydrate_animator = partial(foreign_key_to_id, field_name='animator',sub_field_names=['id','name'])
