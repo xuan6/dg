@@ -641,21 +641,12 @@ a {
 .grid-pad-rt-tiny {
 	padding-right: 7px;
 }
-/* Steps in subtitle*/
 
-#navBar
-{
-    width: 75%;
-    height: 100px;
-    margin-top: 2%;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 10px;
-    border-color: #008040;
-    overflow: scroll;
-}
-
-/*Steps end*/
+#contributors-image{
+border-radius:50% 50% 50% 50%;
+ height:100px;
+ width:100px;
+ }
 
 .grid-pad-rt-sm {
     padding-right: 15px;
@@ -756,40 +747,6 @@ a {
 .hdg-c {
     font-size: 24px;
 }
-
-		.menu{
-		
-		height: 50px;
-		width: 200px;	
-		border: 2px solid black;
-		border-radius:10px;
-		display:block;
-		}
-		
-		.steps{
-		
-		height: 120px;
-		width: 200px;	
-		border: 2px solid black;
-		border-radius: 15px;
-		display:block;
-		}
-		
-		.circle{
-		height: 100px;
-		width:100px;
-		border: 2px solid black;
-		border-radius:100%;
-		display-block;
-		}
-		
-		.FAQs{
-		height:30px;
-		width:900px;
-		border:2px solid black;
-		border radius:2px;
-		display:block;
-		}
 
 /* Skipped d for use if there appears another heading size needed */
 
@@ -3937,12 +3894,3 @@ table.tableizer-table {
 				font-weight: bold;
 				border: 2px solid Black;
 				}
-
-.parts{
-height: 30px;
-	width: 180px;
-	border: 1px solid black;
-	border-radius: 2px;
-	
-
-}
