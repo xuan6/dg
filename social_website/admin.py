@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Activity, Collection, FeaturedCollection, Partner, VideoinCollection, ResourceVideo
+from models import Activity, Collection, FeaturedCollection, Partner, VideoinCollection, ResourceVideo, Subtitle
 
 class PartnerAdmin(admin.ModelAdmin):
 
@@ -15,10 +15,12 @@ class ActivityAdmin(admin.ModelAdmin):
     search_fields = ['title']
     list_filter = ['date']
 
+class SubtitleAdmin(admin.ModelAdmin):
+    list_display = ('video','language','subtitle_upload','user', 'review_status')
+    search_fields = ['video','language']
 
 class VideoCollectionInline(admin.TabularInline):
     model = VideoinCollection
-
 
 class CollectionAdmin(admin.ModelAdmin):
     fieldsets = [(None,  {'fields': ['title', 'thumbnailURL', 'state', 'partner', 'language', 'category', 'subcategory', 'topic', 'subtopic', 'subject', 'featured', 'description']

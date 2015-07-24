@@ -7,7 +7,10 @@ from django.db.models.signals import post_delete, post_save
 
 from post_save_funcs import increase_online_video_like, update_stats, video_add_activity, collection_add_activity, video_collection_activity
 
-
+SUBTITLE_REVIEW = (
+    (0, 'Pending'),
+    (1, 'Reviewed')
+)
 #===============================================================================
 # Linked to COCO
 #===============================================================================
@@ -66,6 +69,14 @@ class Video(models.Model):
         return reverse('video_page', 
                        args=[str(self.uid)])
 post_save.connect(video_add_activity, sender=Video)
+
+class Subtitle(models.Model):
+    id = models.AutoField(primary_key=True)
+    video = models.ForeignKey(Video)
+    language = models.CharField(max_length=50)
+    user = models.CharField(max_length=500, null=True, blank=True)
+    subtitle_upload = models.FileField(upload_to='subtitles')
+    review_status = models.IntegerField(max_length=1,choices=SUBTITLE_REVIEW,default=0)
 
 class Person(models.Model):
     uid = models.AutoField(primary_key=True)
