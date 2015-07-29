@@ -21,7 +21,7 @@ from django.views.decorators.csrf import csrf_exempt
 from dg.settings import PERMISSION_DENIED_URL
 
 from elastic_search import get_related_collections, get_related_videos 
-from social_website.models import  Collection, Partner, FeaturedCollection, Video, ResourceVideo
+from social_website.models import  Collection, Partner, FeaturedCollection, Video, ResourceVideo, Subtitle
 from videos.models import Practice, Video as Dashboard_Video
 
 from mezzanine.blog.models import BlogPost
@@ -62,6 +62,10 @@ def collection_view(request, partner, state, language, title, video=1):
     related_collections = get_related_collections(collection, collection.featured)
     video_list = [i.video for i in collection.videoincollection_set.all()]
     description = collection.description
+    current_video = video_list[video_index-1]
+    subtitles = Subtitle.objects.filter(video = current_video)
+    print "Subtitles"
+    print subtitles
     context= {
               'header': {
                          'jsController':'ViewCollections',
@@ -75,6 +79,7 @@ def collection_view(request, partner, state, language, title, video=1):
               'video' : video,
               'video_index' : video_index,
               'tags' : tags,
+              'subtitles': subtitles,
               'related_collections' : related_collections[:4], # restricting to 4 related collections for now
               }
     if collection.featured :

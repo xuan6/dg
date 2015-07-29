@@ -135,7 +135,12 @@
                                         <span class="label">Upload</span>
                                     </a>
                                     <a class="btn" style="margin-top:8px; width:79px; height:12px; "><div class="icon"></div>
-                                        <span class="label">Download</span>
+                                        <span class="label">Download 
+                                            {% for i in subtitles %}
+                                                {{ i.language }}
+                                            {% endfor %}
+                                        </span>
+
                                     </a>
                                 </div>
                             </div>
