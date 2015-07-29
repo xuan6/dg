@@ -70,13 +70,21 @@ class Video(models.Model):
                        args=[str(self.uid)])
 post_save.connect(video_add_activity, sender=Video)
 
+class Language(models.Model):
+    id = models.AutoField(primary_key=True)
+    alpha_code = models.CharField(unique=True, max_length=3, blank=False)
+    language_name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return "%s (%s)" % (self.language_name, self.alpha_code)
+
 class Subtitle(models.Model):
     id = models.AutoField(primary_key=True)
     video = models.ForeignKey(Video)
-    language = models.CharField(max_length=50)
+    language = models.ForeignKey(Language)
     user = models.CharField(max_length=500, null=True, blank=True)
     subtitle_upload = models.FileField(upload_to='subtitles')
-    review_status = models.IntegerField(max_length=1,choices=SUBTITLE_REVIEW,default=0)
+    review_status = models.IntegerField(max_length=1, choices=SUBTITLE_REVIEW, default=0)
 
 class Person(models.Model):
     uid = models.AutoField(primary_key=True)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Activity, Collection, FeaturedCollection, Partner, VideoinCollection, ResourceVideo, Subtitle
+from models import Activity, Collection, FeaturedCollection, Partner, VideoinCollection, ResourceVideo, Language, Subtitle
 
 class PartnerAdmin(admin.ModelAdmin):
 
@@ -14,6 +14,10 @@ class ActivityAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'textContent')
     search_fields = ['title']
     list_filter = ['date']
+
+class LanguageAdmin(admin.ModelAdmin):
+    list_display = ('alpha_code','language_name')
+    search_fields = ['alpha_code','language_name']
 
 class SubtitleAdmin(admin.ModelAdmin):
     list_display = ('video','language','subtitle_upload','user', 'review_status')

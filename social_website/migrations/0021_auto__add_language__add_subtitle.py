@@ -8,11 +8,19 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Language'
+        db.create_table(u'social_website_language', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('alpha_code', self.gf('django.db.models.fields.CharField')(unique=True, max_length=3)),
+            ('language_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+        ))
+        db.send_create_signal(u'social_website', ['Language'])
+
         # Adding model 'Subtitle'
         db.create_table(u'social_website_subtitle', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('video', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['social_website.Video'])),
-            ('language', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('language', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['social_website.Language'])),
             ('user', self.gf('django.db.models.fields.CharField')(max_length=500, null=True, blank=True)),
             ('subtitle_upload', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
             ('review_status', self.gf('django.db.models.fields.IntegerField')(default=0, max_length=1)),
@@ -21,6 +29,9 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+        # Deleting model 'Language'
+        db.delete_table(u'social_website_language')
+
         # Deleting model 'Subtitle'
         db.delete_table(u'social_website_subtitle')
 
@@ -101,7 +112,7 @@ class Migration(SchemaMigration):
         },
         u'social_website.comment': {
             'Meta': {'object_name': 'Comment'},
-            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 7, 23, 0, 0)'}),
+            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 7, 29, 0, 0)'}),
             'isOnline': ('django.db.models.fields.BooleanField', [], {}),
             'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.Person']", 'null': 'True', 'blank': 'True'}),
             'text': ('django.db.models.fields.TextField', [], {}),
@@ -112,7 +123,7 @@ class Migration(SchemaMigration):
         u'social_website.crontimestamp': {
             'Meta': {'object_name': 'CronTimestamp'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 7, 23, 0, 0)'}),
+            'last_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 7, 29, 0, 0)'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         },
         u'social_website.featuredcollection': {
@@ -129,6 +140,12 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'imageLinkURL': ('django.db.models.fields.URLField', [], {'max_length': '400'}),
             'imageURL': ('django.db.models.fields.URLField', [], {'max_length': '400'})
+        },
+        u'social_website.language': {
+            'Meta': {'object_name': 'Language'},
+            'alpha_code': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '3'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'language_name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
         u'social_website.milestone': {
             'Meta': {'object_name': 'Milestone'},
@@ -176,7 +193,7 @@ class Migration(SchemaMigration):
         },
         u'social_website.resourcevideo': {
             'Meta': {'object_name': 'ResourceVideo'},
-            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 7, 23, 0, 0)'}),
+            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2015, 7, 29, 0, 0)'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'uid': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'videoTag': ('django.db.models.fields.CharField', [], {'default': "'f'", 'max_length': '2'}),
@@ -185,7 +202,7 @@ class Migration(SchemaMigration):
         u'social_website.subtitle': {
             'Meta': {'object_name': 'Subtitle'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'language': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'language': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['social_website.Language']"}),
             'review_status': ('django.db.models.fields.IntegerField', [], {'default': '0', 'max_length': '1'}),
             'subtitle_upload': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'user': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),

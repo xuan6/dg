@@ -63,9 +63,7 @@ def collection_view(request, partner, state, language, title, video=1):
     video_list = [i.video for i in collection.videoincollection_set.all()]
     description = collection.description
     current_video = video_list[video_index-1]
-    subtitles = Subtitle.objects.filter(video = current_video)
-    print "Subtitles"
-    print subtitles
+    subtitles = Subtitle.objects.filter(video = current_video, review_status = 1)
     context= {
               'header': {
                          'jsController':'ViewCollections',

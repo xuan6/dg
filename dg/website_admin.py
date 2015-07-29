@@ -3,7 +3,7 @@ from django.contrib.admin.sites import AdminSite
 from communications.admin import Article, ArticleAdmin
 from human_resources.admin import GeographyAdmin, JobAdmin, MemberAdmin, PlaceAdmin
 from human_resources.models import Geography, Job, Member, Place
-from social_website.admin import Activity, ActivityAdmin, Collection, CollectionAdmin, FeaturedCollection, FeaturedCollectionAdmin, Partner, PartnerAdmin, ResourceVideo, ResourceVideoAdmin, Subtitle, SubtitleAdmin
+from social_website.admin import Activity, ActivityAdmin, Collection, CollectionAdmin, FeaturedCollection, FeaturedCollectionAdmin, Partner, PartnerAdmin, ResourceVideo, ResourceVideoAdmin, Language, LanguageAdmin, Subtitle, SubtitleAdmin
 
 
 class WebsiteAdmin(AdminSite):
@@ -24,3 +24,4 @@ website_admin.register(Partner, PartnerAdmin)
 website_admin.register(Place, PlaceAdmin)
 website_admin.register(ResourceVideo, ResourceVideoAdmin)
 website_admin.register(Subtitle, SubtitleAdmin)
+website_admin.register(Language, LanguageAdmin)

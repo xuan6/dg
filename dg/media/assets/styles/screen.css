@@ -1188,8 +1188,6 @@ border-radius:50% 50% 50% 50%;
     color: #ffffff;
 }
 
-
-
 /* ---------------------------------------------------------------------
 Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 ------------------------------------------------------------------------ */
@@ -1474,6 +1472,7 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 .like-btn,
 .share-btn {
     position: relative;
+    padding: 0;
     width: 115px;
     cursor: pointer;
 }
@@ -1508,7 +1507,7 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 .share-btn {
     position: absolute;
     padding: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .share-btn.alt {
@@ -1574,7 +1573,6 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
     background: url(../images/icon-sprite.png) no-repeat 0 0;
 }
 
-
 .share-btn .label {
     display: block;
     padding: 5px 8px 4px 24px;
@@ -1605,6 +1603,144 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 }
 
 .sharethis-wrapper > div {
+    padding: 8px 0;
+    border-top: 1px solid #dbdad5;
+}
+
+.upload-btn {
+    position: relative;
+    width: 115px;
+    cursor: pointer;
+}
+
+.upload-btn {
+    padding: 0;
+}
+
+.upload-btn .label {
+    display: block;
+    padding: 5px 8px 4px 24px;
+}
+
+.upload-btn .icon {
+    width: 13px;
+    height: 11px;
+    top: 9px;
+    left: 19px;
+    background: url(../images/icon-sprite.png) no-repeat 0 -51px;
+}
+
+.upload-btn:hover .icon {
+    color: #ffffff;
+    background-position: -87px -112px;
+}
+
+.download-btn {
+    position: relative;
+    padding: 0;
+    width: 115px;
+    cursor: pointer;
+}
+
+.download-btn {
+    position: absolute;
+    padding: 0;
+    z-index: 1;
+}
+
+.download-btn.alt {
+    width: auto;
+
+    padding-left: 12px;
+
+    font: 14px/1.4 Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    text-transform: none;
+    background: transparent;
+    border: none;
+    border-left: 1px solid #a09f9e;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.download-btn.alt .icon {
+    left: 12px;
+    top: 3px;
+}
+
+.download-btn.alt .label {
+    padding: 0 0 0 20px;
+}
+
+.download-btn.alt:hover {
+    width: 115px;
+
+    margin-left: -15px;
+    margin-top: -6px;
+    padding-left: 0;
+    padding-bottom: 0;
+
+    color: #676767;
+    background-color: #ffffff;
+
+    border: 1px solid #dbdad5;
+
+    -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.download-btn.alt:hover .label {
+    padding: 5px 8px 4px 24px;
+
+}
+
+.download-btn.alt:hover .icon {
+    width: 13px;
+    height: 13px;
+    top: 8px;
+    left: 27px;
+    background: url(../images/icon-sprite.png) no-repeat 0 0;
+}
+
+.download-btn .label {
+    display: block;
+    padding: 5px 8px 4px 24px;
+}
+
+.download-btn .icon {
+    width: 13px;
+    height: 13px;
+    top: 7px;
+    left: 15px;
+    background: url(../images/icon-sprite.png) no-repeat 0 0;
+}
+
+.download-btn:hover {
+    padding-bottom: 0;
+    color: #047d0a;
+    background-color: #ffffff;
+}
+
+.download-btn:hover .downloadthis-wrapper {
+    display: block;
+}
+
+.downloadthis-wrapper {
+    display: none;
+    top: 100%;
+    left: 0;
+}
+
+.downloadthis-wrapper > div {
     padding: 8px 0;
     border-top: 1px solid #dbdad5;
 }
