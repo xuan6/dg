@@ -149,7 +149,15 @@
                             </div>
                             <div class="grid-col hdg-f hdg-source-reg grid-size4of5">
                                <a href="" class="js-show-more"> Show More</a>
-
+                            </div>
+                            <div class="grid-col hdg-f hdg-source-reg grid-size4of5">
+                                {%if request.user.is_authenticated %}
+                                <form action="/subtitle/upload/" method="post" enctype="multipart/form-data">
+                                    {%csrf_token%}
+                                    {{ form.as_p }}
+                                    <input type="submit" value="Submit">
+                                </form>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="grid layout-vr-sm push-top-md">

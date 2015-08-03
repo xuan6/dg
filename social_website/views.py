@@ -23,6 +23,7 @@ from dg.settings import PERMISSION_DENIED_URL
 from elastic_search import get_related_collections, get_related_videos 
 from social_website.models import  Collection, Partner, FeaturedCollection, Video, ResourceVideo, Subtitle
 from videos.models import Practice, Video as Dashboard_Video
+from forms import SubtitleForm
 
 from mezzanine.blog.models import BlogPost
 
@@ -59,6 +60,7 @@ def collection_view(request, partner, state, language, title, video=1):
         video = collection.videoincollection_set.all()[video_index - 1].video
     tags = [x for x in [video.category,video.subcategory,video.topic,video.subtopic,video.subject] if x is not u'']
     duration = sum([v.duration for v in collection.videos.all()])
+    form = SubtitleForm()
     related_collections = get_related_collections(collection, collection.featured)
     video_list = [i.video for i in collection.videoincollection_set.all()]
     description = collection.description
@@ -78,6 +80,7 @@ def collection_view(request, partner, state, language, title, video=1):
               'video_index' : video_index,
               'tags' : tags,
               'subtitles': subtitles,
+              'form':form,
               'related_collections' : related_collections[:4], # restricting to 4 related collections for now
               }
     if collection.featured :
@@ -431,3 +434,16 @@ def signup_view(request, template_name='social_website/signup.html',
 
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
+
+def upload_subtitles_view(request):
+    if request.user.is_authenticated():
+        print "here"
+        if request.method == "POST":
+            form = SubtitleForm(request.POST , request.FILES)
+            if form.is_valid():
+                return HttpResponse('1')
+            else :
+                print "here 3"
+
+    else:
+        return HttpResponse('0')
