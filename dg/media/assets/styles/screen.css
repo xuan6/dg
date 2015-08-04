@@ -1490,7 +1490,7 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
     width: 13px;
     height: 11px;
     top: 9px;
-    left: 19px;
+    left: 16px;
     background: url(../images/icon-sprite.png) no-repeat 0 -51px;
 }
 
@@ -1607,10 +1607,41 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
     border-top: 1px solid #dbdad5;
 }
 
+.howto-btn {
+    position: relative;
+    width: 115px;
+    cursor: pointer;
+    margin-top:38px;
+}
+
+.howto-btn {
+    padding: 0;
+}
+
+.howto-btn .label {
+    display: block;
+    padding: 5px 8px 4px 24px;
+}
+
+.howto-btn .icon {
+    width: 18px;
+    height: 18px;
+    top: 5px;
+    left: 12px;
+    background: url(../images/question-green.png) no-repeat 0 0px;
+}
+
+.howto-btn:hover .icon {
+    color: #ffffff;
+    background: url(../images/question-white.png) no-repeat 0 0px;
+    background-position: -87px -112px;
+}
+
 .upload-btn {
     position: relative;
     width: 115px;
     cursor: pointer;
+    margin-top:8px;
 }
 
 .upload-btn {
@@ -1624,14 +1655,19 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 
 .upload-btn .icon {
     width: 13px;
-    height: 11px;
-    top: 9px;
-    left: 19px;
-    background: url(../images/icon-sprite.png) no-repeat 0 -51px;
+    height: 13px;
+    top: 7px;
+    left: 13px;
+    background: url(../images/upload-green.png) no-repeat 0 0px;
 }
 
 .upload-btn:hover .icon {
     color: #ffffff;
+    width: 13px;
+    height: 13px;
+    top: 8px;
+    left: 27px;
+    background: url(../images/upload-white.png) no-repeat 0 0px;
     background-position: -87px -112px;
 }
 
@@ -1640,10 +1676,10 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
     padding: 0;
     width: 115px;
     cursor: pointer;
+    margin-top:8px;
 }
 
 .download-btn {
-    position: absolute;
     padding: 0;
     z-index: 1;
 }
@@ -1708,7 +1744,7 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
     height: 13px;
     top: 8px;
     left: 27px;
-    background: url(../images/icon-sprite.png) no-repeat 0 0;
+    background: url(../images/download-white.png) no-repeat 0 0;
 }
 
 .download-btn .label {
@@ -1720,8 +1756,8 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
     width: 13px;
     height: 13px;
     top: 7px;
-    left: 15px;
-    background: url(../images/icon-sprite.png) no-repeat 0 0;
+    left: 12px;
+    background: url(../images/download-green.png) no-repeat 0 0;
 }
 
 .download-btn:hover {

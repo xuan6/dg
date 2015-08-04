@@ -131,11 +131,14 @@
                                             <div class='st_email_hcount' displayText='Email'></div>
                                         </div>
                                     </a>
-                                    <a class="btn upload-btn" style="margin-top:38px;"><div class="icon"></div>
+                                    <a href="{% url 'subtitle' %}" class="btn howto-btn"><div class="icon"></div>
+                                        <span class="label">How To</span>
+                                    </a>
+                                    <a class="btn upload-btn"><div class="icon"></div>
                                         <span class="label">Upload</span>
                                     </a>
                                     {% if subtitles.all %}                                    
-                                    <div class="btn download-btn" style="margin-top:8px;"><div class="icon"></div>
+                                    <div class="btn download-btn"><div class="icon"></div>
                                         <div class="label">Download
                                             {% for i in subtitles %}
                                             <div class="downloadthis-wrapper">
