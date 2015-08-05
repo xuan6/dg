@@ -17,19 +17,24 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
 
 from dg.settings import PERMISSION_DENIED_URL
 
 from elastic_search import get_related_collections, get_related_videos 
 from social_website.models import  Collection, Partner, FeaturedCollection, Video, ResourceVideo, Subtitle
 from videos.models import Practice, Video as Dashboard_Video
-from forms import SubtitleForm
 
 from mezzanine.blog.models import BlogPost
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.EmailField(label=("Username"), help_text=("Enter Email Address"))
 
+class SubtitleForm(forms.ModelForm):
+    class Meta:
+        model = Subtitle
+        fields = ['language','subtitle_upload','video','user']
+ 
 
 def social_home(request):
     language = Collection.objects.exclude(language = None).values_list('language',flat=True) # only using those languages that have collections 
@@ -60,7 +65,11 @@ def collection_view(request, partner, state, language, title, video=1):
         video = collection.videoincollection_set.all()[video_index - 1].video
     tags = [x for x in [video.category,video.subcategory,video.topic,video.subtopic,video.subject] if x is not u'']
     duration = sum([v.duration for v in collection.videos.all()])
-    form = SubtitleForm()
+    user_id = User.objects.get(username=request.user.username).id
+    print user_id
+    subtitle = Subtitle(video = video, user = user_id)
+    print subtitle
+    form = SubtitleForm(instance = subtitle)
     related_collections = get_related_collections(collection, collection.featured)
     video_list = [i.video for i in collection.videoincollection_set.all()]
     description = collection.description
@@ -437,13 +446,14 @@ def signup_view(request, template_name='social_website/signup.html',
 
 def upload_subtitles_view(request):
     if request.user.is_authenticated():
-        print "here"
+        print request.user.id
         if request.method == "POST":
             form = SubtitleForm(request.POST , request.FILES)
             if form.is_valid():
+                print form['language']
+                form.save()
                 return HttpResponse('1')
             else :
                 print "here 3"
-
     else:
         return HttpResponse('0')

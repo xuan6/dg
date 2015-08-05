@@ -81,8 +81,8 @@ class Language(models.Model):
 class Subtitle(models.Model):
     id = models.AutoField(primary_key=True)
     video = models.ForeignKey(Video)
-    language = models.ForeignKey(Language)
     user = models.CharField(max_length=500, null=True, blank=True)
+    language = models.ForeignKey(Language)    
     subtitle_upload = models.FileField(upload_to='subtitles')
     review_status = models.IntegerField(max_length=1, choices=SUBTITLE_REVIEW, default=0)
 
