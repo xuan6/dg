@@ -122,7 +122,8 @@
                                         <a class="btn like-btn js-like-button" data-video-uid="{{video.uid}}"><div class="icon"></div><span class="label">Like</span></a>
                                         {% endif %}
                                     </div>
-                                    <a class="btn share-btn"><div class="icon"></div>
+                                    <div class="layout-vr-sm">
+                                        <a class="btn share-btn"><div class="icon"></div>
                                         <span class="label">Share</span>
                                         <div class="sharethis-wrapper">
                                             <div class='st_facebook_hcount' displayText='Facebook'></div>
@@ -130,21 +131,28 @@
                                             <div class='st_linkedin_hcount' displayText='LinkedIn'></div>
                                             <div class='st_email_hcount' displayText='Email'></div>
                                         </div>
-                                    </a>
-                                    <a href="{% url 'subtitle' %}" class="btn howto-btn"><div class="icon"></div>
+                                        </a>
+                                    </div>
+                                    <div class="layout-vr-sm">
+                                        <a href="{% url 'subtitle' %}" class="btn howto-btn"><div class="icon"></div>
                                         <span class="label">How To</span>
-                                    </a>
-                                    <a class="btn upload-btn"><div class="icon"></div>
-                                        <span class="label">Upload</span>
-                                    </a>
+                                        </a>
+                                    </div>
+                                    <div class="layout-vr-sm">
+                                        <a class="btn upload-btn"><div class="icon"></div>
+                                            <span class="label">Upload</span>
+                                        </a>
+                                    </div>
                                     {% if subtitles.all %}                                    
                                     <div class="btn download-btn"><div class="icon"></div>
                                         <div class="label">Download
-                                            {% for i in subtitles %}
                                             <div class="downloadthis-wrapper">
-                                                <div><a href="/media/social_website/uploads/{{i.subtitle_upload}}" download="{{video.title}}_{{i.language}}">{{ i.language }}</a></div>
+                                                {% for i in subtitles %}
+                                                    <div>
+                                                        <a href="/media/social_website/uploads/{{i.subtitle_upload}}" download="{{video.title}}_{{i.language}}">{{ i.language }}</a>
+                                                    </div>
+                                                {% endfor %}
                                             </div>
-                                            {% endfor %}
                                         </div>     
                                     </div>
                                     {% endif %}
