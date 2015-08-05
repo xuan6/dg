@@ -450,11 +450,12 @@ def upload_subtitles_view(request):
         if request.method == "POST":
             form = SubtitleForm(request.POST , request.FILES)
             if form.is_valid():
-                print form['language']
                 form.save()
-                return search_view(request)
+                return HttpResponse('You have successfully uploaded the subtitle. To subtitle more, go to the discover page.')
             else :
-                print "here 3"
+                return HttpResponse('error here 2')
+        else:
+            return HttpResponse('error here')
     else:
         return HttpResponse('error')
 

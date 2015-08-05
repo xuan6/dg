@@ -165,7 +165,18 @@
                                 {%if request.user.is_authenticated %}
                                 <form action="/subtitle/upload/" method="post" enctype="multipart/form-data">
                                     {%csrf_token%}
-                                    {{ form.as_p }}
+                                    {{ form.user.as_hidden }}
+                                    {{ form.video.as_hidden }}
+                                    <div class="fieldWrapper">
+                                        {{ form.language.errors }}
+                                        <label for="{{ form.language.id_for_label }}">Language : </label>
+                                        {{ form.language }}
+                                    </div>
+                                    <div class="fieldWrapper">
+                                        {{ form.subtitle_upload.errors }}
+                                        <label for="{{ form.subject.id_for_label }}">File</label>
+                                        {{ form.subtitle_upload }}
+                                    </div>
                                     <input type="submit" value="Submit">
                                 </form>
                                 {% endif %}
