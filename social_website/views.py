@@ -65,16 +65,16 @@ def collection_view(request, partner, state, language, title, video=1):
         video = collection.videoincollection_set.all()[video_index - 1].video
     tags = [x for x in [video.category,video.subcategory,video.topic,video.subtopic,video.subject] if x is not u'']
     duration = sum([v.duration for v in collection.videos.all()])
-    user_id = User.objects.get(username=request.user.username).id
-    print user_id
-    subtitle = Subtitle(video = video, user = user_id)
-    print subtitle
-    form = SubtitleForm(instance = subtitle)
+    if request.user.is_authenticated():
+        user_id = User.objects.get(username=request.user.username).id
+        subtitle = Subtitle(video = video, user = user_id)
+        form = SubtitleForm(instance = subtitle)
+    else:
+        form = None
     related_collections = get_related_collections(collection, collection.featured)
     video_list = [i.video for i in collection.videoincollection_set.all()]
     description = collection.description
-    current_video = video_list[video_index-1]
-    subtitles = Subtitle.objects.filter(video = current_video, review_status = 1)
+    subtitles = Subtitle.objects.filter(video = video, review_status = 1)
     context= {
               'header': {
                          'jsController':'ViewCollections',
