@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_delete, post_save
+from django.core.exceptions import ValidationError
 
 from post_save_funcs import increase_online_video_like, update_stats, video_add_activity, collection_add_activity, video_collection_activity
 
@@ -78,12 +79,19 @@ class Language(models.Model):
     def __unicode__(self):
         return "%s (%s)" % (self.language_name, self.alpha_code)
 
+def validate_file_extension(value):
+    import os
+    ext = os.path.splitext(value.name)[1]
+    valid_extensions = ['.srt','txt']
+    if not ext in valid_extensions:
+        raise ValidationError(u'File not supported!')
+
 class Subtitle(models.Model):
     id = models.AutoField(primary_key=True)
     video = models.ForeignKey(Video)
     user = models.CharField(max_length=500, null=True, blank=True)
     language = models.ForeignKey(Language)    
-    subtitle_upload = models.FileField(upload_to='subtitles')
+    subtitle_upload = models.FileField(upload_to='subtitles', validators=[validate_file_extension])
     review_status = models.IntegerField(max_length=1, choices=SUBTITLE_REVIEW, default=0)
 
 class Person(models.Model):

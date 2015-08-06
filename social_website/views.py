@@ -453,10 +453,10 @@ def upload_subtitles_view(request):
                 form.save()
                 return HttpResponse('You have successfully uploaded the subtitle. To subtitle more, go to the discover page.')
             else :
-                return HttpResponse('error here 2')
+                return HttpResponse('Invalid Input')
         else:
-            return HttpResponse('error here')
+            return HttpResponse('Invalid Input Type')
     else:
-        return HttpResponse('error')
+        return HttpResponse('Not Logged In')
 
     
