@@ -135,11 +135,11 @@
                                     </div>
                                     <div class="layout-vr-sm">
                                         <a href="{% url 'subtitle' %}" class="btn howto-btn"><div class="icon"></div>
-                                        <span class="label">How To</span>
+                                        <span class="label">TRANSLATE</span>
                                         </a>
                                     </div>
                                     <div class="layout-vr-sm">
-                                        <a class="btn upload-btn"><div class="icon"></div>
+                                        <a class="btn upload-btn js-upload-btn"><div class="icon"></div>
                                             <span class="label">Upload</span>
                                         </a>
                                     </div>
@@ -158,27 +158,32 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="grid-col hdg-f hdg-source-reg grid-size4of5">
+                            <div class="grid-col hdg-f hdg-source-reg grid-size4of5 layout-vr-sm">
                                <a href="" class="js-show-more"> Show More</a>
                             </div>
                             <div class="grid-col hdg-f hdg-source-reg grid-size4of5">
                                 {%if request.user.is_authenticated %}
-                                <form action="/subtitle/upload/" method="post" enctype="multipart/form-data">
-                                    {%csrf_token%}
-                                    {{ form.user.as_hidden }}
-                                    {{ form.video.as_hidden }}
-                                    <div class="fieldWrapper">
-                                        {{ form.language.errors }}
-                                        <label for="{{ form.language.id_for_label }}">Language : </label>
-                                        {{ form.language }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        {{ form.subtitle_upload.errors }}
-                                        <label for="{{ form.subject.id_for_label }}">File</label>
-                                        {{ form.subtitle_upload }}
-                                    </div>
-                                    <input type="submit" value="Submit">
-                                </form>
+								
+								<form class="grid js-upload-form" action="/subtitle/upload/" method="post" enctype="multipart/form-data">
+									{%csrf_token%}
+									{{ form.user.as_hidden }}
+									{{ form.video.as_hidden }}
+									<div class="fieldWrapper layout-vr-sm">
+										{{ form.language.errors }}
+										<label class="grid-col grid-size1of5" for="{{ form.language.id_for_label }}">Language : </label>
+										<div class="grid-col grid-size4of5">{{ form.language }}</div>
+
+									</div>
+									<div class="fieldWrapper layout-vr-sm">
+										{{ form.subtitle_upload.errors}}
+										<label class="grid-col grid-size1of5" for={{ form.subject.id_for_label }}>File</label>
+										<div class="grid-col grid-size4of5">{{ form.subtitle_upload }}</div>
+									</div>
+									
+									<input class="btn" type="submit" value="Submit">
+									
+								</form>
+								
                                 {% endif %}
                             </div>
                         </div>
