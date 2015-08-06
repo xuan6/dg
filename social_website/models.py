@@ -82,7 +82,7 @@ class Language(models.Model):
 def validate_file_extension(value):
     import os
     ext = os.path.splitext(value.name)[1]
-    valid_extensions = ['.srt','txt']
+    valid_extensions = ['.srt','.txt']
     if not ext in valid_extensions:
         raise ValidationError(u'File not supported!')
 
