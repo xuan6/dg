@@ -642,10 +642,10 @@ a {
 	padding-right: 7px;
 }
 
-#contributors-image{
-border-radius:50% 50% 50% 50%;
- height:100px;
- width:100px;
+.contributors-image {
+    border-radius:50% 50% 50% 50%;
+    height:100px;
+    width:100px;
  }
 
 .grid-pad-rt-sm {
@@ -710,8 +710,8 @@ border-radius:50% 50% 50% 50%;
     padding-right: 20px;
 }
 
-.uploadFormHidden{
-		display: none;
+.uploadFormHidden {
+    display: none;
 }
 /* ---------------------------------------------------------------------
  Headings
