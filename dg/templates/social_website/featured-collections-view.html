@@ -164,7 +164,7 @@
                             <div class="grid-col hdg-f hdg-source-reg grid-size4of5">
                                 {%if request.user.is_authenticated %}
 								
-								<form class="grid js-upload-form" action="/subtitle/upload/" method="post" enctype="multipart/form-data">
+								<form class="grid js-upload-form uploadFormHidden" action="/subtitle/upload/" method="post" enctype="multipart/form-data">
 									{%csrf_token%}
 									{{ form.user.as_hidden }}
 									{{ form.video.as_hidden }}
