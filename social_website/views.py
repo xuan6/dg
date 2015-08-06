@@ -66,7 +66,7 @@ def collection_view(request, partner, state, language, title, video=1):
     tags = [x for x in [video.category,video.subcategory,video.topic,video.subtopic,video.subject] if x is not u'']
     duration = sum([v.duration for v in collection.videos.all()])
     if request.user.is_authenticated():
-        user_id = User.objects.get(username=request.user.username).id
+        user_id = User.objects.get(username = request.user.username).id
         subtitle = Subtitle(video = video, user = user_id)
         form = SubtitleForm(instance = subtitle)
     else:
