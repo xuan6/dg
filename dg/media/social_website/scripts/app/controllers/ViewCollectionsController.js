@@ -72,6 +72,8 @@ define(function(require) {
             references.$videoTarget = jQuery('#video-target');
             references.$showMoreButton = jQuery('.js-show-more');
             references.$vidDesc = jQuery('.js-vid-desc');
+            references.$uploadButton = jQuery('.js-upload-btn');
+            references.$uploadForm = jQuery('.js-upload-form');
 
             var $videosCarouselWrapper = jQuery('#collection-videos-carousel');
             references.videosCarousel = new NCarousel($videosCarouselWrapper, {
@@ -97,9 +99,12 @@ define(function(require) {
 
             boundFunctions.onShowMoreButtonClick = this._onShowMoreButtonClick.bind(this);
             references.$showMoreButton.on('click', boundFunctions.onShowMoreButtonClick);
-            
+
             boundFunctions.onCommentLikeButtonClick = this._onCommentLikeButtonClick.bind(this);
             references.$commentsAreaWrapper.on('click', '.js-comment-like-button', boundFunctions.onCommentLikeButtonClick);
+
+            boundFunctions.onUploadButtonClick = this._onUploadButtonClick.bind(this);
+            references.$uploadButton.on('click', boundFunctions.onUploadButtonClick);
         },
 
         _initState: function() {
@@ -350,6 +355,10 @@ define(function(require) {
             } else {
                 // NOTE: any desired error handling would go here
             }
+        },
+
+        _onUploadButtonClick: function(e) {
+            this._references.$uploadForm.toggleClass('uploadFormHidden');
         },
 
         _onCommentLikedCallback: function($commentLikeButton, newCommentLikedStatus, data) {
