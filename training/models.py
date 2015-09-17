@@ -1,9 +1,20 @@
+from django.contrib.auth.models import User
+
 from django.db import models
 from geographies.models import State
 from videos.models import Language
 from people.models import Animator
 
 # Create your models here.
+    
+class TrainingUser(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User, related_name="training_user")
+    states = models.ManyToManyField(State)
+
+    def get_states(self):
+    	return self.states.all()
+
 class Trainer(models.Model):
 	id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
