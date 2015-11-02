@@ -101,7 +101,7 @@ class MissedCallView(ExotelView):
         return HttpResponse(status=200) #We don't need to send a response because passthru is asynchronous 
 
 def UsaidView(request, video, num):
-    phone_no = request.GET["To"]
+    phone_no = request.GET["From"]
     touchtone_response = num
     video = video
     data = UsaidData(phone_no=phone_no, touchtone_response=touchtone_response, video=video)
