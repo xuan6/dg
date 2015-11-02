@@ -7,7 +7,7 @@ from django.conf.urls import include, patterns, url
 from django.http import HttpResponse
 from django.views.generic import View
 
-from models import Call
+from models import Call, UsaidData
 
 class ExotelView(View):
     @classmethod
@@ -99,3 +99,11 @@ class MissedCallView(ExotelView):
         time.sleep(5) # sleep for 5 seconds to hope that the initial missed call has been finished by then. MAYBE NOT NEEDED
         status = cls.process(props)
         return HttpResponse(status=200) #We don't need to send a response because passthru is asynchronous 
+
+def UsaidView(request, video, num):
+    phone_no = request.GET["To"]
+    touchtone_response = num
+    video = video
+    data = UsaidData(phone_no=phone_no, touchtone_response=touchtone_response, video=video)
+    data.save()
+    return HttpResponse(1)

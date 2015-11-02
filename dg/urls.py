@@ -16,6 +16,7 @@ import ivr.urls
 from django.contrib import admin
 admin.autodiscover()
 
+from ivr.views import UsaidView
 from coco.data_log import send_updated_log
 from coco_admin import coco_admin
 from farmerbook import farmer_book_views
@@ -88,6 +89,7 @@ urlpatterns = patterns('',
     (r'^coco/docs/', TemplateView.as_view(template_name='cocodoc.html')),
     (r'^agri/', include(videokheti.urls)),
     (r'^ivrs/',include('ivr.urls')),
+    (r'^ivrs/usaid/(?P<video>.+)/(?P<num>.+)/', UsaidView),
     (r"^", include("mezzanine.urls")),
 
 )

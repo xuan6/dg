@@ -69,3 +69,10 @@ class BroadcastAdmin(admin.ModelAdmin):
 				pass
         		#print type(person.phone_no)
     			#ivr_obj.init_call(person.phone_no)
+
+class UsaidAdmin(admin.ModelAdmin):
+    fieldsets = [(None,  {'fields': ['video', 'touchtone_response', 'phone_no',]
+                          }
+                  )]
+    list_display = ('video', 'touchtone_response', 'phone_no',)
+    search_fields =['phone_no',]

@@ -62,3 +62,8 @@ class Broadcast(models.Model):
     audio_file = models.ForeignKey(Audio)
     channels = models.ManyToManyField(Channel)
     schedule_call = models.DateTimeField()    
+
+class UsaidData(models.Model):
+    video = models.CharField(max_length=100)
+    touchtone_response = models.CharField(max_length=20)
+    phone_no = models.CharField(max_length=100)
