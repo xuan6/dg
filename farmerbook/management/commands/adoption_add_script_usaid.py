@@ -10,7 +10,7 @@ import random
 import MySQLdb
 
 import datetime
-list_ids = [(86662,72),(65530,58),(98333,75),(75619,68),(72488,61),(72560,67),(67200,60),(72495,63)]
+list_ids = [(86662,72),(86698,69),(65530,58),(98333,75),(75619,68),(72488,61),(72560,67),(67200,60),(72495,63)]
 
 file_data = csv.reader(open(os.path.join(dg.settings.MEDIA_ROOT + r'/farmer_book/people_video.csv')))
 headers = next(file_data)
