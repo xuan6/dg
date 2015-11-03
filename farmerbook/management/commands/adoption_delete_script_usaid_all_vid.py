@@ -32,7 +32,7 @@ to_delete = list(to_delete)
 print len(to_delete)
 i=0
 for element in to_delete:
-    if(i<16000):
+    if(i<2000):
         PersonAdoptPractice.objects.filter(id=element).delete()
         print 'deleted   ' + str(element)
         i=i+1
