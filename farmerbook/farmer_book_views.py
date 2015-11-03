@@ -290,7 +290,7 @@ def get_person_page(request):
     fuid = request.GET.get('fuid', None)
     #left panel stats dictionary hold values related to left panel of village page
     left_panel_stats = {}
-    left_panel_stats['farmer_details'] = Person.objects.filter(id = person_id).values_list('id', 'person_name', 'father_name', 'group__group_name', 'village__village_name', 'village__block__district__district_name', 'village__block__district__state__state_name','date_of_joining', 'village__id', 'group__id')
+    left_panel_stats['farmer_details'] = Person.objects.filter(id = person_id).values_list('id', 'person_name', 'father_name', 'group__group_name', 'village__village_name', 'village__block__district__district_name', 'village__block__district__state__state_name','date_of_joining', 'village__id', 'group__id', 'phone_no')
     person_views = PersonMeetingAttendance.objects.filter(person__id = person_id).distinct().count()
     person_adoptions = PersonAdoptPractice.objects.filter(person__id = person_id).distinct().count()
     if(person_views):
