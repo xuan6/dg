@@ -60,7 +60,7 @@ for element in list_ids:
             p = PersonAdoptPractice(person = person, partner = partner, date_of_adoption = random_day,video = video)
             print i
             p.save()
-        except MySQLdb.IntegrityError:
+        except Exception:
             video2 = Video.objects.get(id = random.choice(matrix[str(element[0])]))
             p = PersonAdoptPractice(person = person, partner = partner, date_of_adoption = birth_date,video = video2)
             print i
