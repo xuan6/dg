@@ -132,6 +132,9 @@
 			{% endif %}
 			{% if type == 'partner' %}
 				partnerClick('{{type_id}}')
+			{% endif %}
+			{% if type == 'person' %}
+				personClick('{{type_id}}')
 			{%endif %}			
 		});
 		
