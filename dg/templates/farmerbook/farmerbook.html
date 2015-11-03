@@ -169,12 +169,12 @@
 		
 		function checkLoginFB(person_id) {
 			server_url = '/getpersonpage?person_id='+person_id;
-			FB.getLoginStatus(function(response) {
-				if (response.status === 'connected') {
-					fuid = response.authResponse.userID;
-					server_url = '/getpersonpage?person_id='+person_id+'&fuid='+fuid				
-				}				
-			});
+			// FB.getLoginStatus(function(response) {
+			// 	if (response.status === 'connected') {
+			// 		fuid = response.authResponse.userID;
+			// 		server_url = '/getpersonpage?person_id='+person_id+'&fuid='+fuid				
+			// 	}				
+			// });
 			personPageLoad(server_url);
 		}
 		
