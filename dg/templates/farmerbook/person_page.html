@@ -105,7 +105,7 @@
 						{% endif%}
 						<li class="vidsWatchedItem">
 							<div class="thumbnail" style="border: 1px solid green;">
-								<a href="http://digitalgreen.org/video/?id={{ vid.id }}" target='_blank'>
+								<a href="http://sandbox.digitalgreen.org/video/?id={{ vid.id }}" target='_blank'>
 									<img rel="custompopover" data-content="{{vid.fulltext}}"  src="http://img.youtube.com/vi/{{ vid.youtubeid }}/2.jpg" alt="">
 								</a>
 							</div>
@@ -130,7 +130,7 @@
 								{% endif %}
 							{% endif %}
 							<div class="video_title" style="margin-top:0px;" >
-								<a href="http://digitalgreen.org/analytics/video/?id={{ vid.id }}" target='_blank' >{{ vid.title|lower|capfirst|truncchar:30 }}</a> 
+								<a href="http://sandbox.digitalgreen.org/analytics/video/?id={{ vid.id }}" target='_blank' >{{ vid.title|lower|capfirst|truncchar:30 }}</a>
 							</div>
 							{% if vid.last_seen_date %}
 								<div class="question" style="margin-top:0px;">Last seen on <br>{{ vid.last_seen_date|date:"M d, Y" }} </div>
