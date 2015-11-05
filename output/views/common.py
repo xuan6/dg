@@ -77,7 +77,7 @@ def get_search_box(request):
     search_box_params = {}
     search_box_params['partners'] = get_partner_list(geog,id, partner);
     
-    if(from_date == (datetime.datetime.utcnow() - datetime.timedelta(365)).strftime('%Y-%m-%d') and to_date == (datetime.datetime.utcnow() - datetime.timedelta(1)).strftime('%Y-%m-%d')):
+    if(from_date == (datetime.datetime.utcnow() - datetime.timedelta(600)).strftime('%Y-%m-%d') and to_date == (datetime.datetime.utcnow() - datetime.timedelta(300)).strftime('%Y-%m-%d')):
         search_box_params['is_date_selected'] = 0
     else:
         search_box_params['is_date_selected'] = 1
