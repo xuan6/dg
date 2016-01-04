@@ -96,11 +96,11 @@ def get_dates_partners(request):
     if 'from_date' in request.GET and request.GET['from_date'] :
         from_date = request.GET['from_date']
     else:
-        from_date = (datetime.datetime.utcnow() - datetime.timedelta(365)).strftime('%Y-%m-%d')
+        from_date = (datetime.datetime.utcnow() - datetime.timedelta(600)).strftime('%Y-%m-%d')
     if 'to_date' in request.GET and request.GET['to_date']:
         to_date = request.GET['to_date']
     else:
-        to_date = (datetime.datetime.utcnow() - datetime.timedelta(1)).strftime('%Y-%m-%d')
+        to_date = (datetime.datetime.utcnow() - datetime.timedelta(300)).strftime('%Y-%m-%d')
 
     partner_id = request.GET.getlist('partners')
     return from_date, to_date, partner_id;
