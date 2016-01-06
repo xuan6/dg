@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'feeds',
     'deoanalytics',
     'data_upload',
+    'raw_data_analytics',
     'mezzanine.boot',
     'mezzanine.conf',
     'mezzanine.core',
@@ -160,6 +161,7 @@ INSTALLED_APPS = (
     'filebrowser_safe',
     'grappelli_safe',
     'videokheti',
+    'training',
 )
 
 # Store these package names here as they may change in the future since

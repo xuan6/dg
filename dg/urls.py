@@ -7,16 +7,19 @@ import coco.urls
 import data_upload.urls
 import dimagi.urls
 import feeds.urls
+import raw_data_analytics.urls
 
 import social_website.api_urls
 import social_website.urls
 import videokheti.urls
+import training.urls
 
 from django.contrib import admin
 admin.autodiscover()
 
 from coco.data_log import send_updated_log
 from coco_admin import coco_admin
+from training.admin import training_admin
 from farmerbook import farmer_book_views
 from output.views import video_analytics
 from static_site_views import spring_analytics
@@ -28,6 +31,9 @@ import deoanalytics.urls
 coco_admin.index_template = 'social_website/index.html'
 coco_admin.login_template = 'social_website/login.html'
 coco_admin.logout_template = 'social_website/home.html'
+training_admin.index_template = 'social_website/index.html'
+training_admin.login_template = 'social_website/login.html'
+training_admin.logout_template = 'social_website/home.html'
 website_admin.index_template = 'social_website/index.html'
 website_admin.login_template = 'social_website/login.html'
 website_admin.logout_template = 'social_website/home.html'
@@ -52,12 +58,15 @@ urlpatterns = patterns('',
     (r'^admin/', include(coco_admin.urls)),
     (r'^adminwebsite/', include(website_admin.urls)),
     (r'^mcocoadmin/', include(mcoco_admin.urls)),
+    (r'^trainingadmin/', include(training_admin.urls)),
     (r'^adminblog/', include(admin.site.urls)),
     (r'^data_upload/', include(data_upload.urls)),
     (r'^coco/', include(coco.urls)),
     (r'^dimagi/', include(dimagi.urls)),
     (r'^analytics/', include('output.urls')),
     (r'^video/?$',video_analytics.video),
+    (r'^training/', include(training.urls)),
+    (r'^raw_data_analytics/', include(raw_data_analytics.urls)),
 
     (r'^get_log/?$', send_updated_log),
     # End imports from dashboard
@@ -82,6 +91,8 @@ urlpatterns = patterns('',
     (r'^agri/', include(videokheti.urls)),
     (r"^", include("mezzanine.urls")),
 
+    #AJAX for Feedback
+    url(r'^feedbacksubmit_json$', 'dg.feedback_view.ajax'),
 )
 
 # Static files serving locally
