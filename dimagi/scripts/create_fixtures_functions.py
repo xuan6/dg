@@ -116,7 +116,7 @@ def write_distinct_video(vid_list, workbook, group_name):
     sheet.write(row, 1, "field: name")
     sheet.write(row, 2, 'group 1')
     row += 1
-    print vid_list
+    #print vid_list
     for id in vid_list:
         vid = Video.objects.get(id=id)
         if vid.title:
