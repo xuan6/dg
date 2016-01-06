@@ -1254,7 +1254,6 @@ a {
 }
 
 
-
 /* ---------------------------------------------------------------------
 Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 ------------------------------------------------------------------------ */
@@ -1539,6 +1538,7 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 .like-btn,
 .share-btn {
     position: relative;
+    padding: 0;
     width: 115px;
     cursor: pointer;
 }
@@ -1556,7 +1556,7 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
     width: 13px;
     height: 11px;
     top: 9px;
-    left: 19px;
+    left: 16px;
     background: url(../images/icon-sprite.png) no-repeat 0 -51px;
 }
 
@@ -1573,7 +1573,7 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 .share-btn {
     position: absolute;
     padding: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .share-btn.alt {
@@ -1639,7 +1639,6 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
     background: url(../images/icon-sprite.png) no-repeat 0 0;
 }
 
-
 .share-btn .label {
     display: block;
     padding: 5px 8px 4px 24px;
@@ -1672,6 +1671,40 @@ Layout Styles > Vertical Rhythm (vr) spacing between sections & components
 .sharethis-wrapper > div {
     padding: 8px 0;
     border-top: 1px solid #dbdad5;
+}
+
+.download-btn {
+    position: relative;
+    margin-top: 38px;
+    width: 115px;
+    cursor: pointer;
+}
+
+.download-btn {
+    padding: 0;
+    z-index: 1;
+}
+
+.download-btn .label {
+    display: block;
+    padding: 5px 8px 4px 24px;
+}
+
+.download-btn .icon {
+    width: 18px;
+    height: 18px;
+    top: 5px;
+    left: 12px;
+    background: url(../images/download-green.png) no-repeat 0 0px;
+}
+
+.download-btn:hover .icon {
+    color: #ffffff;
+    width: 18px;
+    height: 18px;
+    top: 5px;
+    left: 12px;
+    background: url(../images/download-white.png) no-repeat 0 0px;
 }
 
 /* Add on for the number of watches */
