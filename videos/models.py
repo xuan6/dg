@@ -137,5 +137,6 @@ class NonNegotiable(CocoModel):
 
     def __unicode__(self):
         return  u'%s' % self.non_negotiable
+        
 post_save.connect(save_log, sender=NonNegotiable)
 pre_delete.connect(delete_log, sender=NonNegotiable)

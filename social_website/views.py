@@ -3,6 +3,7 @@ import datetime
 import json
 import random
 import urllib2
+import os
 
 from django import forms
 from django.contrib.auth import authenticate, login
@@ -18,7 +19,7 @@ from django.template import RequestContext
 from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from dg.settings import PERMISSION_DENIED_URL
+from dg.settings import PERMISSION_DENIED_URL, MEDIA_ROOT
 
 from elastic_search import get_related_collections, get_related_videos 
 from social_website.models import  Collection, Partner, FeaturedCollection, Video, ResourceVideo
@@ -62,6 +63,10 @@ def collection_view(request, partner, state, language, title, video=1):
     related_collections = get_related_collections(collection, collection.featured)
     video_list = [i.video for i in collection.videoincollection_set.all()]
     description = collection.description
+    filename = os.path.join(MEDIA_ROOT, "non_negotiables", "%s.docx" % (video.uid))
+    nonnegotiables_status = False
+    if os.path.isfile(filename):
+        nonnegotiables_status = True
     context= {
               'header': {
                          'jsController':'ViewCollections',
@@ -73,6 +78,7 @@ def collection_view(request, partner, state, language, title, video=1):
               'video_list': video_list,
               'collection_duration' : duration,
               'video' : video,
+              'nonnegotiables_status' : nonnegotiables_status,
               'video_index' : video_index,
               'tags' : tags,
               'related_collections' : related_collections[:4], # restricting to 4 related collections for now

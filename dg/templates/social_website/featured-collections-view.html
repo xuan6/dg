@@ -108,8 +108,6 @@
                         <div class="grid layout-vr-md">
                             <div class="grid-col js-vid-desc featured-line-clamp hdg-f hdg-source-reg grid-size4of5">
                                 {{video.description|safe}}
-                                
-
                             </div>
                             
                             <div class= "grid-col grid-size1of5">
@@ -138,10 +136,12 @@
                                             <div class='st_email_hcount' displayText='Email'></div>
                                         </div>
                                     </a>
-                                    <a class="btn download-btn">
-                                        <div class="icon"></div>
-                                        <span class="label">Download</span>
-                                    </a>
+                                    {% if nonnegotiables_status %}
+                                        <a href="{{STATIC_URL}}social_website/uploads/non_negotiables/{{video.uid}}.docx" class="btn download-btn" download>
+                                            <div class="icon"></div>
+                                            <span class="label">Download</span>
+                                        </a>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="grid-col hdg-f hdg-source-reg grid-size4of5">
