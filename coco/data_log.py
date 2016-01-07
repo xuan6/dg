@@ -7,6 +7,8 @@ from django.db.models import get_model
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 
+from videos.scripts.convert_to_docx import save_as_document
+
 class TimestampException(Exception):
     pass
 
@@ -39,6 +41,8 @@ def save_log(sender, **kwargs ):
     log = ServerLog(village=village_id, user=user, action=action, entry_table=sender,
                     model_id=model_id, partner=partner_id)
     log.save()
+    if sender == 'NonNegotiable':
+        save_as_document(instance.video.id)
     ###Raise an exception if timestamp of latest entry is less than the previously saved data timestamp
     if previous_time_stamp:
         if previous_time_stamp.timestamp > log.timestamp:

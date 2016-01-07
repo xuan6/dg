@@ -63,7 +63,7 @@ def collection_view(request, partner, state, language, title, video=1):
     related_collections = get_related_collections(collection, collection.featured)
     video_list = [i.video for i in collection.videoincollection_set.all()]
     description = collection.description
-    filename = os.path.join(MEDIA_ROOT, "non_negotiables", "%s.docx" % (video.uid))
+    filename = os.path.join(MEDIA_ROOT, "non_negotiables", "%s.docx" % (video.coco_id))
     nonnegotiables_status = False
     if os.path.isfile(filename):
         nonnegotiables_status = True

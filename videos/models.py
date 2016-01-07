@@ -134,7 +134,6 @@ class NonNegotiable(CocoModel):
     non_negotiable = models.CharField(max_length=500)
     physically_verifiable = models.BooleanField(db_index=True, default=False)
     
-
     def __unicode__(self):
         return  u'%s' % self.non_negotiable
         
