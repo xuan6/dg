@@ -1,7 +1,8 @@
 import os
 
 from docx import Document
-from docx.shared import Inches
+from docx.shared import Inches, Cm, Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from django.db.models import get_model
 from dg.settings import MEDIA_ROOT
@@ -46,13 +47,16 @@ def save_as_document(video_id):
 
 		document.add_picture(logo, width=Inches(1.10))
 
+		p = document.add_heading(video_obj.title, level=2)
+		p_format = p.paragraph_format
+		p_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+		p_format.line_spacing = Pt(36)
+
 		table_1 = document.add_table(rows=1, cols=1)
 		table_1.style = 'TableGrid'
 
 		hdr_cells_1 = table_1.rows[0].cells
 		hdr_cells_1[0].text = 'Video Non-Negotiables Guide'
-		hdr_cells_1[0].alignment = 1
-		#hdr_cells_1[0].style = 'Center'
 
 		row_cells = table_1.add_row().cells
 		row_cells[0].text = 'Video Name: '+video_obj.title
@@ -63,27 +67,33 @@ def save_as_document(video_id):
 		row_cells = table_1.add_row().cells
 		row_cells[0].text = 'Video:     [  ] For adoption verification    [  ] Only for understanding'
 
-		
 		table = document.add_table(rows=1, cols=2)
-		table.style = 'ColorfulList-Accent3'
+		table.autofit = False  # defaults to True, so have to explicitly turn it off
+		table.columns[0].width = Cm(13.00)
+		table.columns[1].width = Cm(2.00)
+		table.style = 'MediumList1'
 
 		hdr_cells = table.rows[0].cells
+		hdr_cells[0].width = Cm(13.00)
+		hdr_cells[1].width = Cm(2.00)
 		hdr_cells[1].text = 'Physically Verifiable'
 		
 		count = 1
 		for obj in nonnegotiables_list:
 			nonnegotiable = obj.non_negotiable
+			phy_verify = 'No'
+			if obj.physically_verifiable:
+				phy_verify = 'Yes'
 			row_cells = table.add_row().cells
 			row_cells[0].text = 'NON-NEGOTIABLE '+str(count)+': '+str(nonnegotiable)
+			row_cells[1].text = phy_verify
 			row_cells = table.add_row().cells
-			row_cells[0].text = '\n'
+			row_cells[0].text = '\n \n'
+			row_cells[0].width = Cm(13.00)
+			row_cells[1].width = Cm(2.00)
 			count = count + 1
 
-
-
 		#table.rows[0].style = "borderColor:red; background-color:gray"
-
-
 		
 		#===================================================================
 		# Formatting options:
