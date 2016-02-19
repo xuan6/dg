@@ -12,7 +12,7 @@ from django.utils.encoding import smart_str
 from django.forms import TextInput, Textarea
 from coco.base_models import NONNEGOTIABLE_OPTION
 
-from activities.models import PersonMeetingAttendance, Screening, PersonAdoptPractice
+from activities.models import PersonMeetingAttendance, Screening, PersonAdoptPractice, DisseminationQuality, AdoptionVerification
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
 from dashboard.forms import CocoUserForm
 from videos.models import  NonNegotiable
@@ -167,7 +167,6 @@ class PersonAdoptPracticeAdmin(admin.ModelAdmin):
                 settings.STATIC_URL + "js/qa_verification.js",
         )
 
-
 class PersonAdmin(admin.ModelAdmin):
     list_display = ('id', '__unicode__')
     search_fields = ['person_name','village__village_name','group__group_name']
@@ -209,3 +208,10 @@ class CocoUserAdmin(admin.ModelAdmin):
     list_display = ('user','partner','get_villages')
     search_fields = ['user__username']
 
+class DisseminationQualityAdmin(admin.ModelAdmin):
+    list_display = ('date', 'mediator','village')
+    search_fields = ['mediator']
+
+class AdoptionVerificationAdmin(admin.ModelAdmin):
+    list_display = ('verification_date','person','village')
+    search_fields = ['verification_date']

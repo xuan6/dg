@@ -5,9 +5,9 @@ from django.db.models.signals import pre_delete, post_save
 
 from coco.data_log import delete_log, save_log
 from coco.base_models import CocoModel
-from geographies.models import Village
+from geographies.models import Village, Block, District
 from programs.models import Partner
-from people.models import Animator, Person, PersonGroup
+from people.models import Animator, Person, PersonGroup, QaReviewer
 from videos.models import Video
 from coco.base_models import ADOPTION_VERIFICATION, SCREENING_OBSERVATION, SCREENING_GRADE, VERIFIED_BY
 
@@ -128,3 +128,32 @@ class PersonAdoptPractice(CocoModel):
         unique_together = ("person", "video", "date_of_adoption")
 post_save.connect(save_log, sender=PersonAdoptPractice)
 pre_delete.connect(delete_log, sender=PersonAdoptPractice)
+
+class AdoptionVerification(CocoModel):
+    block = models.ForeignKey(Block)
+    mediator = models.ForeignKey(Animator)
+    village = models.ForeignKey(Village)
+    group = models.ForeignKey(PersonGroup)
+    person = models.ForeignKey(Person)
+    verification_date = models.DateField()
+    video = models.ForeignKey(Video)
+    reviewer = models.ForeignKey(QaReviewer)
+
+class DisseminationQuality(CocoModel):
+    block = models.ForeignKey(Block)
+    village = models.ForeignKey(Village)
+    mediator = models.ForeignKey(Animator)
+    video = models.ForeignKey(Video)
+    date = models.DateField()
+    equipments_setup_handling = models.IntegerField()
+    context_setting = models.IntegerField()
+    facilitaion = models.IntegerField()
+    subject_knowledge = models.IntegerField()
+    documentation = models.IntegerField()
+    total_score = models.IntegerField()
+    video_grade = models.IntegerField()
+    reviewer = models.ForeignKey(QaReviewer)
+    remark = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name_plural = "Dissemination qualities"

@@ -5,7 +5,8 @@ from coco.data_log import delete_log, save_log
 from coco.base_models import ACTORS, CocoModel, STORYBASE, SUITABLE_FOR, VIDEO_TYPE, VIDEO_GRADE, VIDEO_REVIEW, REVIEW_BY
 from geographies.models import Village
 from programs.models import Partner
-from people.models import Animator, Person
+from people.models import Animator, Person,QaReviewer
+
 
 class PracticeSector(CocoModel):
     id = models.AutoField(primary_key=True)
@@ -139,3 +140,34 @@ class NonNegotiable(CocoModel):
         return  u'%s' % self.non_negotiable
 post_save.connect(save_log, sender=NonNegotiable)
 pre_delete.connect(delete_log, sender=NonNegotiable)
+
+class VideoQualityReview(CocoModel):
+    video = models.ForeignKey(Video)
+    youtubeid = models.CharField(max_length=100)
+    storystructure = models.IntegerField()
+    framing = models.IntegerField()
+    camera_angles = models.IntegerField()
+    camera_movement = models.IntegerField()
+    light = models.IntegerField()
+    audio_sound = models.IntegerField()
+    facilitation = models.IntegerField()
+    technical = models.IntegerField()
+    style_guide = models.IntegerField()
+    total_score = models.IntegerField()
+    video_grade = models.IntegerField()
+    approval = models.CharField(max_length=3)
+    reviewer = models.ForeignKey(QaReviewer)
+    remarks = models.CharField(max_length=200)
+   
+    def __unicode__(self):
+        display = "%s" % (self.name)
+        return display
+
+class VideoContentApproval(CocoModel):
+    video = models.ForeignKey(Video)
+    reviewer = models.ForeignKey(QaReviewer)
+    comment = models.CharField(max_length=200)
+    
+    def __unicode__(self):
+        display = "%s" % (self.video)
+        return display

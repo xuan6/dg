@@ -83,3 +83,14 @@ class Person(CocoModel):
         return  display
 post_save.connect(save_log, sender=Person)
 pre_delete.connect(delete_log, sender=Person)
+
+class QaReviewer(models.Model):
+    name = models.CharField(max_length=100)
+    partner = models.ForeignKey(Partner)
+
+    class Meta:
+        unique_together = ("name", "partner")
+
+    def __unicode__(self):
+        display= "%s" % (self.name)
+        return display
