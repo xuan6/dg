@@ -15,7 +15,7 @@ from coco.base_models import NONNEGOTIABLE_OPTION
 from activities.models import PersonMeetingAttendance, Screening, PersonAdoptPractice, DisseminationQuality, AdoptionVerification
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
 from dashboard.forms import CocoUserForm
-from videos.models import  NonNegotiable
+from videos.models import  NonNegotiable,VideoQualityReview
 
 class PersonMeetingAttendanceForm(forms.ModelForm):
     person = forms.ModelChoiceField(Animator.objects.none())
@@ -215,3 +215,10 @@ class DisseminationQualityAdmin(admin.ModelAdmin):
 class AdoptionVerificationAdmin(admin.ModelAdmin):
     list_display = ('verification_date','person','village')
     search_fields = ['verification_date']
+
+class VideoContentApprovalAdmin(admin.ModelAdmin):
+    list_display = ('video', 'reviewer')
+    search_fields = ['video']
+
+class VideoQualityReviewAdmin(admin.ModelAdmin):
+    list_display=('video','reviewer')

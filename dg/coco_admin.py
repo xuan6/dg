@@ -1,7 +1,7 @@
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth.admin import Group, GroupAdmin, User, UserAdmin
 
-from dashboard.admin import AnimatorAdmin, AnimatorAssignedVillageAdmin, BlockAdmin, CocoUserAdmin, DistrictAdmin, PersonAdmin, PersonAdoptPracticeAdmin, PersonGroupAdmin, PracticesAdmin, PracticeSectorAdmin, PracticeSubjectAdmin, PracticeSubSectorAdmin, PracticeSubtopicAdmin, PracticeTopicAdmin, ScreeningAdmin, StateAdmin, VideoAdmin, VillageAdmin, AdoptionVerificationAdmin, DisseminationQualityAdmin
+from dashboard.admin import AnimatorAdmin, AnimatorAssignedVillageAdmin, BlockAdmin, CocoUserAdmin, DistrictAdmin, PersonAdmin, PersonAdoptPracticeAdmin, PersonGroupAdmin, PracticesAdmin, PracticeSectorAdmin, PracticeSubjectAdmin, PracticeSubSectorAdmin, PracticeSubtopicAdmin, PracticeTopicAdmin, ScreeningAdmin, StateAdmin, VideoAdmin, VillageAdmin, AdoptionVerificationAdmin, DisseminationQualityAdmin,VideoQualityReviewAdmin, VideoContentApprovalAdmin
 
 from activities.models import PersonAdoptPractice, Screening, AdoptionVerification, DisseminationQuality
 from coco.models import CocoUser
@@ -42,8 +42,8 @@ coco_admin.register(PracticeTopic, PracticeTopicAdmin)
 coco_admin.register(PracticeSubtopic, PracticeSubtopicAdmin)
 coco_admin.register(PracticeSubject, PracticeSubjectAdmin)
 coco_admin.register(CocoUser, CocoUserAdmin)
-coco_admin.register(VideoQualityReview)
-coco_admin.register(VideoContentApproval)
+coco_admin.register(VideoQualityReview, VideoQualityReviewAdmin)
+coco_admin.register(VideoContentApproval, VideoContentApprovalAdmin)
 coco_admin.register(AdoptionVerification, AdoptionVerificationAdmin)
 coco_admin.register(DisseminationQuality, DisseminationQualityAdmin)
 coco_admin.register(QaReviewer)
