@@ -130,6 +130,7 @@ post_save.connect(save_log, sender=PersonAdoptPractice)
 pre_delete.connect(delete_log, sender=PersonAdoptPractice)
 
 class AdoptionVerification(CocoModel):
+    
     block = models.ForeignKey(Block)
     mediator = models.ForeignKey(Animator)
     village = models.ForeignKey(Village)

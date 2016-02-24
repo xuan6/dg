@@ -160,7 +160,7 @@ class VideoQualityReview(CocoModel):
     remarks = models.CharField(max_length=200)
    
     def __unicode__(self):
-        display = "%s" % (self.name)
+        display = "%s" % (self.video)
         return display
 
 class VideoContentApproval(CocoModel):

@@ -215,6 +215,7 @@ class DisseminationQualityAdmin(admin.ModelAdmin):
 class AdoptionVerificationAdmin(admin.ModelAdmin):
     list_display = ('verification_date','person','village')
     search_fields = ['verification_date']
+    raw_id_fields = ('person','block','village','group','mediator')
 
 class VideoContentApprovalAdmin(admin.ModelAdmin):
     list_display = ('video', 'reviewer')
