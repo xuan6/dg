@@ -4,16 +4,32 @@ function() {
 		'page_header': 'Video Content Approval',
 		'add_template_name': 'Video_Content_Approval_add_edit_template',
         'edit_template_name': 'Video_Content_Approval_add_edit_template',
-        'rest_api_url': '/coco/api/v2/VideoContentApproval/',
+        'rest_api_url': '/qacoco/api/v1/VideoContentApproval/',
         'list_elements': [{'header':'Video','element':'video'},{'header':'Reviewer','element':'reviewer'},{'header':'Comment','element':'comment'}],
         'entity_name': 'VideoContentApproval',
         'dashboard_display': {
             listing: true,
             add: true
         },
-        'sort_field': 'video'
-    };
-    'form_field_validation': {
+        'sort_field': 'video',
+        'foreign_entities':{
+            'video':{
+                "video":{
+                    'placeholder': 'id_video',
+                    'name_field': 'video_name'
+                },
+            },
+            'reviewed_by':{
+                "reviewed_by":{
+                'placeholder' : 'id_reviewed_by',
+                'name_field' : 'reviewed_by_name'
+            }
+        }
+    }
+};
+    
+    
+    /*'form_field_validation': {
             ignore: [],
             rules: {
                 video: "required",
@@ -56,4 +72,149 @@ function() {
             }
         }
 
+    };*/
+
+    var VideoQualityReview_configs = {
+        'page_header': 'Video Quality Review',
+        'add_template_name': 'Video_Quality_Review_add_edit_template',
+        'edit_template_name': 'Video_Quality_Review_add_edit_template',
+        'rest_api_url': '/qacoco/api/v1/VideoQualityReview/',
+        'list_elements': [{'header':'Video','element':'video'},{'header':'Reviewer','element':'reviewer'},{'header':'Total Score','element':'total_score'},{'header':'Video Grade','element':'video_grade'}],
+        'entity_name': 'VideoQualityReview',
+        'dashboard_display': {
+            listing: true,
+            add: true
+        },
+        'sort_field': 'video',
+        'foreign_entities':{
+            'video':{
+                "video":{
+                    'placeholder': 'id_video',
+                    'name_field': 'video_name'
+                },
+            },
+            'reviewed_by':{
+                "reviewed_by":{
+                'placeholder' : 'id_reviewed_by',
+                'name_field' : 'reviewed_by_name'
+            }
+        }
+    }
+};
+
+var DisseminationQuality_configs = {
+        'page_header': 'Dissemination Quality',
+        'add_template_name': 'Dissemination_Quality_add_edit_template',
+        'edit_template_name': 'Dissemination_Quality_add_edit_template',
+        'rest_api_url': '/qacoco/api/v1/DisseminationQuality/',
+        'list_elements': [{'header':'Video','element':'video'},{'header':'Date','element':'date'}],
+        'entity_name': 'DisseminationQuality',
+        'dashboard_display': {
+            listing: true,
+            add: true
+        },
+        'sort_field': 'video',
+        'foreign_entities':{
+            'video':{
+                "video":{
+                    'placeholder': 'id_video',
+                    'name_field': 'video_name'
+                },
+            },
+            'village':{
+                "village":{
+                    'placeholder': 'id_village',
+                    'name_field': 'village_name'
+                },
+            },
+            'mediator':{
+                "mediator":{
+                    'placeholder': 'id_mediator',
+                    'name_field': 'mediator_name'
+                },
+            },
+            'block':{
+                "block":{
+                'placeholder' : 'id_block',
+                'name_field' : 'block_name'
+            }
+        }
+    }
+};
+    var misc = {
+        download_chunk_size: 2000,
+        background_download_interval: 5 * 60 * 1000,
+        inc_download_url: "/get_log/",
+        afterFullDownload: function(start_time, download_status){
+            return saveTimeTaken();
+            function saveTimeTaken(){
+                var record_endpoint = "/coco/record_full_download_time/"; 
+                return $.post(record_endpoint, {
+                    start_time : start_time,
+                    end_time : new Date().toJSON().replace("Z", "")
+                })    
+            }
+        },
+        reset_database_check_url: '/coco/reset_database_check/',
+        onLogin: function(Offline, Auth){
+            getLastDownloadTimestamp()
+                .done(function(timestamp){
+                    askServer(timestamp);
+                });
+            var that = this;    
+            function askServer(timestamp){
+                $.get(that.reset_database_check_url,{
+                    lastdownloadtimestamp: timestamp
+                })
+                    .done(function(resp){
+                        console.log(resp);
+                        if(resp=="1")
+                        {
+                            alert("Your database will be redownloaded because of some changes in data.");
+                            Offline.reset_database();
+                        }
+                    });
+            }   
+            function getLastDownloadTimestamp()
+            {
+                var dfd = new $.Deferred();
+                Offline.fetch_object("meta_data", "key", "last_full_download_start")
+                    .done(function(model){
+                        dfd.resolve(model.get("timestamp"));
+                    })
+                    .fail(function(model, error){
+                    
+                    });
+                return dfd;    
+            } 
+        }
     };
+    var video_configs = {
+        'rest_api_url': '/qacoco/api/v1/video/',
+        'entity_name': 'video',
+        'sort_field': 'video_name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+    var reviewed_by_configs = {
+        'rest_api_url': '/qacoco/api/v1/reviewed_by/',
+        'entity_name': 'reviewed_by',
+        'sort_field': 'reviewed_by_name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+
+    return {
+        VideoContentApproval : VideoContentApproval_configs,
+        video : video_configs,
+        VideoQualityReview : VideoQualityReview_configs,
+        DisseminationQuality : DisseminationQuality_configs,
+        misc: misc
+
+    }
+
+});

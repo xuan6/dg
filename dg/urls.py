@@ -75,7 +75,7 @@ urlpatterns = patterns('',
     (r'^training/', include(training.urls)),
     (r'^loop/', include(loop.urls)),
     (r'^raw_data_analytics/', include(raw_data_analytics.urls)),
-    (r'^qa/', include(qacoco.urls)),
+    (r'^qacoco/', include(qacoco.urls)),
     (r'^get_log/?$', send_updated_log),
     # End imports from dashboard
     ##Special page.needs to be deleted

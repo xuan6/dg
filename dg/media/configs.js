@@ -152,7 +152,7 @@ function() {
                     name_field : 'district_name' 
                 }
             }
-        },
+        };
         'form_field_validation': {
             ignore: [],
             rules: {
@@ -221,7 +221,7 @@ function() {
         'foreign_entities': {
             'mediator': {
                 "facilitator": {
-                    'placeholder': 'id_facilitator',
+                    'placehol-*der': 'id_facilitator',
                     'name_field': 'name'
                 },
                 "cameraoperator": {

@@ -5,9 +5,11 @@ from dashboard.admin import AnimatorAdmin, AnimatorAssignedVillageAdmin, BlockAd
 
 from activities.models import PersonAdoptPractice, Screening, AdoptionVerification, DisseminationQuality
 from coco.models import CocoUser
+from qacoco.models import QaCocoUser
 from geographies.models import Block, Country, District, State, Village
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup, QaReviewer
 from programs.models import Partner
+
 
 from videos.models import VideoQualityReview, VideoContentApproval, Language, Practice, PracticeSector, PracticeSubject, PracticeSubSector, PracticeSubtopic, PracticeTopic, Video
 
@@ -47,3 +49,4 @@ coco_admin.register(VideoContentApproval, VideoContentApprovalAdmin)
 coco_admin.register(AdoptionVerification, AdoptionVerificationAdmin)
 coco_admin.register(DisseminationQuality, DisseminationQualityAdmin)
 coco_admin.register(QaReviewer)
+coco_admin.register(QaCocoUser)
