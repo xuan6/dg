@@ -6,9 +6,9 @@ from tastypie import fields
 from functools import partial
 from django.forms.models import model_to_dict
 from coco.models import CocoUser
-from people.models import QaReviewer,Animator
+from people.models import QaReviewer,Animator,Person,PersonGroup
 from geographies.models import Block,Village
-from activities.models import DisseminationQuality
+from activities.models import DisseminationQuality,AdoptionVerification
 from coco.api import BaseResource
 
 def foreign_key_to_id(bundle, field_name,sub_field_names):
@@ -70,6 +70,22 @@ class MediatorResource(BaseResource):
                 authentication = Authentication()
                 authorization = Authorization()
 
+class PersonResource(BaseResource):
+    class Meta:
+                max_limit = None
+                queryset = Person.objects.all()
+                resource_name = 'person'
+                authentication = Authentication()
+                authorization = Authorization()
+
+class PersonGroupResource(BaseResource):
+    class Meta:
+                max_limit = None
+                queryset = PersonGroup.objects.all()
+                resource_name = 'group'
+                authentication = Authentication()
+                authorization = Authorization()
+
 
 
 
@@ -115,6 +131,41 @@ class DisseminationQualityResource(BaseResource):
         hydrate_video = partial(dict_to_foreign_uri, field_name ='video')
         dehydrate_reviewer = partial(foreign_key_to_id, field_name = 'reviewer', sub_field_names=['id','partner_name'])
         hydrate_reviewer = partial(dict_to_foreign_uri, field_name ='reviewer')
+        dehydrate_block = partial(foreign_key_to_id, field_name = 'block', sub_field_names=['id','block_name'])
+        hydrate_block = partial(dict_to_foreign_uri, field_name ='block')
+        dehydrate_village = partial(foreign_key_to_id, field_name = 'village', sub_field_names=['id','village_name'])
+        hydrate_village = partial(dict_to_foreign_uri, field_name ='village')
+        dehydrate_mediator = partial(foreign_key_to_id, field_name = 'mediator', sub_field_names=['id','name'])
+        hydrate_mediator = partial(dict_to_foreign_uri, field_name ='mediator')
+
+
+class AdoptionVerificationResource(BaseResource):
+        block = fields.ForeignKey(BlockResource, 'block')
+        village = fields.ForeignKey(VillageResource, 'village')
+        mediator = fields.ForeignKey(MediatorResource, 'mediator')
+        video = fields.ForeignKey(VideoResource, 'video')
+        reviewed_by = fields.ForeignKey(QaReviewerResource, 'reviewer')
+        person = fields.ForeignKey(PersonResource, 'person')
+        group = fields.ForeignKey(PersonGroupResource, 'group')
+        class Meta:
+                queryset = AdoptionVerification.objects.all()
+                resource_name = 'AdoptionVerification'
+                authorization = Authorization()
+                authentication = Authentication()
+        dehydrate_video = partial(foreign_key_to_id, field_name = 'video', sub_field_names=['id','title'])
+        hydrate_video = partial(dict_to_foreign_uri, field_name ='video')
+        dehydrate_reviewer = partial(foreign_key_to_id, field_name = 'reviewer', sub_field_names=['id','partner_name'])
+        hydrate_reviewer = partial(dict_to_foreign_uri, field_name ='reviewer')
+        dehydrate_block = partial(foreign_key_to_id, field_name = 'block', sub_field_names=['id','block_name'])
+        hydrate_block = partial(dict_to_foreign_uri, field_name ='block')
+        dehydrate_village = partial(foreign_key_to_id, field_name = 'village', sub_field_names=['id','village_name'])
+        hydrate_village = partial(dict_to_foreign_uri, field_name ='village')
+        dehydrate_mediator = partial(foreign_key_to_id, field_name = 'mediator', sub_field_names=['id','name'])
+        hydrate_mediator = partial(dict_to_foreign_uri, field_name ='mediator')
+        dehydrate_group = partial(foreign_key_to_id, field_name = 'group', sub_field_names=['id','group_name'])
+        hydrate_group = partial(dict_to_foreign_uri, field_name ='group')
+
+
 
 
 def get_partner_videos(user_id):

@@ -141,6 +141,58 @@ var DisseminationQuality_configs = {
         }
     }
 };
+
+var AdoptionVerification_configs = {
+        'page_header': 'Adoption Verification',
+        'add_template_name': 'Adoption_Verification_add_edit_template',
+        'edit_template_name': 'Adoption_Verification_add_edit_template',
+        'rest_api_url': '/qacoco/api/v1/AdoptionVerification/',
+        'list_elements': [{'header':'Video','element':'video'},{'header':'Village','element':'village'},{'header':'Block','element':'block'}],
+        'entity_name': 'AdoptionVerification',
+        'dashboard_display': {
+            listing: true,
+            add: true
+        },
+        'sort_field': 'video',
+        'foreign_entities':{
+            'video':{
+                "video":{
+                    'placeholder': 'id_video',
+                    'name_field': 'video_name'
+                },
+            },
+            'village':{
+                "village":{
+                    'placeholder': 'id_village',
+                    'name_field': 'village_name'
+                },
+            },
+            'mediator':{
+                "mediator":{
+                    'placeholder': 'id_mediator',
+                    'name_field': 'mediator_name'
+                },
+            },
+            'group':{
+                "group":{
+                    'placeholder': 'id_group',
+                    'name_field': 'group_name'
+                },
+            },
+            'person':{
+                "person":{
+                    'placeholder': 'id_person',
+                    'name_field': 'person_name'
+                },
+            },
+            'block':{
+                "block":{
+                'placeholder' : 'id_block',
+                'name_field' : 'block_name'
+            }
+        }
+    }
+};
     var misc = {
         download_chunk_size: 2000,
         background_download_interval: 5 * 60 * 1000,
@@ -213,6 +265,7 @@ var DisseminationQuality_configs = {
         video : video_configs,
         VideoQualityReview : VideoQualityReview_configs,
         DisseminationQuality : DisseminationQuality_configs,
+        AdoptionVerification : AdoptionVerification_configs,
         misc: misc
 
     }
