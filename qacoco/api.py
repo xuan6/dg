@@ -123,8 +123,8 @@ class DisseminationQualityResource(BaseResource):
         video = fields.ForeignKey(VideoResource, 'video')
         reviewed_by = fields.ForeignKey(QaReviewerResource, 'reviewer')
         class Meta:
-                queryset = VideoQualityReview.objects.all()
-                resource_name = 'VideoQualityReview'
+                queryset = DisseminationQuality.objects.all()
+                resource_name = 'DisseminationQuality'
                 authorization = Authorization()
                 authentication = Authentication()
         dehydrate_video = partial(foreign_key_to_id, field_name = 'video', sub_field_names=['id','title'])

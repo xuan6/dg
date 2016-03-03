@@ -16,13 +16,13 @@ function() {
             'video':{
                 "video":{
                     'placeholder': 'id_video',
-                    'name_field': 'video_name'
+                    'name_field': 'title'
                 },
             },
-            'reviewed_by':{
-                "reviewed_by":{
+            'reviewer':{
+                "reviewer":{
                 'placeholder' : 'id_reviewed_by',
-                'name_field' : 'reviewed_by_name'
+                'name_field' : 'name'
             }
         }
     }
@@ -90,17 +90,17 @@ function() {
             'video':{
                 "video":{
                     'placeholder': 'id_video',
-                    'name_field': 'video_name'
+                    'name_field': 'title'
                 },
             },
-            'reviewed_by':{
-                "reviewed_by":{
-                'placeholder' : 'id_reviewed_by',
-                'name_field' : 'reviewed_by_name'
+            'reviewer':{
+                "reviewer":{
+                    'placeholder' : 'id_reviewed_by',
+                    'name_field' : 'name'
+                }
             }
         }
-    }
-};
+    };
 
 var DisseminationQuality_configs = {
         'page_header': 'Dissemination Quality',
@@ -118,7 +118,7 @@ var DisseminationQuality_configs = {
             'video':{
                 "video":{
                     'placeholder': 'id_video',
-                    'name_field': 'video_name'
+                    'name_field': 'title'
                 },
             },
             'village':{
@@ -193,6 +193,72 @@ var AdoptionVerification_configs = {
         }
     }
 };
+
+     var video_configs = {
+        'rest_api_url': '/qacoco/api/v1/video/',
+        'entity_name': 'video',
+        'sort_field': 'title',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+    var reviewed_by_configs = {
+        'rest_api_url': '/qacoco/api/v1/reviewer/',
+        'entity_name': 'reviewer',
+        'sort_field': 'name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+    var block_configs = {
+        'rest_api_url': '/qacoco/api/v1/block/',
+        'entity_name': 'block',
+        'sort_field': 'name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+    var village_configs = {
+        'rest_api_url': '/qacoco/api/v1/village/',
+        'entity_name': 'village',
+        'sort_field': 'name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+    var mediator_configs = {
+        'rest_api_url': '/qacoco/api/v1/mediator/',
+        'entity_name': 'mediator',
+        'sort_field': 'name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+    var group_configs = {
+        'rest_api_url': '/qacoco/api/v1/group/',
+        'entity_name': 'group',
+        'sort_field': 'name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+    var person_configs = {
+        'rest_api_url': '/qacoco/api/v1/person/',
+        'entity_name': 'person',
+        'sort_field': 'name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+
+
     var misc = {
         download_chunk_size: 2000,
         background_download_interval: 5 * 60 * 1000,
@@ -241,24 +307,7 @@ var AdoptionVerification_configs = {
             } 
         }
     };
-    var video_configs = {
-        'rest_api_url': '/qacoco/api/v1/video/',
-        'entity_name': 'video',
-        'sort_field': 'video_name',
-        'dashboard_display': {
-            listing: false,
-            add: false
-        }
-    };
-    var reviewed_by_configs = {
-        'rest_api_url': '/qacoco/api/v1/reviewed_by/',
-        'entity_name': 'reviewed_by',
-        'sort_field': 'reviewed_by_name',
-        'dashboard_display': {
-            listing: false,
-            add: false
-        }
-    };
+   
 
     return {
         VideoContentApproval : VideoContentApproval_configs,
@@ -266,6 +315,13 @@ var AdoptionVerification_configs = {
         VideoQualityReview : VideoQualityReview_configs,
         DisseminationQuality : DisseminationQuality_configs,
         AdoptionVerification : AdoptionVerification_configs,
+        reviewer : reviewed_by_configs,
+        block : block_configs,
+        village : village_configs,
+        mediator : mediator_configs,
+        group : group_configs,
+        person : person_configs,
+
         misc: misc
 
     }
