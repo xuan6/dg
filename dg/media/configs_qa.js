@@ -5,13 +5,13 @@ function() {
 		'add_template_name': 'Video_Content_Approval_add_edit_template',
         'edit_template_name': 'Video_Content_Approval_add_edit_template',
         'rest_api_url': '/qacoco/api/v1/VideoContentApproval/',
-        'list_elements': [{'header':'Video','element':'video'},{'header':'Reviewer','element':'reviewer'},{'header':'Comment','element':'comment'}],
+        'list_elements': [{'header':'Video','element':'video.title'},{'header':'Reviewer','element':'reviewer.name'},{'header':'Comment','element':'comment'}],
         'entity_name': 'VideoContentApproval',
         'dashboard_display': {
             listing: true,
             add: true
         },
-        'sort_field': 'video',
+        'sort_field': 'title',
         'foreign_entities':{
             'video':{
                 "video":{
@@ -21,37 +21,23 @@ function() {
             },
             'reviewer':{
                 "reviewer":{
-                'placeholder' : 'id_reviewed_by',
-                'name_field' : 'name'
+                    'placeholder' : 'id_reviewed_by',
+                    'name_field' : 'name'
+                }
             }
-        }
-    }
-};
-    
-    
-    /*'form_field_validation': {
+        },
+
+        'form_field_validation': {
             ignore: [],
             rules: {
-                video: "required",
                 reviewer: "required",
-                comment:{
-                	required: true,
-                    minlength: 2,
-                    maxlength: 100,
-                    allowedChar: true
-            	},
-            messages: {
-                video: "Video name is required"
-                reviewer: "Reviewer name is required",
-                comment: {
-                	required: 'Comment is required',
-                    minlength: 'Comment should contain at least 2 characters',
-                    maxlength: 'Comment should contain at most 100 characters',
-                    allowedChar: 'Comment should contain only english and local language characters'
-
-                },
+                video: "required"    
             },
-             highlight: function(element, errorClass, validClass) {
+            messages: {
+                video: "Video name is required",
+                reviewer: "Reviewer name is required"      
+            },
+            highlight: function(element, errorClass, validClass) {
                 $(element)
                     .parent('div')
                     .parent('div')
@@ -63,7 +49,6 @@ function() {
                     .parent('div')
                     .parent('div')
                     .removeClass("error");
-
             },
             errorElement: "span",
             errorClass: "help-inline red-color",
@@ -71,15 +56,14 @@ function() {
                 element.parent().append(label);
             }
         }
-
-    };*/
+    };
 
     var VideoQualityReview_configs = {
         'page_header': 'Video Quality Review',
         'add_template_name': 'Video_Quality_Review_add_edit_template',
         'edit_template_name': 'Video_Quality_Review_add_edit_template',
         'rest_api_url': '/qacoco/api/v1/VideoQualityReview/',
-        'list_elements': [{'header':'Video','element':'video'},{'header':'Reviewer','element':'reviewer'},{'header':'Total Score','element':'total_score'},{'header':'Video Grade','element':'video_grade'}],
+        'list_elements': [{'header':'Video','element':'video.title'},{'header':'Reviewer','element':'reviewer'},{'header':'Total Score','element':'total_score'},{'header':'Video Grade','element':'video_grade'}],
         'entity_name': 'VideoQualityReview',
         'dashboard_display': {
             listing: true,
@@ -107,7 +91,7 @@ var DisseminationQuality_configs = {
         'add_template_name': 'Dissemination_Quality_add_edit_template',
         'edit_template_name': 'Dissemination_Quality_add_edit_template',
         'rest_api_url': '/qacoco/api/v1/DisseminationQuality/',
-        'list_elements': [{'header':'Video','element':'video'},{'header':'Date','element':'date'}],
+        'list_elements': [{'header':'Video','element':'video.title'},{'header':'Date','element':'date'}],
         'entity_name': 'DisseminationQuality',
         'dashboard_display': {
             listing: true,
@@ -147,7 +131,7 @@ var AdoptionVerification_configs = {
         'add_template_name': 'Adoption_Verification_add_edit_template',
         'edit_template_name': 'Adoption_Verification_add_edit_template',
         'rest_api_url': '/qacoco/api/v1/AdoptionVerification/',
-        'list_elements': [{'header':'Video','element':'video'},{'header':'Village','element':'village'},{'header':'Block','element':'block'}],
+        'list_elements': [{'header':'Video','element':'video.title'},{'header':'Village','element':'village.village_name'},{'header':'Block','element':'block.block_name'}],
         'entity_name': 'AdoptionVerification',
         'dashboard_display': {
             listing: true,
@@ -215,7 +199,7 @@ var AdoptionVerification_configs = {
     var block_configs = {
         'rest_api_url': '/qacoco/api/v1/block/',
         'entity_name': 'block',
-        'sort_field': 'name',
+        'sort_field': 'block_name',
         'dashboard_display': {
             listing: false,
             add: false
@@ -224,7 +208,7 @@ var AdoptionVerification_configs = {
     var village_configs = {
         'rest_api_url': '/qacoco/api/v1/village/',
         'entity_name': 'village',
-        'sort_field': 'name',
+        'sort_field': 'village_name',
         'dashboard_display': {
             listing: false,
             add: false
@@ -242,7 +226,7 @@ var AdoptionVerification_configs = {
     var group_configs = {
         'rest_api_url': '/qacoco/api/v1/group/',
         'entity_name': 'group',
-        'sort_field': 'name',
+        'sort_field': 'group_name',
         'dashboard_display': {
             listing: false,
             add: false
@@ -321,7 +305,6 @@ var AdoptionVerification_configs = {
         mediator : mediator_configs,
         group : group_configs,
         person : person_configs,
-
         misc: misc
 
     }

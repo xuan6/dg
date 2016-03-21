@@ -9,7 +9,7 @@ from coco.models import CocoUser
 from people.models import QaReviewer,Animator,Person,PersonGroup
 from geographies.models import Block,Village
 from activities.models import DisseminationQuality,AdoptionVerification
-from coco.api import BaseResource
+
 
 def foreign_key_to_id(bundle, field_name,sub_field_names):
     field = getattr(bundle.obj, field_name)
@@ -29,6 +29,27 @@ def dict_to_foreign_uri(bundle, field_name, resource_name=None):
     else:
         bundle.data[field_name] = None
     return bundle
+
+class BaseResource(ModelResource):
+    
+    def full_hydrate(self, bundle):
+        bundle = super(BaseResource, self).full_hydrate(bundle)
+        bundle.obj.user_modified_id = bundle.request.user.id
+        return bundle
+    
+    def obj_create(self, bundle, **kwargs):
+        """
+        A ORM-specific implementation of ``obj_create``.
+        """
+        bundle.obj = self._meta.object_class()
+
+        for key, value in kwargs.items():
+            setattr(bundle.obj, key, value)
+
+        self.authorized_create_detail(self.get_object_list(bundle.request), bundle)
+        bundle = self.full_hydrate(bundle)
+        bundle.obj.user_created_id = bundle.request.user.id
+        return self.save(bundle)
 
 class QaReviewerResource(BaseResource):
 	class Meta:
@@ -92,7 +113,7 @@ class PersonGroupResource(BaseResource):
 
 class VideoContentApprovalResource(BaseResource):
         video = fields.ForeignKey(VideoResource, 'video')
-        reviewed_by = fields.ForeignKey(QaReviewerResource, 'reviewer')
+        reviewer = fields.ForeignKey(QaReviewerResource, 'reviewer')
         class Meta:
                 queryset = VideoContentApproval.objects.all()
                 resource_name = 'VideoContentApproval'
@@ -100,7 +121,7 @@ class VideoContentApprovalResource(BaseResource):
                 authentication = Authentication()
         dehydrate_video = partial(foreign_key_to_id, field_name = 'video', sub_field_names=['id','title'])
         hydrate_video = partial(dict_to_foreign_uri, field_name ='video')
-        dehydrate_reviewer = partial(foreign_key_to_id, field_name = 'reviewer', sub_field_names=['id','partner_name'])
+        dehydrate_reviewer = partial(foreign_key_to_id, field_name = 'reviewer', sub_field_names=['id','name'])
         hydrate_reviewer = partial(dict_to_foreign_uri, field_name ='reviewer')
 
 class VideoQualityReviewResource(BaseResource):
@@ -113,7 +134,7 @@ class VideoQualityReviewResource(BaseResource):
                 authentication = Authentication()
         dehydrate_video = partial(foreign_key_to_id, field_name = 'video', sub_field_names=['id','title'])
         hydrate_video = partial(dict_to_foreign_uri, field_name ='video')
-        dehydrate_reviewer = partial(foreign_key_to_id, field_name = 'reviewer', sub_field_names=['id','partner_name'])
+        dehydrate_reviewer = partial(foreign_key_to_id, field_name = 'reviewer', sub_field_names=['id','name'])
         hydrate_reviewer = partial(dict_to_foreign_uri, field_name ='reviewer')
 
 class DisseminationQualityResource(BaseResource):

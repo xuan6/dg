@@ -28,13 +28,7 @@
 	  });
 	</script>
 
-    <script language="JavaScript">
-    select_unselect_all = function (select_all) {
-        var index = $(select_all).closest("tr").children().index($(select_all).closest("th")) + 1;
-        $(select_all).closest("table").find("td:nth-child("+index+") input:checkbox").prop("checked",select_all.checked);
-    }
-    </script>
-
+    
                                         <!--Core Framework templates end here -->
     <!--Page layout, full download, incremental download, background inc download, upload, notifications, status, dashboard,    form page, list page, login, select-options template, -->            
 
@@ -288,7 +282,7 @@
 
 	<div class="media">
 		<a class="pull-left hide-media">
-		<img class="media-object" src="/media/coco/app/images/table.png" style = "width:70px;">
+		<img class="media-object" src="/media/coco/app/images/qacoco.png" style = "width:70px;">
 		</a>
 		<div class="media-body">
 		<h5 class="media-heading">View Data</h5>
@@ -459,6 +453,7 @@
 </script>
 <!--//////////////////////////////////////////////////// VIDEO CONTENT APPROVAL ADD/EDIT TEMPLATES START ///////////////////////////////////////////////-->
 
+
 <script type="text/template" id="Video_Content_Approval_add_edit_template">
     <fieldset class="form-horizontal">
         <legend>Video Content Approval</legend>
@@ -475,7 +470,7 @@
         <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Type</label>
                 <div class="col-sm-4">
-                    <select name="type" class="form-control">
+                    <select name="suitable_for" class="form-control">
                         <option value="" selected="selected">
                             ---------
                         </option>
@@ -488,15 +483,23 @@
                     </select>
                 </div>
             </div>
+         <fieldset class="form-horizontal">
+            <legend> </legend>
         <div class="form-group">
             
             <label class="control-label col-sm-2"><b>Reviewed By</b></label>
             <div class="col-sm-4">
-                <select id = "id_reviewed_by" name="reviewed_by" class = "chosen-select form-control">
+                <select id = "id_reviewed_by" name="reviewer" class = "chosen-select form-control">
                
                 </select>
             </div>
         </div>
+        <div class="form-group">
+                <label class="col-sm-2 control-label">Comment</label>
+                <div class="col-sm-4">
+                    <input type="text" name="Comment" class="form-control">
+                </div>
+         </div>
         
     </fieldset>
 </script>
@@ -504,6 +507,26 @@
 <!--//////////////////////////////////////////////////// VIDEO CONTENT APPROVAL ADD/EDIT TEMPLATES END ///////////////////////////////////////////////-->
 
 <!--//////////////////////////////////////////////////// VIDEO QUALITY REVIEW ADD/EDIT TEMPLATES START ///////////////////////////////////////////////-->
+
+
+<script language= "javascript">
+    function cal1()
+    {   
+        var s1,s2,s3,s4,s5,s6,s7,s8,s9,sum=0;
+        s1= parseInt(document.getElementsByName('Story_Structure').value);
+        s2= parseInt(document.getElementsByName('Framing').value);
+        s3= parseInt(document.getElementsByName('Camera_Angles').value);
+        s4= parseInt(document.getElementsByName('Camera_Movement').value);
+        s5= parseInt(document.getElementsByName('Light').value);
+        s6= parseInt(document.getElementsByName('Audio_and_Sound').value);
+        s7= parseInt(document.getElementsByName('Facilitation').value);
+        s8= parseInt(document.getElementsByName('Technical').value);
+        s9= parseInt(document.getElementsByName('Style_Guide').value);
+
+        sum= s1+s2+s3+s4+s5+s6+s7+s8+s9  
+        document.getElementsByName('Total_Score')[0].value = sum;   
+    }
+    </script>
 
 <script type="text/template" id="Video_Quality_Review_add_edit_template">
     <fieldset class="form-horizontal">
@@ -518,240 +541,108 @@
                 </select>
             </div>
         </div>
+         <div class="form-group">
+                <label class="col-sm-2 control-label">Youtube Id</label>
+                <div class="col-sm-4">
+                    <input type="text" name="Youtube_Id" class="form-control">
+                </div>
+                <div class="help-block col-sm-4"><b>Link</b></div>
+            </div>
+        <fieldset class="form-horizontal">
+            <legend> </legend>
+                
         <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Story Structure</label>
                 <div class="col-sm-4">
-                    <select name="Story_Structure" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Story_Structure" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Story_Structure" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Story_Structure" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Story_Structure" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Story_Structure" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Framing</label>
                 <div class="col-sm-4">
-                    <select name="Framing" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Framing" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Framing" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Framing" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Framing" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Framing" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Camera Angles</label>
                 <div class="col-sm-4">
-                    <select name="Camera_Angles" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Camera_Angles" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Camera_Angles" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Camera_Angles" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Camera_Angles" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Camera_Angles" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5 
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Camera Movement</label>
                 <div class="col-sm-4">
-                    <select name="Camera_Movement" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Camera_Movement" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Camera_Movement" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Camera_Movement" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Camera_Movement" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Camera_Movement" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Light</label>
                 <div class="col-sm-4">
-                    <select name="Light" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Light" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Light" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Light" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Light" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Light" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Audio and Sound</label>
                 <div class="col-sm-4">
-                    <select name="Audio_and_Sound" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Audio_and_Sound" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Audio_and_Sound" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Audio_and_Sound" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Audio_and_Sound" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Audio_and_Sound" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Facilitation</label>
                 <div class="col-sm-4">
-                    <select name="Facilitation" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Technical</label>
                 <div class="col-sm-4">
-                    <select name="Technical" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Technical" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Technical" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Technical" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Technical" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Technical" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Style Guide</label>
                 <div class="col-sm-4">
-                    <select name="Style_Guide" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Style_Guide" style="margin: 0 10px 0 10px;" value="1" onclick="cal1()">1
+                    <input type="radio" name="Style_Guide" style="margin: 0 10px 0 30px;" value="2" onclick="cal1()">2
+                    <input type="radio" name="Style_Guide" style="margin: 0 10px 0 30px;" value="3" onclick="cal1()">3
+                    <input type="radio" name="Style_Guide" style="margin: 0 10px 0 30px;" value="4" onclick="cal1()">4
+                    <input type="radio" name="Style_Guide" style="margin: 0 10px 0 30px;" value="5" onclick="cal1()">5
                 </div>
             </div>
+            <fieldset class="form-horizontal">
+            <legend> </legend>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Total Score</label>
                 <div class="col-sm-4">
@@ -764,8 +655,15 @@
                     <input type="text" name="Video_Grade" class="form-control">
                 </div>
             </div>
+            <div class="form-group">
+                <label class="control-label dis-block col-sm-2">Approve for Dissemination</label>
+                <div class="col-sm-4">
+                    <input type="radio" name="Approval" style="margin: 0 10px 0 10px;">Yes
+                    <input type="radio" name="Approval" style="margin: 0 10px 0 30px;">No
+                    
+                </div>
+            </div>
         <div class="form-group">
-            
             <label class="control-label col-sm-2"><b>Reviewed By</b></label>
             <div class="col-sm-4">
                 <select id = "id_reviewed_by" name="reviewed_by" class = "chosen-select form-control">
@@ -787,6 +685,21 @@
 
 <!--//////////////////////////////////////////////////// DISSEMINATION QUALITY ADD/EDIT TEMPLATES START ///////////////////////////////////////////////-->
 
+<script language= "javascript">
+    function cal2()
+    {   
+        var s1,s2,s3,s4,s5,sum=0;
+        s1= parseInt(document.getElementsByName('Equipment_Setup_And_Handling')[0].value);
+        s2= parseInt(document.getElementsByName('Context_Setting')[0].value);
+        s3= parseInt(document.getElementsByName('Facilitation')[0].value);
+        s4= parseInt(document.getElementsByName('Subject_Knowledge')[0].value);
+        s5= parseInt(document.getElementsByName('Documentation')[0].value);
+        
+
+        sum= s1+s2+s3+s4+s5  
+        document.getElementsByName('Total_Score')[0].value = sum;   
+    }
+    </script>
 
 <script type="text/template" id="Dissemination_Quality_add_edit_template">
     <fieldset class="form-horizontal">
@@ -834,137 +747,60 @@
                     <input class="date-picker form-control" id="id_date" name="date" type="text" placeholder="YYYY-MM-DD">
                 </div>
             </div>
+        <fieldset class="form-horizontal">
+            <legend> </legend>
         <div class="form-group">
-                <label class="control-label dis-block col-sm-2">Equipment Setup and Handling</label>
+               <label class="control-label dis-block col-sm-2">Equipment Setup And Handling</label>
                 <div class="col-sm-4">
-                    <select name="Equipment_Setup_And_Handling" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Equipment_Setup_And_Handling" style="margin: 10px 10px 0 10px;">1
+                    <input type="radio" name="Equipment_Setup_And_Handling" style="margin: 0 10px 0 30px;">2
+                    <input type="radio" name="Equipment_Setup_And_Handling" style="margin: 0 10px 0 30px;">3
+                    <input type="radio" name="Equipment_Setup_And_Handling" style="margin: 0 10px 0 30px;">4
+                    <input type="radio" name="Equipment_Setup_And_Handling" style="margin: 0 10px 0 30px;">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Context Setting</label>
                 <div class="col-sm-4">
-                    <select name="Context_Setting" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Context_Setting" style="margin: 0 10px 0 10px;">1
+                    <input type="radio" name="Context_Setting" style="margin: 0 10px 0 30px;">2
+                    <input type="radio" name="Context_Setting" style="margin: 0 10px 0 30px;">3
+                    <input type="radio" name="Context_Setting" style="margin: 0 10px 0 30px;">4
+                    <input type="radio" name="Context_Setting" style="margin: 0 10px 0 30px;">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Facilitation</label>
                 <div class="col-sm-4">
-                    <select name="Facilitation" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 10px;">1
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 30px;">2
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 30px;">3
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 30px;">4
+                    <input type="radio" name="Facilitation" style="margin: 0 10px 0 30px;">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Subject Knowledge</label>
                 <div class="col-sm-4">
-                    <select name="Subject_Knowledge" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Subject_Knowledge" style="margin: 0 10px 0 10px;">1
+                    <input type="radio" name="Subject_Knowledge" style="margin: 0 10px 0 30px;">2
+                    <input type="radio" name="Subject_Knowledge" style="margin: 0 10px 0 30px;">3
+                    <input type="radio" name="Subject_Knowledge" style="margin: 0 10px 0 30px;">4
+                    <input type="radio" name="Subject_Knowledge" style="margin: 0 10px 0 30px;">5
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label dis-block col-sm-2">Documentation</label>
                 <div class="col-sm-4">
-                    <select name="Documentation" class="form-control">
-                        <option value="" selected="selected">
-                            ---------
-                        </option>
-                        <option value="1">
-                            1
-                        </option>
-                        <option value="2">
-                            2
-                        </option>
-                        <option value="3">
-                            3
-                        </option>
-                        <option value="4">
-                            4
-                        </option>
-                        <option value="5">
-                            5
-                        </option>
-                        
-                    </select>
+                    <input type="radio" name="Documentation" style="margin: 0 10px 0 10px;">1
+                    <input type="radio" name="Documentation" style="margin: 0 10px 0 30px;">2
+                    <input type="radio" name="Documentation" style="margin: 0 10px 0 30px;">3
+                    <input type="radio" name="Documentation" style="margin: 0 10px 0 30px;">4
+                    <input type="radio" name="Documentation" style="margin: 0 10px 0 30px;">5
                 </div>
             </div>
-            
+            <fieldset class="form-horizontal">
+            <legend> </legend>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Total Score</label>
                 <div class="col-sm-4">

@@ -6,6 +6,7 @@ from coco.base_models import ACTORS, CocoModel, STORYBASE, SUITABLE_FOR, VIDEO_T
 from geographies.models import Village
 from programs.models import Partner
 from people.models import Animator, Person,QaReviewer
+from qacoco.base_models import TYPE_CHOICES
 
 
 class PracticeSector(CocoModel):
@@ -158,6 +159,7 @@ class VideoQualityReview(CocoModel):
     approval = models.CharField(max_length=3)
     reviewer = models.ForeignKey(QaReviewer)
     remarks = models.CharField(max_length=200)
+    youtubeid = models.CharField(max_length=200)
    
     def __unicode__(self):
         display = "%s" % (self.video)
@@ -166,6 +168,7 @@ class VideoQualityReview(CocoModel):
 class VideoContentApproval(CocoModel):
     video = models.ForeignKey(Video)
     reviewer = models.ForeignKey(QaReviewer)
+    suitable_for = models.CharField(max_length=1,choices=TYPE_CHOICES)
     comment = models.CharField(max_length=200)
     
     def __unicode__(self):
