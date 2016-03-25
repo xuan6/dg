@@ -1,0 +1,382 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "coco/api.py",
+			"settings":
+			{
+				"buffer_size": 28777,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "dg/media/configs.js",
+			"settings":
+			{
+				"buffer_size": 41647,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "dg/media/configs_qa.js",
+			"settings":
+			{
+				"buffer_size": 10241,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "qacoco/api.py",
+			"settings":
+			{
+				"buffer_size": 9849,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "dg/media/qa_dashboard.html",
+			"settings":
+			{
+				"buffer_size": 43779,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "coco/base_models.py",
+			"settings":
+			{
+				"buffer_size": 2151,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/dellpc/Documents/dg/qacoco/views.py",
+		"/C/Users/dellpc/Documents/dg/dg/settings.py",
+		"/C/Users/dellpc/Documents/dg/dg/website_admin.py",
+		"/C/Users/dellpc/Documents/dg/dg/media/coco/coco-offline.appcache",
+		"/C/Users/dellpc/Documents/dg/dg/media/configs.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"max_limit",
+			"dehydrate_farmers_shown",
+			"NonNegotiableForm",
+			"NonNegotiableAuthorization",
+			"get_user_non_negotiable",
+			"NonNegotiableAuthorization",
+			"prefetch_related",
+			"VideoResource",
+			"person_inline",
+			"inline",
+			"person_inline",
+			"inline",
+			"NonNegotiable",
+			"person",
+			"NonNegotiable"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "coco/api.py",
+					"settings":
+					{
+						"buffer_size": 28777,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7275,
+								7227
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4388.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "dg/media/configs.js",
+					"settings":
+					{
+						"buffer_size": 41647,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15533,
+								15533
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4640.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "dg/media/configs_qa.js",
+					"settings":
+					{
+						"buffer_size": 10241,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7222,
+								7222
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2705.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "qacoco/api.py",
+					"settings":
+					{
+						"buffer_size": 9849,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5121,
+								5124
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1815.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "dg/media/qa_dashboard.html",
+					"settings":
+					{
+						"buffer_size": 43779,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4576,
+								4971
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1189.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "coco/base_models.py",
+					"settings":
+					{
+						"buffer_size": 2151,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.955476402493,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 290.0,
+	"status_bar_visible": true
+}

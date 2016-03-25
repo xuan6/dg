@@ -178,7 +178,7 @@ var AdoptionVerification_configs = {
     }
 };
 
-     var video_configs = {
+    var video_configs = {
         'rest_api_url': '/qacoco/api/v1/video/',
         'entity_name': 'video',
         'sort_field': 'title',
@@ -295,10 +295,10 @@ var AdoptionVerification_configs = {
 
     return {
         VideoContentApproval : VideoContentApproval_configs,
-        video : video_configs,
         VideoQualityReview : VideoQualityReview_configs,
         DisseminationQuality : DisseminationQuality_configs,
         AdoptionVerification : AdoptionVerification_configs,
+        video : video_configs,
         reviewer : reviewed_by_configs,
         block : block_configs,
         village : village_configs,

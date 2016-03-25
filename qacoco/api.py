@@ -69,6 +69,7 @@ class VideoResource(BaseResource):
 
 class BlockResource(BaseResource):
     class Meta:
+                
                 max_limit = None
                 queryset = Block.objects.all()
                 resource_name = 'block'
@@ -188,25 +189,24 @@ class AdoptionVerificationResource(BaseResource):
 
 
 
-
-def get_partner_videos(user_id):
-    ###Videos produced by partner with in the same state
-    coco_user = CocoUser.objects.get(user_id = user_id)
-    villages = coco_user.get_videos()
-    user_states = State.objects.filter(district__block__village__in = villages).distinct().values_list('id', flat=True)
-    user_videos = coco_user.get_videos().values_list('id', flat = True)
-    ###FIRST GET VIDEOS PRODUCED IN STATE WITH SAME PARTNER
-    videos = Video.objects.filter(village__block__district__state__in = user_states, partner_id = coco_user.partner_id).values_list('id', flat = True)
-    ###Get videos screened to allow inter partner sharing of videos
-    videos_seen = set(Person.objects.filter(village__in = villages, partner_id = coco_user.partner_id).values_list('screening__videoes_screened', flat=True))
-    return set(list(videos) + list(videos_seen) + list(user_videos))
-
-class VideoAuthorization(Authorization):
-    def read_list(self, object_list, bundle):        
-        return object_list.filter(id__in= get_partner_videos(bundle.request.user.id))
+class VillagePartnerAuthorization(Authorization):
+    def __init__(self, field):
+        self.village_field = field
     
+    def read_list(self, object_list, bundle):
+        villages = CocoUser.objects.get(user_id= bundle.request.user.id).get_villages()
+        kwargs = {}
+        kwargs[self.village_field] = villages
+        kwargs['partner_id'] = get_user_partner_id(bundle.request.user.id)
+        return object_list.filter(**kwargs).distinct()
+
     def read_detail(self, object_list, bundle):
-        if bundle.obj.id in get_partner_videos(bundle.request.user.id):
+        # Is the requested object owned by the user?
+        kwargs = {}
+        kwargs[self.village_field] = CocoUser.objects.get(user_id= bundle.request.user.id).get_villages()
+        kwargs['partner_id'] = get_user_partner_id(bundle.request.user.id)
+        obj = object_list.filter(**kwargs).distinct()
+        if obj:
             return True
         else:
-            raise NotFound( "Not allowed to download video")
+            raise NotFound( "Not allowed to download" )
