@@ -9,6 +9,7 @@ from coco.models import CocoUser
 from people.models import QaReviewer,Animator,Person,PersonGroup
 from geographies.models import Block,Village
 from activities.models import DisseminationQuality,AdoptionVerification
+from qacoco.models import QaCocoUser
 
 
 def foreign_key_to_id(bundle, field_name,sub_field_names):
@@ -29,6 +30,27 @@ def dict_to_foreign_uri(bundle, field_name, resource_name=None):
     else:
         bundle.data[field_name] = None
     return bundle
+
+class VillageAuthorization(Authorization):
+    def __init__(self, field):
+        self.village_field = field
+    
+    def read_list(self, object_list, bundle):
+        villages = QaCocoUser.objects.get(user_id= bundle.request.user.id).get_villages()
+        kwargs = {}
+        kwargs[self.village_field] = villages
+        return object_list.filter(**kwargs).distinct()
+
+    def read_detail(self, object_list, bundle):
+        # Is the requested object owned by the user?
+        kwargs = {}
+        kwargs[self.village_field] = QaCocoUser.objects.get(user_id= bundle.request.user.id).get_villages()
+        obj = object_list.filter(**kwargs).distinct()
+        if obj:
+            return True
+        else:
+            raise NotFound( "Not allowed to download Village" )
+
 
 class BaseResource(ModelResource):
     
@@ -82,7 +104,7 @@ class VillageResource(BaseResource):
                 queryset = Village.objects.all()
                 resource_name = 'village'
                 authentication = Authentication()
-                authorization = Authorization()
+                authorization = VillageAuthorization('id__in')
 
 class MediatorResource(BaseResource):
     class Meta:
@@ -189,24 +211,3 @@ class AdoptionVerificationResource(BaseResource):
 
 
 
-class VillagePartnerAuthorization(Authorization):
-    def __init__(self, field):
-        self.village_field = field
-    
-    def read_list(self, object_list, bundle):
-        villages = CocoUser.objects.get(user_id= bundle.request.user.id).get_villages()
-        kwargs = {}
-        kwargs[self.village_field] = villages
-        kwargs['partner_id'] = get_user_partner_id(bundle.request.user.id)
-        return object_list.filter(**kwargs).distinct()
-
-    def read_detail(self, object_list, bundle):
-        # Is the requested object owned by the user?
-        kwargs = {}
-        kwargs[self.village_field] = CocoUser.objects.get(user_id= bundle.request.user.id).get_villages()
-        kwargs['partner_id'] = get_user_partner_id(bundle.request.user.id)
-        obj = object_list.filter(**kwargs).distinct()
-        if obj:
-            return True
-        else:
-            raise NotFound( "Not allowed to download" )
