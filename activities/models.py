@@ -129,6 +129,17 @@ class PersonAdoptPractice(CocoModel):
 post_save.connect(save_log, sender=PersonAdoptPractice)
 pre_delete.connect(delete_log, sender=PersonAdoptPractice)
 
+class JSLPS_Screening(CocoModel):
+    id = models.AutoField(primary_key=True)
+    screenig_code = models.CharField(max_length=100)
+    screening = models.ForeignKey(Screening, null=True, blank=True)
+
+class JSLPS_PMA(CocoModel):
+    id = models.AutoField(primary_key=True)
+    pma_code = models.CharField(max_length=100)
+    pma = models.ForeignKey(PersonMeetingAttendance, null=True, blank=True)
+
+
 class AdoptionVerification(CocoModel):
     
     block = models.ForeignKey(Block)
