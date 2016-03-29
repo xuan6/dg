@@ -1,7 +1,7 @@
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth.admin import Group, GroupAdmin, User, UserAdmin
 
-from dashboard.admin import AnimatorAdmin, AnimatorAssignedVillageAdmin, BlockAdmin, CocoUserAdmin, DistrictAdmin, PersonAdmin, PersonAdoptPracticeAdmin, PersonGroupAdmin, PracticesAdmin, PracticeSectorAdmin, PracticeSubjectAdmin, PracticeSubSectorAdmin, PracticeSubtopicAdmin, PracticeTopicAdmin, ScreeningAdmin, StateAdmin, VideoAdmin, VillageAdmin, AdoptionVerificationAdmin, DisseminationQualityAdmin,VideoQualityReviewAdmin, VideoContentApprovalAdmin
+from dashboard.admin import AnimatorAdmin, AnimatorAssignedVillageAdmin, BlockAdmin, CocoUserAdmin, DistrictAdmin, PersonAdmin, PersonAdoptPracticeAdmin, PersonGroupAdmin, PracticesAdmin, PracticeSectorAdmin, PracticeSubjectAdmin, PracticeSubSectorAdmin, PracticeSubtopicAdmin, PracticeTopicAdmin, ScreeningAdmin, StateAdmin, VideoAdmin, VillageAdmin, AdoptionVerificationAdmin, DisseminationQualityAdmin,VideoQualityReviewAdmin, VideoContentApprovalAdmin, QaCocoUserAdmin
 
 from activities.models import PersonAdoptPractice, Screening, AdoptionVerification, DisseminationQuality
 from coco.models import CocoUser
@@ -49,4 +49,4 @@ coco_admin.register(VideoContentApproval, VideoContentApprovalAdmin)
 coco_admin.register(AdoptionVerification, AdoptionVerificationAdmin)
 coco_admin.register(DisseminationQuality, DisseminationQualityAdmin)
 coco_admin.register(QaReviewer)
-coco_admin.register(QaCocoUser)
+coco_admin.register(QaCocoUser,QaCocoUserAdmin)

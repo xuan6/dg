@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -8,31 +8,53 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'VideoContentApproval.suitable_for'
-        db.add_column(u'videos_videocontentapproval', 'suitable_for',
-                      self.gf('django.db.models.fields.CharField')(default=None, max_length=1),
-                      keep_default=False)
+        # Adding model 'VideoContentApproval'
+        db.create_table(u'videos_videocontentapproval', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user_created', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'videos_videocontentapproval_created', null=True, to=orm['auth.User'])),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('user_modified', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'videos_videocontentapproval_related_modified', null=True, to=orm['auth.User'])),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+            ('video', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['videos.Video'])),
+            ('reviewer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.QaReviewer'])),
+            ('suitable_for', self.gf('django.db.models.fields.CharField')(max_length=1)),
+            ('comment', self.gf('django.db.models.fields.CharField')(max_length=200)),
+        ))
+        db.send_create_signal(u'videos', ['VideoContentApproval'])
 
-        # Deleting field 'VideoQualityReview.Remarks'
-        db.delete_column(u'videos_videoqualityreview', 'Remarks')
-
-        # Adding field 'VideoQualityReview.remarks'
-        db.add_column(u'videos_videoqualityreview', 'remarks',
-                      self.gf('django.db.models.fields.CharField')(default=None, max_length=200),
-                      keep_default=False)
+        # Adding model 'VideoQualityReview'
+        db.create_table(u'videos_videoqualityreview', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user_created', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'videos_videoqualityreview_created', null=True, to=orm['auth.User'])),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('user_modified', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'videos_videoqualityreview_related_modified', null=True, to=orm['auth.User'])),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+            ('video', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['videos.Video'])),
+            ('storystructure', self.gf('django.db.models.fields.IntegerField')()),
+            ('framing', self.gf('django.db.models.fields.IntegerField')()),
+            ('camera_angles', self.gf('django.db.models.fields.IntegerField')()),
+            ('camera_movement', self.gf('django.db.models.fields.IntegerField')()),
+            ('light', self.gf('django.db.models.fields.IntegerField')()),
+            ('audio_sound', self.gf('django.db.models.fields.IntegerField')()),
+            ('facilitation', self.gf('django.db.models.fields.IntegerField')()),
+            ('technical', self.gf('django.db.models.fields.IntegerField')()),
+            ('style_guide', self.gf('django.db.models.fields.IntegerField')()),
+            ('total_score', self.gf('django.db.models.fields.IntegerField')()),
+            ('video_grade', self.gf('django.db.models.fields.IntegerField')()),
+            ('approval', self.gf('django.db.models.fields.CharField')(max_length=3)),
+            ('reviewer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.QaReviewer'])),
+            ('remarks', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('youtubeid', self.gf('django.db.models.fields.CharField')(max_length=200)),
+        ))
+        db.send_create_signal(u'videos', ['VideoQualityReview'])
 
 
     def backwards(self, orm):
-        # Deleting field 'VideoContentApproval.suitable_for'
-        db.delete_column(u'videos_videocontentapproval', 'suitable_for')
+        # Deleting model 'VideoContentApproval'
+        db.delete_table(u'videos_videocontentapproval')
 
-        # Adding field 'VideoQualityReview.Remarks'
-        db.add_column(u'videos_videoqualityreview', 'Remarks',
-                      self.gf('django.db.models.fields.CharField')(default=None, max_length=200),
-                      keep_default=False)
-
-        # Deleting field 'VideoQualityReview.remarks'
-        db.delete_column(u'videos_videoqualityreview', 'remarks')
+        # Deleting model 'VideoQualityReview'
+        db.delete_table(u'videos_videoqualityreview')
 
 
     models = {
@@ -211,6 +233,16 @@ class Migration(SchemaMigration):
             'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'programs_partner_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'programs_partner_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"})
         },
+        u'videos.jslps_video': {
+            'Meta': {'object_name': 'JSLPS_Video'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'videos_jslps_video_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'videos_jslps_video_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'vc': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'video': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['videos.Video']", 'null': 'True', 'blank': 'True'})
+        },
         u'videos.language': {
             'Meta': {'object_name': 'Language'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -360,7 +392,7 @@ class Migration(SchemaMigration):
             'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'videos_videoqualityreview_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'video': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['videos.Video']"}),
             'video_grade': ('django.db.models.fields.IntegerField', [], {}),
-            'youtubeid': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'youtubeid': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         }
     }
 

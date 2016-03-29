@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -8,18 +8,73 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'QaReviewer'
-        db.create_table(u'people_qareviewer', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('partner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['programs.Partner'])),
+        # Adding model 'JSLPS_Animator'
+        db.create_table(u'people_jslps_animator', (
+            ('user_created', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'people_jslps_animator_created', null=True, to=orm['auth.User'])),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('user_modified', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'people_jslps_animator_related_modified', null=True, to=orm['auth.User'])),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('animator_code', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('animator', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.Animator'], null=True, blank=True)),
         ))
-        db.send_create_signal(u'people', ['QaReviewer'])
+        db.send_create_signal(u'people', ['JSLPS_Animator'])
+
+        # Adding model 'JSLPS_Person'
+        db.create_table(u'people_jslps_person', (
+            ('user_created', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'people_jslps_person_created', null=True, to=orm['auth.User'])),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('user_modified', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'people_jslps_person_related_modified', null=True, to=orm['auth.User'])),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('person_code', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('person', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.Person'], null=True, blank=True)),
+        ))
+        db.send_create_signal(u'people', ['JSLPS_Person'])
+
+        # Adding model 'JSLPS_Persongroup'
+        db.create_table(u'people_jslps_persongroup', (
+            ('user_created', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'people_jslps_persongroup_created', null=True, to=orm['auth.User'])),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('user_modified', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'people_jslps_persongroup_related_modified', null=True, to=orm['auth.User'])),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('group_code', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('group', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.PersonGroup'], null=True, blank=True)),
+        ))
+        db.send_create_signal(u'people', ['JSLPS_Persongroup'])
+
+        # Adding model 'JSLPS_AnimatorAssignedVillage'
+        db.create_table(u'people_jslps_animatorassignedvillage', (
+            ('user_created', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'people_jslps_animatorassignedvillage_created', null=True, to=orm['auth.User'])),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('user_modified', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'people_jslps_animatorassignedvillage_related_modified', null=True, to=orm['auth.User'])),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('animator', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.JSLPS_Animator'])),
+            ('village', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['geographies.JSLPS_Village'])),
+        ))
+        db.send_create_signal(u'people', ['JSLPS_AnimatorAssignedVillage'])
+
+        # Adding unique constraint on 'QaReviewer', fields ['partner', 'name']
+        db.create_unique(u'people_qareviewer', ['partner_id', 'name'])
 
 
     def backwards(self, orm):
-        # Deleting model 'QaReviewer'
-        db.delete_table(u'people_qareviewer')
+        # Removing unique constraint on 'QaReviewer', fields ['partner', 'name']
+        db.delete_unique(u'people_qareviewer', ['partner_id', 'name'])
+
+        # Deleting model 'JSLPS_Animator'
+        db.delete_table(u'people_jslps_animator')
+
+        # Deleting model 'JSLPS_Person'
+        db.delete_table(u'people_jslps_person')
+
+        # Deleting model 'JSLPS_Persongroup'
+        db.delete_table(u'people_jslps_persongroup')
+
+        # Deleting model 'JSLPS_AnimatorAssignedVillage'
+        db.delete_table(u'people_jslps_animatorassignedvillage')
 
 
     models = {
@@ -96,6 +151,18 @@ class Migration(SchemaMigration):
             'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_district_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_district_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"})
         },
+        u'geographies.jslps_village': {
+            'Meta': {'object_name': 'JSLPS_Village'},
+            'Village': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geographies.Village']", 'null': 'True', 'blank': 'True'}),
+            'block_code': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_jslps_village_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_jslps_village_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'village_code': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'village_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
         u'geographies.state': {
             'Meta': {'object_name': 'State'},
             'country': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geographies.Country']"}),
@@ -150,6 +217,47 @@ class Migration(SchemaMigration):
             'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_animatorassignedvillage_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'village': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geographies.Village']"})
         },
+        u'people.jslps_animator': {
+            'Meta': {'object_name': 'JSLPS_Animator'},
+            'animator': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.Animator']", 'null': 'True', 'blank': 'True'}),
+            'animator_code': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'assigned_villages': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'jslps_assigned_villages'", 'to': u"orm['geographies.JSLPS_Village']", 'through': u"orm['people.JSLPS_AnimatorAssignedVillage']", 'blank': 'True', 'symmetrical': 'False', 'null': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_jslps_animator_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_jslps_animator_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"})
+        },
+        u'people.jslps_animatorassignedvillage': {
+            'Meta': {'object_name': 'JSLPS_AnimatorAssignedVillage'},
+            'animator': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.JSLPS_Animator']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_jslps_animatorassignedvillage_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_jslps_animatorassignedvillage_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'village': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geographies.JSLPS_Village']"})
+        },
+        u'people.jslps_person': {
+            'Meta': {'object_name': 'JSLPS_Person'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.Person']", 'null': 'True', 'blank': 'True'}),
+            'person_code': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_jslps_person_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_jslps_person_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"})
+        },
+        u'people.jslps_persongroup': {
+            'Meta': {'object_name': 'JSLPS_Persongroup'},
+            'group': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.PersonGroup']", 'null': 'True', 'blank': 'True'}),
+            'group_code': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
+            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_jslps_persongroup_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'people_jslps_persongroup_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"})
+        },
         u'people.person': {
             'Meta': {'unique_together': "(('person_name', 'father_name', 'village'),)", 'object_name': 'Person'},
             'age': ('django.db.models.fields.IntegerField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
@@ -182,7 +290,7 @@ class Migration(SchemaMigration):
             'village': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geographies.Village']"})
         },
         u'people.qareviewer': {
-            'Meta': {'object_name': 'QaReviewer'},
+            'Meta': {'unique_together': "(('name', 'partner'),)", 'object_name': 'QaReviewer'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'partner': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['programs.Partner']"})

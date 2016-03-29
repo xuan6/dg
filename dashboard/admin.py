@@ -16,6 +16,7 @@ from activities.models import PersonMeetingAttendance, Screening, PersonAdoptPra
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
 from dashboard.forms import CocoUserForm
 from videos.models import  NonNegotiable,VideoQualityReview
+from qacoco.forms import QaCocoUserForm
 
 class PersonMeetingAttendanceForm(forms.ModelForm):
     person = forms.ModelChoiceField(Animator.objects.none())
@@ -223,3 +224,9 @@ class VideoContentApprovalAdmin(admin.ModelAdmin):
 
 class VideoQualityReviewAdmin(admin.ModelAdmin):
     list_display=('video','reviewer')
+
+class QaCocoUserAdmin(admin.ModelAdmin):
+    form = QaCocoUserForm
+    list_display = ('user','partner','get_districts')
+    search_fields = ['user__username']
+    

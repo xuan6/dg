@@ -84,7 +84,6 @@ class Person(CocoModel):
 post_save.connect(save_log, sender=Person)
 pre_delete.connect(delete_log, sender=Person)
 
-<<<<<<< HEAD
 class QaReviewer(models.Model):
     name = models.CharField(max_length=100)
     partner = models.ForeignKey(Partner)
@@ -95,7 +94,7 @@ class QaReviewer(models.Model):
     def __unicode__(self):
         display= "%s" % (self.name)
         return display
-=======
+
 class JSLPS_Animator(CocoModel):
     id = models.AutoField(primary_key=True)
     animator_code = models.CharField(max_length=100)
@@ -116,4 +115,6 @@ class JSLPS_Person(CocoModel):
     id = models.AutoField(primary_key=True)
     person_code = models.CharField(max_length=100)
     person = models.ForeignKey(Person, null=True, blank=True)
->>>>>>> origin/master
+
+
+

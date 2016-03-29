@@ -8,19 +8,18 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'QaCocoUser'
-        db.create_table(u'qacoco_qacocouser', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('partner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['programs.Partner'])),
-            ('village', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['geographies.Village'])),
+        # Adding M2M table for field districts on 'QaCocoUser'
+        db.create_table(u'qacoco_qacocouser_districts', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('qacocouser', models.ForeignKey(orm[u'qacoco.qacocouser'], null=False)),
+            ('district', models.ForeignKey(orm[u'geographies.district'], null=False))
         ))
-        db.send_create_signal(u'qacoco', ['QaCocoUser'])
+        db.create_unique(u'qacoco_qacocouser_districts', ['qacocouser_id', 'district_id'])
 
 
     def backwards(self, orm):
-        # Deleting model 'QaCocoUser'
-        db.delete_table(u'qacoco_qacocouser')
+        # Removing M2M table for field districts on 'QaCocoUser'
+        db.delete_table('qacoco_qacocouser_districts')
 
 
     models = {
@@ -60,18 +59,6 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'geographies.block': {
-            'Meta': {'object_name': 'Block'},
-            'block_name': ('django.db.models.fields.CharField', [], {'unique': "'True'", 'max_length': '100'}),
-            'district': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geographies.District']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'old_coco_id': ('django.db.models.fields.BigIntegerField', [], {'null': 'True'}),
-            'start_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
-            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
-            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_block_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_block_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"})
-        },
         u'geographies.country': {
             'Meta': {'object_name': 'Country'},
             'country_name': ('django.db.models.fields.CharField', [], {'unique': "'True'", 'max_length': '100'}),
@@ -109,21 +96,6 @@ class Migration(SchemaMigration):
             'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_state_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_state_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"})
         },
-        u'geographies.village': {
-            'Meta': {'unique_together': "(('village_name', 'block'),)", 'object_name': 'Village'},
-            'block': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geographies.Block']"}),
-            'grade': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'latitude': ('django.db.models.fields.CharField', [], {'max_length': '25', 'null': 'True', 'blank': 'True'}),
-            'longitude': ('django.db.models.fields.CharField', [], {'max_length': '25', 'null': 'True', 'blank': 'True'}),
-            'old_coco_id': ('django.db.models.fields.BigIntegerField', [], {'null': 'True'}),
-            'start_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'time_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
-            'time_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
-            'user_created': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_village_created'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'geographies_village_related_modified'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'village_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
         u'programs.partner': {
             'Meta': {'object_name': 'Partner'},
             'date_of_association': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
@@ -137,10 +109,10 @@ class Migration(SchemaMigration):
         },
         u'qacoco.qacocouser': {
             'Meta': {'object_name': 'QaCocoUser'},
+            'districts': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['geographies.District']", 'symmetrical': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'partner': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['programs.Partner']"}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'village': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['geographies.Village']"})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
         }
     }
 
